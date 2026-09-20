@@ -1,0 +1,75 @@
+---
+import type { ProductAcquisition } from '../data/products';
+import { acquisitionStepIcons } from '../data/sectionIcons';
+import Icon from './icons/Icon.astro';
+import IconArrow from './IconArrow.astro';
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  acquisition: ProductAcquisition;
+  buyUrl: string;
+  badge?: string;
+  tier?: string;
+  category?: string;
+  variant?: 'essential' | 'popular' | 'limited';
+}
+
+const {
+  title,
+  subtitle,
+  acquisition,
+  buyUrl,
+  badge,
+  tier,
+  category,
+  variant,
+} = Astro.props;
+
+const hasMeta = Boolean(badge || tier || category || variant);
+---
+
+<div class="product-page">
+  <div class="product-page-top">
+    <div class="product-page-intro">
+      {
+        hasMeta && (
+          <div class="product-page-meta">
+            {badge && <span class="badge">{badge}</span>}
+            {tier && <span class="badge badge-outline">{tier}</span>}
+            {category && <span class="product-page-category">{category}</span>}
+            {variant === 'popular' && <span class="badge badge-accent">Popular</span>}
+          </div>
+        )
+      }
+      <h1 class="product-page-title">{title}</h1>
+      {subtitle && <p class="product-page-subtitle">{subtitle}</p>}
+    </div>
+
+    <aside class="product-page-checkout">
+      <a href={buyUrl} class="btn btn-primary btn-buy w-full">
+        Buy Now
+        <IconArrow />
+      </a>
+      <p class="product-page-checkout-note">Instant access · Discord setup support</p>
+    </aside>
+  </div>
+
+  <section class="product-page-acquisition" aria-labelledby="product-acquisition-heading">
+    <h2 id="product-acquisition-heading" class="product-page-acquisition-title">{acquisition.title}</h2>
+    <ol class="product-page-steps">
+      {acquisition.steps.map((step, index) => (
+        <li class="product-page-step">
+          <span class="product-page-step-icon" aria-hidden="true">
+            <Icon name={acquisitionStepIcons[index] ?? 'check'} size={18} />
+          </span>
+          <div class="product-page-step-body">
+            <span class="product-page-step-num">{step.num}</span>
+            <p class="product-page-step-title">{step.title}</p>
+            <p class="product-page-step-desc">{step.desc}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+</div>

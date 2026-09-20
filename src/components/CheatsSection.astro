@@ -1,0 +1,34 @@
+---
+import { t } from '../i18n';
+import { cheatPages } from '../data/products';
+import { cheatTierIcons } from '../data/sectionIcons';
+import SectionHeader from './SectionHeader.astro';
+import CatalogCard from './CatalogCard.astro';
+import { cheatPath } from '../utils/path';
+
+const s = t.cheats;
+---
+
+<section id="cheats" class="section-shell section-band" aria-labelledby="cheats-title">
+  <div class="container section-center">
+    <SectionHeader eyebrow={s.eyebrow} title={s.title} desc={s.subtitle} titleId="cheats-title" />
+
+    <div class="card-grid card-grid-3 mt-12" data-reveal-group>
+      {cheatPages.map((cheat, i) => (
+        <CatalogCard
+          label={cheat.tier ?? cheat.name}
+          title={cheat.title}
+          href={cheatPath(cheat.slug)}
+          buyUrl={cheat.buyUrl}
+          features={cheat.features}
+          more={cheat.more}
+          icon={cheatTierIcons[cheat.name] ?? 'crosshair'}
+          variant={cheat.variant}
+          buyLabel="Buy"
+          viewLabel="Details"
+          revealDelay={i * 80}
+        />
+      ))}
+    </div>
+  </div>
+</section>

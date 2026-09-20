@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getAllFaqs } from '../data/faq';
+import { pageTitle } from '../config/seo';
+import { breadcrumbSchema, faqPageSchema, webPageSchema } from '../utils/schema';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import FaqSection from '../components/FaqSection.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'FAQ', path: '/faq/' },
+];
+
+const faqs = getAllFaqs();
+---
+
+<BaseLayout
+  title={pageTitle('FAQ — R6S Cheats & Products')}
+  description="Answers about Rainbow Six Siege cheat tiers, ESP, aimbot, HWID tools, blog guides and checkout at r6scheats.net."
+  jsonLd={[
+    webPageSchema({
+      name: 'FAQ — R6S Cheats & Products',
+      description:
+        'Answers about Rainbow Six Siege cheat tiers, ESP, aimbot, HWID tools, blog guides and checkout at r6scheats.net.',
+      url: '/faq/',
+    }),
+    faqPageSchema(faqs.map((f, i) => ({ num: String(i + 1).padStart(2, '0'), q: f.q, a: f.a.replace(/<[^>]+>/g, '') }))),
+    breadcrumbSchema(breadcrumbs),
+  ]}
+>
+  <section class="section-shell pt-8">
+    <div class="container mx-auto max-w-6xl">
+      <Breadcrumbs items={breadcrumbs} />
+      <div class="mt-6 max-w-2xl mx-auto text-center">
+        <SectionHeader
+          eyebrow="Help center"
+          title="FAQ for cheats, products & guides"
+          desc="Everything about Lite, Pro, Elite tiers, utilities, safety and blog topics—in one place."
+          titleId="faq-page-title"
+          centered
+        />
+      </div>
+    </div>
+  </section>
+
+  <FaqSection
+    items={faqs}
+    eyebrow="All topics"
+    title="Browse by category"
+    subtitle="Filter cheat plans, map hack, scripts, products, setup and blog answers."
+    titleId="faq-page-list"
+    showFilters
+    filterTopics={['all', 'plans', 'esp', 'scripts', 'safety', 'products', 'blog', 'setup']}
+  />
+</BaseLayout>

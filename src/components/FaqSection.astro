@@ -1,0 +1,92 @@
+---
+import type { SiteFaqItem, FaqTopic } from '../data/faq';
+import SectionHeader from './SectionHeader.astro';
+import Icon from './icons/Icon.astro';
+
+interface Props {
+  items: SiteFaqItem[];
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  titleId?: string;
+  showFilters?: boolean;
+  filterTopics?: FaqTopic[];
+  centered?: boolean;
+  class?: string;
+}
+
+const {
+  items,
+  eyebrow = 'FAQ',
+  title = 'Straight answers before checkout.',
+  subtitle = 'Compatibility, bans and access—no vague promises.',
+  titleId = 'faq-heading',
+  showFilters = false,
+  filterTopics,
+  centered = true,
+  class: className,
+} = Astro.props;
+
+const topicLabels: Record<FaqTopic, string> = {
+  all: 'All',
+  plans: 'Plans',
+  esp: 'Map hack / ESP',
+  scripts: 'Scripts',
+  safety: 'Safety',
+  products: 'Products',
+  blog: 'Blog',
+  setup: 'Setup',
+};
+
+const filters = filterTopics ?? (['all', 'plans', 'esp', 'scripts', 'safety', 'products'] as FaqTopic[]);
+---
+
+<section
+  class:list={['section-shell faq-section', className]}
+  aria-labelledby={titleId}
+  data-faq-section={showFilters ? '' : undefined}
+>
+  <div class="container section-center">
+    <SectionHeader
+      eyebrow={eyebrow}
+      title={title}
+      desc={subtitle}
+      titleId={titleId}
+      centered={centered}
+    />
+
+    {
+      showFilters && (
+        <div class="faq-filters" data-faq-filters>
+          {filters.map((topic, i) => (
+            <button
+              type="button"
+              class:list={['faq-filter-chip', { 'is-active': i === 0 }]}
+              data-faq-filter={topic}
+            >
+              {topicLabels[topic]}
+            </button>
+          ))}
+        </div>
+      )
+    }
+
+    <div class="faq-list mt-8" data-faq-list>
+      {items.map((faq, i) => (
+        <details class="faq-item faq-item--rich" data-faq-topic={faq.topic}>
+          <summary>
+            <span class="faq-item__icon" aria-hidden="true">
+              <Icon name={faq.icon} size={16} />
+            </span>
+            <span class="faq-item__q">{faq.q}</span>
+            <span class="faq-num">{String(i + 1).padStart(2, '0')}</span>
+            <Icon name="chevronDown" size={18} class="faq-chevron faq-item__chevron" />
+          </summary>
+          <div class="faq-item__body">
+            <div class="faq-item__content" set:html={faq.aHtml ?? faq.a} />
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

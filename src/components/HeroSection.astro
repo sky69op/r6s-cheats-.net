@@ -1,0 +1,88 @@
+---
+import { t } from '../i18n';
+import { heroSlides } from '../data/products';
+import { heroStatIcons, heroStatusPills } from '../data/sectionIcons';
+import ImageSlider from './ImageSlider.astro';
+import Icon from './icons/Icon.astro';
+import IconArrow from './IconArrow.astro';
+
+const h = t.hero;
+---
+
+<section id="hero" class="hero-section" aria-labelledby="hero-title">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-bg-mesh">
+      <span class="hero-bg-blob hero-bg-blob--1"></span>
+      <span class="hero-bg-blob hero-bg-blob--2"></span>
+      <span class="hero-bg-blob hero-bg-blob--3"></span>
+    </div>
+    <div class="hero-bg-grid"></div>
+    <div class="hero-bg-spotlight"></div>
+    <div class="hero-bg-noise"></div>
+    <div class="hero-bg-vignette"></div>
+  </div>
+
+  <div class="container hero-inner">
+    <div class="hero-layout">
+      <div class="hero-content">
+        <p class="hero-eyebrow">{h.eyebrow}</p>
+
+        <h1 id="hero-title" class="hero-title">
+          <span class="hero-title-line">{h.titleLine1}</span>
+          <span class="hero-title-accent">{h.titleLine2}</span>
+        </h1>
+
+        <p class="hero-subtitle">{h.subtitle}</p>
+
+        <div class="hero-actions">
+          <a href="#cheats" class="btn btn-primary hero-btn">
+            {h.ctaPrimary}
+            <IconArrow />
+          </a>
+          <a
+            href={t.site.discord}
+            class="btn btn-discord hero-btn"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t.ui.discordAria}
+          >
+            <Icon name="discord" size={18} />
+            {h.ctaDiscord}
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <ImageSlider images={heroSlides} id="hero-slider" variant="hero" desktopOnly />
+        <div class="hero-status-marquee" aria-label="Feature status">
+          <div class="hero-status-marquee-track">
+            {[0, 1].map((copy) => (
+              <div class="hero-status-marquee-group" aria-hidden={copy === 1 ? 'true' : undefined}>
+                {heroStatusPills.map((pill) => (
+                  <span class="hero-status-pill">
+                    <Icon name={pill.icon} size={14} />
+                    {pill.label}
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      {h.metrics.map((m, i) => (
+        <div class="hero-stat">
+          <span class="hero-stat-icon-wrap" aria-hidden="true">
+            <Icon name={heroStatIcons[i] ?? 'check'} size={18} />
+          </span>
+          <div class="hero-stat-body">
+            <span class="hero-stat-value">{m.strong}</span>
+            <span class="hero-stat-label">{m.label}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

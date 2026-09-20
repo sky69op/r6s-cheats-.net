@@ -1,0 +1,179 @@
+---
+import type { ProductPage } from '../data/products';
+import type { BreadcrumbItem } from '../utils/schema';
+import { getProductFaqs, compareRows } from '../data/faq';
+import { getFeaturedBlogPosts } from '../data/blog';
+import Breadcrumbs from './Breadcrumbs.astro';
+import CompareTable from './CompareTable.astro';
+import FaqSection from './FaqSection.astro';
+import BlogCard from './BlogCard.astro';
+import Icon from './icons/Icon.astro';
+import IconArrow from './IconArrow.astro';
+
+interface Props {
+  product: ProductPage;
+  breadcrumbs?: BreadcrumbItem[];
+  relatedBlogSlugs?: string[];
+}
+
+const { product, breadcrumbs } = Astro.props;
+const faqs = getProductFaqs(product.slug, product.kind);
+const related = getFeaturedBlogPosts(3);
+const bestFor =
+  product.kind === 'tier'
+    ? product.overview.paragraphs[0]
+    : product.overview.paragraphs[0]?.slice(0, 180) + '…';
+---
+
+<article class="section-shell product-detail-page">
+  <div class="container mx-auto max-w-6xl">
+    {breadcrumbs ? <Breadcrumbs items={breadcrumbs} /> : null}
+
+    <div class="catalog-page-grid mt-6">
+      <div class="catalog-page-main min-w-0">
+        <header class="catalog-page-header" data-reveal>
+          <div class="catalog-page-meta">
+            {product.badge && <span class="badge">{product.badge}</span>}
+            {product.tier && <span class="badge badge-outline">{product.tier}</span>}
+            {product.category && <span class="catalog-page-category">{product.category}</span>}
+            {product.variant === 'popular' && <span class="badge badge-accent">Popular</span>}
+          </div>
+          <h1 class="catalog-page-title">{product.title}</h1>
+          <p class="catalog-page-subtitle">{product.subtitle ?? product.desc}</p>
+        </header>
+
+        {product.overview.paragraphs.map((paragraph, i) => (
+          <p class="catalog-page-copy" data-reveal style={`--reveal-delay: ${(i + 1) * 60}ms`}>
+            {paragraph}
+          </p>
+        ))}
+
+        <div class="catalog-info-grid" data-reveal>
+          <article class="catalog-info-card">
+            <div class="catalog-info-card__head">
+              <Icon name="users" size={14} />
+              <h3 class="catalog-info-card__title">Best for</h3>
+            </div>
+            <p class="catalog-info-card__text">{bestFor}</p>
+          </article>
+          <article class="catalog-info-card">
+            <div class="catalog-info-card__head">
+              <Icon name="cpu" size={14} />
+              <h3 class="catalog-info-card__title">Platform</h3>
+            </div>
+            <ul class="catalog-info-card__list">
+              {product.systemRequirements.slice(0, 3).map((req) => (
+                <li class="catalog-info-card__list-item">
+                  <Icon name="check" size={14} class="catalog-info-card__check" />
+                  <span>{req.text}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        </div>
+
+        {
+          product.about && product.about.length > 0 && (
+            <section class="catalog-about mt-10" aria-labelledby={`about-${product.slug}`}>
+              <h2 id={`about-${product.slug}`} class="catalog-section-title">
+                About {product.kind === 'tier' ? product.name : product.title}
+              </h2>
+              <div class="product-prose">
+                {product.about.map((block) =>
+                  block.type === 'h2' ? <h2>{block.text}</h2> : <p>{block.text}</p>
+                )}
+              </div>
+            </section>
+          )
+        }
+
+        {
+          product.body.length > 0 && (
+            <div class="product-prose mt-8">
+              {product.body.map((block) =>
+                block.type === 'h2' ? <h2>{block.text}</h2> : <p>{block.text}</p>
+              )}
+            </div>
+          )
+        }
+
+        {
+          product.kind === 'tier' && (
+            <div class="compare-stack mt-14" data-reveal>
+              <CompareTable rows={compareRows} highlightSlug={product.slug} />
+            </div>
+          )
+        }
+      </div>
+
+      <aside class="catalog-sidebar lg:sticky lg:top-24 lg:self-start">
+        <div class="catalog-sidebar-card" data-reveal>
+          <div class="catalog-panel catalog-panel--features">
+            <div class="catalog-panel__head">
+              <Icon name="package" size={14} />
+              <h3 class="catalog-panel__title">What's Included</h3>
+              <span class="catalog-panel__count">{product.fullFeatures.length}</span>
+            </div>
+            <ul class="catalog-panel__list">
+              {product.fullFeatures.map((feature) => (
+                <li class="catalog-panel__list-item">
+                  <Icon name="check" size={13} class="catalog-panel__check" />
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <a href={product.buyUrl} class="btn btn-primary btn-buy catalog-sidebar-buy w-full">
+          Buy Now
+          <IconArrow />
+        </a>
+        <p class="product-page-checkout-note text-center">Instant access · Discord setup support</p>
+      </aside>
+    </div>
+
+    {
+      related.length > 0 && (
+        <section class="catalog-related mt-14" aria-labelledby="related-guides-heading">
+          <h2 id="related-guides-heading" class="catalog-section-title">Related guides</h2>
+          <div class="card-grid card-grid-3 mt-6">
+            {related.map((post, i) => (
+              <BlogCard post={post} index={i} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </div>
+
+  <FaqSection
+    items={faqs}
+    eyebrow="FAQ"
+    title={`${product.name} FAQ`}
+    subtitle={`Questions about ${product.title} — features, setup and current status.`}
+    titleId={`catalog-faq-${product.slug}`}
+    showFilters
+    filterTopics={['all', 'plans', 'esp', 'scripts', 'safety']}
+    class="section-band mt-14"
+  />
+</article>
+
+<style>
+  .product-prose h2 {
+    font-family: var(--font-heading);
+    font-size: 1.375rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .product-prose p {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+</style>

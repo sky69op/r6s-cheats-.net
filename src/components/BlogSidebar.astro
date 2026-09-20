@@ -1,0 +1,168 @@
+---
+import Icon from './icons/Icon.astro';
+import IconArrow from './IconArrow.astro';
+import { blogPostPath } from '../utils/path';
+import { checkoutPath } from '../config/affiliate';
+import { t } from '../i18n';
+import type { BlogPostFull } from '../data/blog';
+import type { IconName } from './icons/types';
+
+interface Props {
+  post: BlogPostFull;
+  related: BlogPostFull[];
+}
+
+const { post, related } = Astro.props;
+
+const tocCount = post.body.filter((b) => b.type === 'h2').length;
+
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+const toc = post.body
+  .filter((block) => block.type === 'h2' || block.type === 'h3')
+  .map((block) => ({
+    level: block.type as 'h2' | 'h3',
+    text: 'text' in block ? block.text : '',
+    id: slugify('text' in block ? block.text : ''),
+  }));
+
+const productLinks: { label: string; href: string; icon: IconName }[] = [
+  { label: 'R6S Cheats', href: '/products/r6s-cheats/', icon: 'cpu' },
+  { label: 'Lite tier', href: '/cheats/lite/', icon: 'eye' },
+  { label: 'Pro tier', href: '/cheats/pro/', icon: 'crosshair' },
+  { label: 'Elite tier', href: '/cheats/elite/', icon: 'zap' },
+  { label: 'Unlock All', href: '/products/r6s-cheats/unlock-all/', icon: 'stream' },
+  { label: 'HWID Spoofer', href: '/products/r6s-cheats/hwid-spoofer/', icon: 'shield' },
+  { label: 'UGC', href: '/products/r6s-cheats/ugc/', icon: 'refresh' },
+];
+---
+
+<aside class="blog-sidebar" aria-label="Article sidebar">
+  <div class="blog-sidebar-block blog-sidebar-block-meta">
+    <a href="/blog/" class="blog-sidebar-back">
+      <Icon name="chevronRight" size={14} class="blog-sidebar-back-icon" />
+      All articles
+    </a>
+    <div class="blog-sidebar-meta-grid">
+      <span class="blog-sidebar-meta-chip">
+        <Icon name="tag" size={13} />
+        {post.tag}
+      </span>
+      <span class="blog-sidebar-meta-chip">
+        <Icon name="clock" size={13} />
+        {post.readTime}
+      </span>
+      <span class="blog-sidebar-meta-chip">
+        <Icon name="calendar" size={13} />
+        {post.date}
+      </span>
+    </div>
+  </div>
+
+  {toc.length > 0 && (
+    <div class="blog-sidebar-block">
+      <div class="blog-sidebar-head">
+        <span class="blog-sidebar-icon" aria-hidden="true">
+          <Icon name="layers" size={15} />
+        </span>
+        <p class="blog-sidebar-heading">In this article</p>
+        {tocCount > 0 && <span class="blog-sidebar-count">{tocCount} sections</span>}
+      </div>
+      <nav aria-label="Table of contents">
+        <ul class="blog-toc-list" data-blog-toc>
+          {toc.map((item) => (
+            <li class:list={['blog-toc-item', item.level === 'h3' && 'blog-toc-item-h3']}>
+              <a href={`#${item.id}`} class="blog-toc-link">
+                <Icon name="chevronRight" size={12} class="blog-toc-chevron" />
+                <span>{item.text}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  )}
+
+  {related.length > 0 && (
+    <div class="blog-sidebar-block">
+      <div class="blog-sidebar-head">
+        <span class="blog-sidebar-icon" aria-hidden="true">
+          <Icon name="tag" size={15} />
+        </span>
+        <p class="blog-sidebar-heading">Related guides</p>
+      </div>
+      <ul class="blog-sidebar-links">
+        {related.map((item) => (
+          <li>
+            <a href={blogPostPath(item.slug)} class="blog-sidebar-link">
+              <Icon name="chevronRight" size={14} />
+              <span>{item.title}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+
+  <div class="blog-sidebar-block blog-sidebar-block-accent">
+    <div class="blog-sidebar-head">
+      <span class="blog-sidebar-icon blog-sidebar-icon-accent" aria-hidden="true">
+        <Icon name="package" size={15} />
+      </span>
+      <p class="blog-sidebar-heading">Our products</p>
+    </div>
+    <ul class="blog-sidebar-links">
+      {productLinks.map((link) => (
+        <li>
+          <a href={link.href} class="blog-sidebar-link">
+            <span class="blog-sidebar-link-icon" aria-hidden="true">
+              <Icon name={link.icon} size={14} />
+            </span>
+            <span>{link.label}</span>
+            <Icon name="chevronRight" size={14} class="blog-sidebar-link-arrow" />
+          </a>
+        </li>
+      ))}
+    </ul>
+    <a href={checkoutPath('dota2')} class="btn btn-primary blog-sidebar-cta" aria-label={t.ui.checkoutAria}>
+      Buy R6S Cheats
+      <IconArrow />
+    </a>
+  </div>
+</aside>
+
+<script>
+  const tocRoot = document.querySelector('[data-blog-toc]');
+  if (tocRoot) {
+    const links = [...tocRoot.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')];
+    const headings = links
+      .map((link) => document.getElementById(link.getAttribute('href')!.slice(1)))
+      .filter((el): el is HTMLElement => Boolean(el));
+
+    if (headings.length > 0) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+          if (!visible) return;
+
+          links.forEach((link) => link.classList.remove('is-active'));
+          const active = links.find(
+            (link) => link.getAttribute('href') === `#${visible.target.id}`,
+          );
+          active?.classList.add('is-active');
+        },
+        { rootMargin: '-20% 0px -55% 0px', threshold: [0, 0.25, 0.5, 1] },
+      );
+
+      headings.forEach((heading) => observer.observe(heading));
+    }
+  }
+</script>

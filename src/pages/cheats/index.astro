@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { cheatPages, cheatsHub } from '../../data/products';
+import { cheatTierIcons } from '../../data/sectionIcons';
+import { t } from '../../i18n';
+import { pageTitle } from '../../config/seo';
+import { breadcrumbSchema, collectionPageSchema } from '../../utils/schema';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CatalogCard from '../../components/CatalogCard.astro';
+import IconArrow from '../../components/IconArrow.astro';
+import { ROUTES, cheatPath } from '../../utils/path';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Cheats', path: cheatsHub.path },
+];
+---
+
+<BaseLayout
+  title={pageTitle(cheatsHub.title)}
+  description={cheatsHub.subtitle}
+  jsonLd={[
+    collectionPageSchema({
+      name: cheatsHub.title,
+      description: cheatsHub.subtitle,
+      url: cheatsHub.path,
+    }),
+    breadcrumbSchema(breadcrumbs),
+  ]}
+>
+  <section class="section-shell section-band pt-8">
+    <div class="container mx-auto max-w-6xl">
+      <Breadcrumbs items={breadcrumbs} />
+
+      <div class="mt-6">
+        <h1 class="section-title">{t.cheats.title}</h1>
+        <p class="section-desc">{t.cheats.subtitle}</p>
+      </div>
+
+      <div class="card-grid card-grid-3 mt-12">
+        {cheatPages.map((cheat, i) => (
+          <CatalogCard
+            label={cheat.tier ?? cheat.name}
+            title={cheat.title}
+            href={cheatPath(cheat.slug)}
+            buyUrl={cheat.buyUrl}
+            features={cheat.features}
+            more={cheat.more}
+            icon={cheatTierIcons[cheat.name] ?? 'crosshair'}
+            variant={cheat.variant}
+            buyLabel="Get"
+            viewLabel="View"
+            revealDelay={i * 80}
+          />
+        ))}
+      </div>
+
+      <div class="mt-10">
+        <a href={ROUTES.products} class="btn btn-outline">{t.products.viewAll}<IconArrow /></a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

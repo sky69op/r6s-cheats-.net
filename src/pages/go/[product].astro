@@ -1,0 +1,33 @@
+---
+import { AFFILIATE, CHECKOUT_SLUG_TO_PRODUCT } from '../../config/affiliate';
+
+export function getStaticPaths() {
+  return Object.keys(CHECKOUT_SLUG_TO_PRODUCT).map((product) => ({ params: { product } }));
+}
+
+const slug = Astro.params.product!;
+const key = CHECKOUT_SLUG_TO_PRODUCT[slug];
+
+if (!key) {
+  return Astro.redirect('/');
+}
+
+const destination = AFFILIATE[key];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="canonical" href="https://r6scheats.net/" />
+    <meta http-equiv="refresh" content={`0;url=${destination}`} />
+    <title>Redirecting to checkout…</title>
+    <script is:inline define:vars={{ destination }}>
+      window.location.replace(destination);
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to secure checkout…</p>
+  </body>
+</html>

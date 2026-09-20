@@ -1,0 +1,23 @@
+{
+  "name": "Rainbow Six Siege Cheats",
+  "short_name": "R6s Cheats",
+  "description": "Rainbow Six Siege cheats with ESP, aimbot, no recoil and wallhack for PC at r6scheats.net.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0a0d10",
+  "theme_color": "#7f3dee",
+  "lang": "en-US",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ]
+}

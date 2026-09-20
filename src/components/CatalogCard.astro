@@ -1,0 +1,80 @@
+---
+import type { IconName } from './icons/types';
+import Icon from './icons/Icon.astro';
+import IconArrow from './IconArrow.astro';
+
+interface Props {
+  label: string;
+  title: string;
+  href: string;
+  buyUrl: string;
+  features: string[];
+  more?: number;
+  icon?: IconName;
+  variant?: 'essential' | 'popular' | 'limited';
+  buyLabel?: string;
+  viewLabel?: string;
+  revealDelay?: number;
+}
+
+const {
+  label,
+  title,
+  href,
+  buyUrl,
+  features,
+  more = 0,
+  icon = 'package',
+  variant,
+  buyLabel = 'Buy',
+  viewLabel = 'Details',
+  revealDelay = 0,
+} = Astro.props;
+
+const displayFeatures = features.slice(0, 10);
+const shortTitle = title.replace(/^(R6S|Rainbow Six Siege)\s+/i, '');
+---
+
+<article
+  class:list={['cheat-card', 'group', { 'cheat-card--standard': variant === 'popular' }]}
+  data-reveal
+  style={revealDelay ? `--reveal-delay: ${revealDelay}ms` : undefined}
+>
+  {variant === 'popular' && <span class="cheat-card__ribbon">Popular</span>}
+  <div class="cheat-card__scanline" aria-hidden="true"></div>
+  <div class="cheat-card__inner">
+    <div class="cheat-card__head">
+      <div class="icon-shell">
+        <Icon name={icon} size={22} />
+      </div>
+      <span class="catalog-card__label">{label}</span>
+    </div>
+
+    <h2 class="catalog-card__title">
+      <a href={href}>{title}</a>
+    </h2>
+
+    <ul class="catalog-card__features">
+      {displayFeatures.map((feature) => (
+        <li class="catalog-card__feature">
+          <Icon name="check" size={14} class="catalog-card__check" />
+          {feature}
+        </li>
+      ))}
+      {more > 0 && (
+        <li class="catalog-card__more">+{more} more features</li>
+      )}
+    </ul>
+
+    <div class="catalog-card__actions">
+      <a href={buyUrl} class="btn btn-primary btn-sm">
+        {buyLabel} {shortTitle}
+        <IconArrow />
+      </a>
+      <a href={href} class="btn btn-outline btn-sm">
+        {viewLabel} {shortTitle}
+        <IconArrow />
+      </a>
+    </div>
+  </div>
+</article>

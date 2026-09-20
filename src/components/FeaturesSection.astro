@@ -1,0 +1,42 @@
+---
+import { t } from '../i18n';
+import { featureIcons } from '../data/sectionIcons';
+import SectionHeader from './SectionHeader.astro';
+import Icon from './icons/Icon.astro';
+
+const s = t.features;
+---
+
+<section id="features" class="section-shell section-band" aria-labelledby="features-title">
+  <div class="container section-center">
+    <SectionHeader eyebrow={s.eyebrow} title={s.title} desc={s.subtitle} titleId="features-title" />
+
+    <div class="card-grid card-grid-features mt-12 text-left" data-reveal-group>
+      {s.items.map((item, index) => (
+        <article class:list={['feature-block', { 'feature-block-wide': index === s.items.length - 1 }]} data-reveal style={`--reveal-delay: ${index * 60}ms`}>
+          <div class="feature-block-head">
+            <span class="icon-wrap icon-wrap-sm">
+              <Icon name={featureIcons[item.title] ?? 'crosshair'} size={18} />
+            </span>
+            <p class="feature-name">{item.title}</p>
+          </div>
+          <p class="feature-headline">{item.subtitle}</p>
+          <p class="feature-desc">{item.desc}</p>
+          {item.bullets && (
+            <ul class="check-list mt-4">
+              {item.bullets.map((b) => (
+                <li>
+                  <Icon name="check" size={16} />
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+          <div class="tag-list">
+            {item.tags.slice(0, 4).map((tag) => <span class="tag">{tag}</span>)}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

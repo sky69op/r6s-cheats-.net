@@ -1,0 +1,61 @@
+---
+import ResponsiveImage from './ResponsiveImage.astro';
+import Icon from './icons/Icon.astro';
+import IconArrow from './IconArrow.astro';
+import { CARD_IMAGE_SIZES, CARD_IMAGE_WIDTHS } from '../utils/responsiveImage';
+import { blogPostPath } from '../utils/path';
+import type { BlogPost } from '../i18n/types';
+
+interface Props {
+  post: BlogPost;
+  index?: number;
+  eager?: boolean;
+  revealDelay?: number;
+}
+
+const { post, index = 0, eager = false, revealDelay } = Astro.props;
+---
+
+<article
+  class="blog-card"
+  data-reveal={revealDelay !== undefined ? true : undefined}
+  style={revealDelay !== undefined ? `--reveal-delay: ${revealDelay}ms` : undefined}
+>
+  <a href={blogPostPath(post.slug)} class="blog-card-media block" tabindex="-1" aria-hidden="true">
+    <ResponsiveImage
+      src={post.image}
+      alt={post.title}
+      width={640}
+      height={360}
+      widths={CARD_IMAGE_WIDTHS}
+      sizes={CARD_IMAGE_SIZES}
+      loading={eager || index === 0 ? 'eager' : 'lazy'}
+      fetchPriority={eager || index === 0 ? 'high' : undefined}
+    />
+  </a>
+  <div class="blog-card-body">
+    <span class="blog-card-badge">
+      <Icon name="tag" size={12} />
+      {post.tag}
+    </span>
+    <h2 class="blog-card-title">
+      <a href={blogPostPath(post.slug)}>{post.title}</a>
+    </h2>
+    <div class="blog-card-meta">
+      <span class="blog-meta-item">
+        <Icon name="calendar" size={13} />
+        {post.date}
+      </span>
+      <span class="blog-meta-item">
+        <Icon name="clock" size={13} />
+        {post.readTime}
+      </span>
+    </div>
+    <div class="blog-card-footer">
+      <a href={blogPostPath(post.slug)} class="btn btn-outline blog-card-btn" aria-label={`Read: ${post.title}`}>
+        Read article
+        <IconArrow />
+      </a>
+    </div>
+  </div>
+</article>

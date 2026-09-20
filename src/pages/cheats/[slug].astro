@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAllCheatSlugs, getCheatPage, cheatsHub } from '../../data/products';
+import { pageTitle } from '../../config/seo';
+import {
+  breadcrumbSchema,
+  softwareApplicationSchema,
+} from '../../utils/schema';
+import ProductDetail from '../../components/ProductDetail.astro';
+
+export function getStaticPaths() {
+  return getAllCheatSlugs().map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const product = getCheatPage(slug!);
+
+if (!product) {
+  return Astro.redirect(cheatsHub.path);
+}
+
+const pagePath = `${cheatsHub.path}${product.slug}/`;
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Cheats', path: cheatsHub.path },
+  { name: product.name, path: pagePath },
+];
+---
+
+<BaseLayout
+  title={pageTitle(`${product.name} R6S Cheats`)}
+  description={product.desc}
+  jsonLd={[
+    softwareApplicationSchema({
+      name: product.name,
+      description: product.desc,
+      url: pagePath,
+      image: product.images[0]?.src,
+    }),
+    breadcrumbSchema(breadcrumbs),
+  ]}
+>
+  <ProductDetail product={product} breadcrumbs={breadcrumbs} />
+</BaseLayout>

@@ -1,0 +1,154 @@
+---
+import { t } from '../i18n';
+import { getFeaturedBlogPosts } from '../data/blog';
+import { fieldNoteIcons, toolkitIcons, workflowIcons } from '../data/sectionIcons';
+import SectionHeader from './SectionHeader.astro';
+import BlogCard from './BlogCard.astro';
+import Icon from './icons/Icon.astro';
+import IconArrow from './IconArrow.astro';
+import { ROUTES } from '../utils/path';
+import FaqSection from './FaqSection.astro';
+import { getLandingFaqs } from '../data/faq';
+
+const landingFaqs = getLandingFaqs();
+const featuredPosts = getFeaturedBlogPosts(3);
+---
+
+<section id="blog" class="section-shell section-band" aria-labelledby="blog-title">
+  <div class="container section-center">
+    <SectionHeader eyebrow={t.blog.eyebrow} title={t.blog.title} desc={t.blog.subtitle} titleId="blog-title" />
+
+    <div class="card-grid card-grid-3 mt-12 text-left" data-reveal-group>
+      {featuredPosts.map((post, i) => (
+        <BlogCard post={post} index={i} revealDelay={i * 80} />
+      ))}
+    </div>
+
+    <div class="mt-10" data-reveal>
+      <a href={ROUTES.blog} class="btn btn-outline">{t.blog.viewAll}<IconArrow /></a>
+    </div>
+  </div>
+</section>
+
+<section id="toolkit" class="section-shell" aria-labelledby="toolkit-title">
+  <div class="container section-center">
+    <SectionHeader eyebrow={t.toolkit.eyebrow} title={t.toolkit.title} desc={t.toolkit.subtitle} titleId="toolkit-title" />
+
+    <div class="card-grid card-grid-3 mt-12" data-reveal-group>
+      {t.toolkit.items.map((item, i) => (
+        <article class="wz-card" data-reveal style={`--reveal-delay: ${i * 70}ms`}>
+          <div class="wz-card-body">
+            <div class="card-header-row">
+              <span class="icon-wrap icon-wrap-sm">
+                <Icon name={toolkitIcons[item.label] ?? 'settings'} size={18} />
+              </span>
+              <p class="text-xs font-semibold text-[var(--accent)]">{item.label}</p>
+            </div>
+            <p class="card-title mt-2">{item.title}</p>
+            <p class="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">{item.desc}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section id="workflow" class="section-shell section-band" aria-labelledby="workflow-title">
+  <div class="container section-center">
+    <SectionHeader eyebrow={t.workflow.eyebrow} title={t.workflow.title} desc={t.workflow.subtitle} titleId="workflow-title" />
+
+    <div class="card-grid card-grid-pairs mt-12" data-reveal-group>
+      {t.workflow.items.map((item, i) => (
+        <article class="wz-card" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
+          <div class="wz-card-body">
+            <div class="card-header-row">
+              <span class="icon-wrap icon-wrap-sm">
+                <Icon name={workflowIcons[i] ?? 'check'} size={18} />
+              </span>
+              <span class="text-sm font-semibold text-[var(--accent)]">{item.num}</span>
+            </div>
+            <p class="mt-1 text-xs text-[var(--text-subtle)]">{item.phase}</p>
+            <p class="card-title mt-2">{item.title}</p>
+            <p class="mt-2 text-sm text-[var(--text-muted)]">{item.desc}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section id="field-notes" class="section-shell" aria-labelledby="notes-title">
+  <div class="container section-center">
+    <SectionHeader eyebrow={t.fieldNotes.eyebrow} title={t.fieldNotes.title} titleId="notes-title" />
+
+    <div class="card-grid card-grid-3 mt-12" data-reveal-group>
+      {t.fieldNotes.items.map((note, i) => (
+        <article class="wz-card" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
+          <div class="wz-card-body">
+            <div class="card-header-row">
+              <span class="icon-wrap icon-wrap-sm">
+                <Icon name={fieldNoteIcons[i] ?? 'alert'} size={18} />
+              </span>
+              <span class="text-sm font-semibold text-[var(--accent)]">{note.num}</span>
+            </div>
+            <p class="card-title mt-2">{note.title}</p>
+            <p class="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">{note.desc}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="section-shell section-band" aria-labelledby="contact-title">
+  <div class="container section-center">
+    <SectionHeader eyebrow={t.contact.eyebrow} title={t.contact.title} desc={t.contact.subtitle} titleId="contact-title" />
+
+    <div class="mt-8 flex flex-wrap justify-start gap-3" data-reveal>
+      <a
+        href={t.site.discord}
+        class="btn btn-discord"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={t.ui.discordAria}
+      >
+        <Icon name="discord" size={18} />
+        {t.contact.discord}
+      </a>
+      <a href="/contact/" class="btn btn-outline">
+        <Icon name="arrowUpRight" size={18} />
+        {t.contact.websiteSupport}
+      </a>
+    </div>
+
+    <div class="mt-10 w-full" data-reveal>
+      <p class="text-sm font-semibold text-[var(--text)]">{t.contact.asideTitle}</p>
+      <div class="card-grid card-grid-3 mt-4" data-reveal-group>
+        {t.contact.asideItems.map((item, i) => (
+          <article class="wz-card" data-reveal style={`--reveal-delay: ${i * 80}ms`}>
+            <div class="wz-card-body">
+              <div class="card-header-row">
+                <span class="faq-num">{item.num}</span>
+                <p class="card-title">{item.title}</p>
+              </div>
+              <p class="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">{item.desc}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="section-shell" aria-labelledby="faq-title">
+  <FaqSection
+    items={landingFaqs}
+    eyebrow={t.faq.eyebrow}
+    title={t.faq.title}
+    subtitle={t.faq.subtitle}
+    titleId="faq-title"
+  />
+  <div class="container section-center mt-6 flex justify-center">
+    <a href="/faq/" class="btn btn-outline">View all FAQ</a>
+  </div>
+</section>
