@@ -71,6 +71,7 @@ function initMobileMenu() {
     nav.classList.toggle('is-open', open);
     toggle.classList.toggle('is-open', open);
     backdrop?.classList.toggle('is-open', open);
+    nav.toggleAttribute('hidden', !open);
     toggle.setAttribute('aria-expanded', String(open));
     toggle.setAttribute('aria-label', open ? labelClose : labelOpen);
     iconMenu?.classList.toggle('hidden', open);

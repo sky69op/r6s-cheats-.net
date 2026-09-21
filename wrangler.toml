@@ -3,17 +3,13 @@
 # Dashboard (Workers Builds / Pages):
 #   Build command     = npm run build
 #   Build output dir  = dist
-#   Deploy command    = npx wrangler deploy
+#   Deploy command    = npx wrangler pages deploy dist
+#   functions/_middleware.js handles www→apex, http→https, and HTML charset headers.
 #
 # Build environment variables (Settings → Environment variables):
 #   PUBLIC_GSC_VERIFICATION = (token from Google Search Console HTML tag method)
 #   PUBLIC_GA_MEASUREMENT_ID = (optional)
 #   PUBLIC_DISCORD_URL = (optional — adds Discord to Organization.sameAs schema)
-# Custom domains: enable "Redirect www to apex" and "Always Use HTTPS" in the dashboard.
 name = "r6s-cheats--net"
 compatibility_date = "2024-09-01"
 pages_build_output_dir = "./dist"
-
-# Required when the deploy step runs `wrangler deploy` (static assets, no Worker script).
-[assets]
-directory = "./dist"

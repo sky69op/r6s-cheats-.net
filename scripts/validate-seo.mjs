@@ -26,6 +26,61 @@ const schemaLangByLocale = {
   pt: 'pt-PT',
 };
 
+const SITE_ORIGIN = 'https://r6scheats.net';
+
+function expectedCanonical(pagePath) {
+  let normalized = pagePath || '/';
+  if (normalized !== '/' && !normalized.endsWith('/')) normalized = `${normalized}/`;
+  return `${SITE_ORIGIN}${normalized}`;
+}
+
+function extractHreflangAlternates(html) {
+  const alternates = new Map();
+  const re = /<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g;
+  let match;
+  while ((match = re.exec(html))) {
+    alternates.set(match[1], decodeEntities(match[2]));
+  }
+  return alternates;
+}
+
+function validateImages(html, pagePath) {
+  const imgRe = /<img\b[^>]*>/gi;
+  let match;
+  while ((match = imgRe.exec(html))) {
+    const tag = match[0];
+    // Astro may emit boolean `alt` for alt="" (equivalent to empty alt in HTML5).
+    if (!/\balt\b/i.test(tag)) {
+      errors.push(`${pagePath}: img missing alt attribute`);
+      continue;
+    }
+    const hasNonEmptyAlt = /\balt\s*=\s*"[^"]+"/.test(tag);
+    const decorative = /\baria-hidden\s*=\s*"true"/.test(tag);
+    if (!hasNonEmptyAlt && !decorative) {
+      errors.push(`${pagePath}: img with empty alt (non-decorative)`);
+    }
+  }
+}
+
+function anchorHasText(content) {
+  const text = content.replace(/<[^>]+>/g, '').replace(/\s+/g, '').trim();
+  return text.length > 0;
+}
+
+function validateAnchors(html, pagePath) {
+  const anchorRe = /<a\b([^>]*)>([\s\S]*?)<\/a>/gi;
+  let match;
+  while ((match = anchorRe.exec(html))) {
+    const attrs = match[1];
+    const content = match[2];
+    const hasAriaLabel = /\baria-label\s*=\s*"[^"]+"/.test(attrs);
+    const hasImgAlt = /<img\b[^>]*\balt\s*=\s*"[^"]+"/i.test(content);
+    if (!hasAriaLabel && !hasImgAlt && !anchorHasText(content)) {
+      errors.push(`${pagePath}: link without anchor text`);
+    }
+  }
+}
+
 function walkHtml(dir, files = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
@@ -100,6 +155,25 @@ for (const file of files) {
   if (!title) errors.push(`${pagePath}: missing <title>`);
   if (!description) errors.push(`${pagePath}: missing meta description`);
   if (!canonical) errors.push(`${pagePath}: missing canonical link`);
+
+  const expectedCanonicalUrl = expectedCanonical(pagePath);
+  if (canonical && canonical !== expectedCanonicalUrl) {
+    errors.push(`${pagePath}: canonical "${canonical}" expected "${expectedCanonicalUrl}"`);
+  }
+
+  const alternates = extractHreflangAlternates(html);
+  const selfHreflang = alternates.get(schemaLangByLocale[locale]);
+  if (!selfHreflang) {
+    errors.push(`${pagePath}: missing self-referential hreflang (${schemaLangByLocale[locale]})`);
+  } else if (canonical && selfHreflang !== canonical) {
+    errors.push(
+      `${pagePath}: hreflang self-ref "${selfHreflang}" does not match canonical "${canonical}"`,
+    );
+  }
+
+  validateImages(html, pagePath);
+  validateAnchors(html, pagePath);
+
   if (htmlLang !== expectedHtmlLang) {
     errors.push(`${pagePath}: html lang "${htmlLang}" expected "${expectedHtmlLang}"`);
   }

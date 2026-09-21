@@ -47,7 +47,7 @@ const h = t.hero;
         <div class="hero-operator-stack">
           <ResponsiveImage
             src="/images/hero/hero-operator-dark.png"
-            alt=""
+            alt={h.operatorAlt}
             class="hero-character hero-character--dark"
             width={802}
             height={1024}
@@ -60,6 +60,7 @@ const h = t.hero;
           <ResponsiveImage
             src="/images/hero/hero-operator-light.png"
             alt=""
+            ariaHidden={true}
             class="hero-character hero-character--light"
             width={803}
             height={1024}

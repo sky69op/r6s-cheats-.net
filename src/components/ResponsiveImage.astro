@@ -16,6 +16,7 @@ interface Props {
   widths?: readonly number[];
   class?: string;
   desktopOnly?: boolean;
+  ariaHidden?: boolean;
 }
 
 const {
@@ -29,6 +30,7 @@ const {
   widths = DEFAULT_IMAGE_WIDTHS,
   class: className,
   desktopOnly = false,
+  ariaHidden = false,
 } = Astro.props;
 
 const isRaster = /\.(png|jpe?g|webp)$/i.test(src);
@@ -48,6 +50,7 @@ const pictureMedia = desktopOnly ? '(min-width: 1024px)' : undefined;
         src={imgSrc}
         srcset={desktopOnly ? undefined : srcSet}
         alt={alt}
+        aria-hidden={ariaHidden ? 'true' : undefined}
         width={width}
         height={height}
         loading={loading}
@@ -61,6 +64,7 @@ const pictureMedia = desktopOnly ? '(min-width: 1024px)' : undefined;
     <img
       src={src}
       alt={alt}
+      aria-hidden={ariaHidden ? 'true' : undefined}
       width={width}
       height={height}
       loading={loading}

@@ -7,7 +7,9 @@ import ToolsSection from '../components/ToolsSection.astro';
 import ForumsSection from '../components/ForumsSection.astro';
 import ContentSections from '../components/ContentSections.astro';
 import { getTranslations, defaultLocale } from '../i18n';
-import { faqPageSchema, organizationSchema, websiteSchema } from '../utils/schema';
+import { faqPageSchema, organizationSchema, webPageSchema, websiteSchema } from '../utils/schema';
+import { DEFAULT_OG_IMAGE } from '../config/seo';
+import { localizedPath } from '../utils/path';
 import { getLandingFaqs } from '../data/faq';
 
 const locale = Astro.currentLocale ?? defaultLocale;
@@ -18,7 +20,18 @@ const landingFaqs = getLandingFaqs(locale);
 <BaseLayout
   title={t.site.title}
   description={t.site.description}
-  jsonLd={[websiteSchema(locale), organizationSchema(locale), faqPageSchema(landingFaqs.map((f, i) => ({ num: String(i + 1).padStart(2, '0'), q: f.q, a: f.a.replace(/<[^>]+>/g, '') })))]}
+  jsonLd={[
+    websiteSchema(locale),
+    organizationSchema(locale),
+    webPageSchema({
+      name: t.site.title,
+      description: t.site.description,
+      url: localizedPath(locale, '/'),
+      locale,
+      primaryImage: DEFAULT_OG_IMAGE,
+    }),
+    faqPageSchema(landingFaqs.map((f, i) => ({ num: String(i + 1).padStart(2, '0'), q: f.q, a: f.a.replace(/<[^>]+>/g, '') }))),
+  ]}
 >
   <link
     slot="head"

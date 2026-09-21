@@ -110,6 +110,7 @@ export interface Translations {
     titleLine1: string;
     titleLine2: string;
     subtitle: string;
+    operatorAlt: string;
     ctaPrimary: string;
     modesLabel: string;
     modes: string[];
@@ -231,6 +232,7 @@ export interface Translations {
     browseCheats: string;
     browseCheatsMobile: string;
     homeAria: string;
+    logoAlt: string;
     checkoutAria: string;
     menuOpen: string;
     menuClose: string;

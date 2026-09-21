@@ -78,6 +78,7 @@ export function webPageSchema(input: {
   description: string;
   url: string;
   locale?: MaybeLocale;
+  primaryImage?: string;
 }) {
   const locale = input.locale ?? defaultLocale;
   const t = getTranslations(locale);
@@ -93,6 +94,14 @@ export function webPageSchema(input: {
       name: t.site.name,
       url: `${SITE_ORIGIN}/`,
     },
+    ...(input.primaryImage
+      ? {
+          primaryImageOfPage: {
+            '@type': 'ImageObject',
+            url: absoluteAssetUrl(input.primaryImage),
+          },
+        }
+      : {}),
   };
 }
 

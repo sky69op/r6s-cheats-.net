@@ -6,7 +6,7 @@ export const pt: Translations = {
   site: {
     name: 'R6s Cheats',
     domain: 'r6scheats.net',
-    title: 'Hacks R6S: Cheats, Aimbot, ESP e Wallhack',
+    title: 'Cheats R6S: Aimbot, ESP e Wallhack para PC',
     description:
       'Cheats R6S direto do r6scheats.net—Lite ESP e radar, Pro aimbot e triggerbot, Elite unlock all. Loader compatível com BattlEye e status de patch ao vivo para PC.',
   },
@@ -23,7 +23,8 @@ export const pt: Translations = {
     titleLine1: 'R6s',
     titleLine2: 'Cheats',
     subtitle:
-      'Direto da equipe de build—sem revendedor. Um loader, três planos e banner de status ao vivo a cada patch BattlEye para ranked no PC.',
+      'Direto da equipe de build—sem revendedor. Um loader com planos de aimbot, ESP e wallhack mais banner de status ao vivo a cada patch BattlEye para ranked no PC.',
+    operatorAlt: 'Ilustração de operador Rainbow Six Siege para cheats R6S, aimbot e wallhack',
     ctaPrimary: 'Ver planos de cheat',
     modesLabel: 'Modos Rainbow Six Siege',
     modes: ['Ranked', 'Unranked', 'Partida Rápida', 'Jogos Personalizados'],
@@ -329,7 +330,8 @@ export const pt: Translations = {
     ],
   },
   footer: {
-    tagline: 'R6s Cheats para PC — aimbot, soft aim, skeleton ESP, wallhack, radar 2D, triggerbot e loader compatível com BattlEye.',
+    tagline:
+      'R6s Cheats para PC — aimbot, ESP, wallhack, soft aim, skeleton ESP, radar 2D, triggerbot e loader compatível com BattlEye para Rainbow Six Siege.',
     explore: 'Explorar',
     exploreLinks: [
       { href: '/cheats/', label: 'Visão geral de cheats', ariaLabel: 'Cheats' },
@@ -428,6 +430,7 @@ export const pt: Translations = {
     browseCheats: 'Experimentar Agora',
     browseCheatsMobile: 'Iniciar checkout',
     homeAria: 'Início R6s Cheats',
+    logoAlt: 'Logo R6s Cheats',
     checkoutAria: 'Iniciar checkout',
     menuOpen: 'Abrir menu',
     menuClose: 'Fechar menu',

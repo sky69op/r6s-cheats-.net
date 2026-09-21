@@ -532,6 +532,18 @@ footer {
   color: var(--card-title-color);
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .skip-link {
   position: fixed;
   top: 0.75rem;
@@ -4013,6 +4025,8 @@ html.reveal-pending [data-reveal-group].is-visible [data-reveal] {
 
 .site-footer__brand-link {
   display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
   flex-shrink: 0;
   color: inherit;
   text-decoration: none;

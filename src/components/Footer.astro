@@ -11,11 +11,11 @@ const t = getTranslations(locale);
   <div class="container site-footer__grid">
     <div class="site-footer__col site-footer__col--brand">
       <div class="site-footer__brand">
-        <a href={localizedPath(locale, '/')} class="site-footer__brand-link" aria-label={t.ui.homeAria}>
+        <a href={localizedPath(locale, '/')} class="site-footer__brand-link">
           <span class="site-footer__brand-logo-wrap" aria-hidden="true">
             <img
               src="/favicon-32.png"
-              alt=""
+              alt={t.ui.logoAlt}
               width="32"
               height="32"
               class="site-footer__brand-logo theme-logo theme-logo--dark"
@@ -24,16 +24,17 @@ const t = getTranslations(locale);
             <img
               src="/favicon-32-light.png"
               alt=""
+              aria-hidden="true"
               width="32"
               height="32"
               class="site-footer__brand-logo theme-logo theme-logo--light"
               decoding="async"
             />
           </span>
+          <span class="site-footer__brand-name logo-text">
+            R6s<span class="logo-accent">Cheats</span>
+          </span>
         </a>
-        <span class="site-footer__brand-name logo-text" aria-hidden="true">
-          R6s<span class="logo-accent">Cheats</span>
-        </span>
       </div>
       <p class="site-footer__tagline">{t.footer.tagline}</p>
     </div>

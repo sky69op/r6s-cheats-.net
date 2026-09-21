@@ -19,7 +19,9 @@ const title = displayForumTitle(post.title);
 ---
 
 <article class:list={['ui-card', 'forum-card', 'forum-card--listing', compact && 'forum-card--compact']}>
-  <a href={path} class="forum-card-hit" aria-label={`${t.forums.read}: ${title}`}></a>
+  <a href={path} class="forum-card-hit" aria-label={`${t.forums.read}: ${title}`}>
+    <span class="sr-only">{t.forums.read}: {title}</span>
+  </a>
   <div class="forum-card-body">
     <span class="forum-card-badge">{post.tag}</span>
     <h2 class="forum-card-title">{title}</h2>
@@ -30,7 +32,7 @@ const title = displayForumTitle(post.title);
     </div>
     <div class="forum-card-footer">
       <span class="forum-card-link">
-        {t.forums.read}
+        {t.forums.read}: {title}
         <IconArrow />
       </span>
     </div>

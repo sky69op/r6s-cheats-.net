@@ -6,7 +6,7 @@ export const ru: Translations = {
   site: {
     name: 'R6s Cheats',
     domain: 'r6scheats.net',
-    title: 'R6S хаки: читы, аимбот, ESP и воллхак',
+    title: 'R6S читы: аимбот, ESP и воллхак для PC',
     description:
       'R6S читы напрямую с r6scheats.net — Lite ESP и радар, Pro аимбот и triggerbot, Elite unlock all. Загрузчик с учётом BattlEye и живым статусом патчей для PC.',
   },
@@ -23,7 +23,8 @@ export const ru: Translations = {
     titleLine1: 'R6s',
     titleLine2: 'Cheats',
     subtitle:
-      'Напрямую от команды сборки — не реселлер. Один loader, три тарифа и живой баннер статуса после каждого патча BattlEye для ranked на PC.',
+      'Напрямую от команды сборки — не реселлер. Один loader с тарифами аимбот, ESP и воллхак плюс живой баннер статуса после каждого патча BattlEye для ranked на PC.',
+    operatorAlt: 'Иллюстрация оператора Rainbow Six Siege для R6S читов, аимбота и воллхака',
     ctaPrimary: 'Смотреть тарифы читов',
     modesLabel: 'Режимы Rainbow Six Siege',
     modes: ['Рейтинговый', 'Без рейтинга', 'Быстрый матч', 'Пользовательские игры'],
@@ -329,7 +330,8 @@ export const ru: Translations = {
     ],
   },
   footer: {
-    tagline: 'R6s Cheats для PC — аимбот, soft aim, skeleton ESP, воллхак, 2D-радар, triggerbot и загрузчик с учётом BattlEye.',
+    tagline:
+      'R6s Cheats для PC — аимбот, ESP, воллхак, soft aim, skeleton ESP, 2D-радар, triggerbot и загрузчик с учётом BattlEye для Rainbow Six Siege.',
     explore: 'Обзор',
     exploreLinks: [
       { href: '/cheats/', label: 'Обзор читов', ariaLabel: 'Читы' },
@@ -428,6 +430,7 @@ export const ru: Translations = {
     browseCheats: 'Попробовать',
     browseCheatsMobile: 'Начать оплату',
     homeAria: 'Главная R6s Cheats',
+    logoAlt: 'Логотип R6s Cheats',
     checkoutAria: 'Начать оплату',
     menuOpen: 'Открыть меню',
     menuClose: 'Закрыть меню',

@@ -21,12 +21,12 @@ const purchaseUrl = checkoutPath('r6s');
 
 <header class="site-header">
   <div class="container site-header__bar">
-    <a href={localizedPath(locale, '/')} class="site-logo-link inline-flex min-w-0 items-center gap-2" aria-label={t.ui.homeAria}>
+    <a href={localizedPath(locale, '/')} class="site-logo-link inline-flex min-w-0 items-center gap-2">
       <span class="site-logo-link__img-wrap shrink-0" aria-hidden="true">
         <img
           src="/logo-36.webp"
           srcset="/logo-36.webp 1x, /logo-72.webp 2x"
-          alt=""
+          alt={t.ui.logoAlt}
           width="36"
           height="36"
           decoding="async"
@@ -37,6 +37,7 @@ const purchaseUrl = checkoutPath('r6s');
           src="/logo-light-36.webp"
           srcset="/logo-light-36.webp 1x, /logo-light-72.webp 2x"
           alt=""
+          aria-hidden="true"
           width="36"
           height="36"
           decoding="async"
@@ -44,7 +45,7 @@ const purchaseUrl = checkoutPath('r6s');
           class="site-logo-link__img theme-logo theme-logo--light"
         />
       </span>
-      <span class="logo-text site-logo-link__text truncate" aria-hidden="true">R6s<span class="logo-accent">Cheats</span></span>
+      <span class="logo-text site-logo-link__text truncate">R6s<span class="logo-accent">Cheats</span></span>
     </a>
 
     <nav class="desktop-nav absolute left-1/2 hidden -translate-x-1/2 items-center gap-5 xl:gap-6 lg:flex" aria-label="Primary">
@@ -94,7 +95,7 @@ const purchaseUrl = checkoutPath('r6s');
 
     <button type="button" class="mobile-nav-backdrop" data-mobile-backdrop aria-label={t.ui.menuClose} tabindex="-1"></button>
 
-    <nav id="mobile-menu" class="mobile-nav" aria-label="Mobile" data-mobile-nav>
+    <nav id="mobile-menu" class="mobile-nav" aria-label="Mobile" data-mobile-nav hidden>
       {t.nav.map((link) => (
         <a href={localizedPath(locale, link.href)} class="nav-link inline-flex items-center gap-2" data-mobile-link data-nav-link>
           <Icon name={navIcons[link.id ?? 'home']} size={16} />
