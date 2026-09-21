@@ -5,7 +5,7 @@ import sharp from 'sharp';
 const root = process.cwd();
 const widths = [512, 640, 960];
 const activeWidthSet = new Set(widths.map(String));
-const dirs = ['public/images/gameplay'];
+const dirs = ['public/images/gameplay', 'public/images/hero'];
 
 function pruneStaleWebps(dir) {
   let removed = 0;

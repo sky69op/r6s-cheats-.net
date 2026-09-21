@@ -119,7 +119,6 @@ const xDefaultHref = canonicalUrl(localizedPath(defaultLocale, pageBasePath));
     }
     <link rel="alternate" hreflang="x-default" href={xDefaultHref} />
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
-    <link rel="manifest" href="/site.webmanifest" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
     <link rel="shortcut icon" href="/favicon.ico" />
@@ -205,6 +204,15 @@ const xDefaultHref = canonicalUrl(localizedPath(defaultLocale, pageBasePath));
     <Footer />
     <script>
       import '../scripts/site.ts';
+    </script>
+    <script is:inline>
+      window.addEventListener('load', function () {
+        if (document.querySelector('link[rel="manifest"]')) return;
+        var link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = '/site.webmanifest';
+        document.head.appendChild(link);
+      });
     </script>
   </body>
 </html>

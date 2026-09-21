@@ -1,7 +1,9 @@
 ---
 import { getTranslations, defaultLocale } from '../i18n';
+import { HERO_IMAGE_SIZES, HERO_IMAGE_WIDTHS } from '../utils/responsiveImage';
 import Icon from './icons/Icon.astro';
 import IconArrow from './IconArrow.astro';
+import ResponsiveImage from './ResponsiveImage.astro';
 
 const locale = Astro.currentLocale ?? defaultLocale;
 const t = getTranslations(locale);
@@ -43,24 +45,28 @@ const h = t.hero;
 
       <div class="hero-visual" aria-hidden="true">
         <div class="hero-operator-stack">
-          <img
+          <ResponsiveImage
             src="/images/hero/hero-operator-dark.png"
             alt=""
             class="hero-character hero-character--dark"
-            width="802"
-            height="1024"
+            width={802}
+            height={1024}
             loading="eager"
-            decoding="async"
-            fetchpriority="high"
+            fetchPriority="high"
+            sizes={HERO_IMAGE_SIZES}
+            widths={HERO_IMAGE_WIDTHS}
+            desktopOnly
           />
-          <img
+          <ResponsiveImage
             src="/images/hero/hero-operator-light.png"
             alt=""
             class="hero-character hero-character--light"
-            width="803"
-            height="1024"
+            width={803}
+            height={1024}
             loading="lazy"
-            decoding="async"
+            sizes={HERO_IMAGE_SIZES}
+            widths={HERO_IMAGE_WIDTHS}
+            desktopOnly
           />
         </div>
       </div>
