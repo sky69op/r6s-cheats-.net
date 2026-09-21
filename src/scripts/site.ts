@@ -1,19 +1,3 @@
-function initFonts() {
-  const root = document.documentElement;
-
-  const markReady = () => {
-    root.classList.remove('fonts-pending');
-    root.classList.add('fonts-ready');
-  };
-
-  if (!document.fonts?.ready) {
-    markReady();
-    return;
-  }
-
-  document.fonts.ready.then(markReady).catch(markReady);
-}
-
 function initReveal() {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -353,7 +337,6 @@ function initFaqFilters() {
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
-    initFonts();
     initReveal();
     initMobileMenu();
     initLanguageSwitcher();
@@ -364,7 +347,6 @@ if (document.readyState === 'loading') {
     initNavHighlight();
   });
 } else {
-  initFonts();
   initReveal();
   initMobileMenu();
   initLanguageSwitcher();

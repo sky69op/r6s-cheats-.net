@@ -1,9 +1,10 @@
 @import "tailwindcss";
+@import "./fonts.css";
 @import "./ui.css";
 
 @theme inline {
-  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Rajdhani", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Manrope", "Manrope Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Rajdhani", "Rajdhani Fallback", ui-sans-serif, system-ui, sans-serif;
   --color-background: var(--bg);
   --color-foreground: var(--text);
   --color-brand: #7f3dee;
@@ -119,22 +120,6 @@ body {
   -webkit-font-smoothing: antialiased;
   transition: background-color 120ms var(--motion-ease);
   text-rendering: optimizeLegibility;
-}
-
-html.fonts-pending body {
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-}
-
-html.fonts-pending .hero-title,
-html.fonts-pending .section-title,
-html.fonts-pending .btn {
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-}
-
-html.fonts-pending .site-header .logo-text,
-html.fonts-pending .site-header .nav-link {
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  font-size-adjust: 0.52;
 }
 
 /* Subtle dust / noise overlay — scrolls with page (no fixed repaint cost) */
@@ -713,6 +698,8 @@ footer {
   align-items: center;
   gap: 0.5rem;
   flex-shrink: 0;
+  min-width: 7.5rem;
+  min-height: var(--touch-min);
 }
 
 .logo-text {
@@ -1081,11 +1068,6 @@ footer {
   backface-visibility: hidden;
   opacity: 0.82;
   will-change: transform;
-}
-
-html.fonts-pending .hero-bg-blob,
-html:not(.fonts-ready) .hero-bg-blob {
-  animation: none !important;
 }
 
 @media (max-width: 1023px), (pointer: coarse) {
@@ -1998,7 +1980,8 @@ html.reveal-pending #hero [data-reveal] {
 .home-main .section-shell {
   padding-block: var(--home-section-pad);
   min-height: 0;
-  contain-intrinsic-size: auto 280px;
+  content-visibility: visible;
+  contain-intrinsic-size: none;
 }
 
 .home-main .section-label {

@@ -1,0 +1,24 @@
+@import '@fontsource/manrope/400.css';
+@import '@fontsource/manrope/500.css';
+@import '@fontsource/manrope/600.css';
+@import '@fontsource/rajdhani/500.css';
+@import '@fontsource/rajdhani/600.css';
+@import '@fontsource/rajdhani/700.css';
+
+@font-face {
+  font-family: 'Manrope Fallback';
+  src: local('Segoe UI'), local('Arial');
+  size-adjust: 103%;
+  ascent-override: 95%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Rajdhani Fallback';
+  src: local('Segoe UI'), local('Arial');
+  size-adjust: 88%;
+  ascent-override: 105%;
+  descent-override: 30%;
+  line-gap-override: 0%;
+}

@@ -1,7 +1,7 @@
 const RASTER_EXT = /\.(png|jpe?g|webp)$/i;
 
-/** 512w matches hero slider display (~487px at 1x); 640/960 for larger viewports and retina. */
-export const HERO_IMAGE_WIDTHS = [512, 640, 960] as const;
+/** 480w matches hero display (~471px at 1x); 640/960 for larger viewports and retina. */
+export const HERO_IMAGE_WIDTHS = [480, 640, 960] as const;
 export const HERO_IMAGE_SIZES = '(min-width: 1024px) 490px, 100vw';
 export const DEFAULT_IMAGE_WIDTHS = [640, 960] as const;
 

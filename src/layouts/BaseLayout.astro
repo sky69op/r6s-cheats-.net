@@ -108,7 +108,6 @@ const structuredData = [
           mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         }
         document.documentElement.setAttribute('data-color-mode', mode);
-        document.documentElement.classList.add('fonts-pending');
         var meta = document.querySelector('meta[name="theme-color"]');
         if (meta) meta.content = mode === 'light' ? '#f8f8fb' : '#7F3DEE';
       })();
@@ -183,26 +182,6 @@ const structuredData = [
     <meta name="twitter:image:alt" content={ogImageAlt} />
 
     {GSC_VERIFICATION && <meta name="google-site-verification" content={GSC_VERIFICATION} />}
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Manrope:wght@400;500;600&display=swap"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Manrope:wght@400;500;600&display=swap"
-      rel="stylesheet"
-      media="print"
-      onload="this.media='all'"
-    />
-    <noscript>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Manrope:wght@400;500;600&display=swap"
-        rel="stylesheet"
-      />
-    </noscript>
 
     {socialProfiles.map((profileUrl) => (
       <link rel="me" href={profileUrl} />
