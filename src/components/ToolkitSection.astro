@@ -1,8 +1,11 @@
 ---
-import { t } from '../i18n';
+import { getTranslations, defaultLocale } from '../i18n';
 import { toolkitIcons } from '../data/sectionIcons';
 import SectionHeader from './SectionHeader.astro';
 import Icon from './icons/Icon.astro';
+
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
 
 interface Props {
   limit?: number;
@@ -41,11 +44,11 @@ const items = limit ? s.items.slice(0, limit) : s.items;
 
     <div class:list={['card-grid card-grid-3 text-left', showHeader ? 'mt-12' : 'mt-0']} data-reveal-group>
       {items.map((item, i) => (
-        <article class="wz-card" data-reveal style={`--reveal-delay: ${i * 70}ms`}>
+        <article class="ui-card wz-card" data-reveal style={`--reveal-delay: ${i * 70}ms`}>
           <div class="wz-card-body">
             <div class="card-header-row">
-              <span class="icon-wrap icon-wrap-sm">
-                <Icon name={toolkitIcons[item.label] ?? 'settings'} size={18} />
+              <span class="ui-icon-wrap icon-wrap icon-wrap-sm">
+                <Icon name={toolkitIcons[item.id] ?? 'settings'} size={18} />
               </span>
               <p class="text-xs font-semibold text-(--accent)">{item.label}</p>
             </div>

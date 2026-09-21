@@ -3,6 +3,11 @@ import type { ProductPage } from '../../data/products';
 import type { BreadcrumbItem } from '../../utils/schema';
 import type { IconName } from '../icons/types';
 import { getProductFaqs } from '../../data/faq';
+import { getTranslations, defaultLocale } from '../../i18n';
+
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
+const pd = t.ui.productDetail;
 import Breadcrumbs from '../Breadcrumbs.astro';
 import FaqSection from '../FaqSection.astro';
 import Icon from '../icons/Icon.astro';
@@ -22,7 +27,7 @@ interface CapabilityCard {
 
 const { product, breadcrumbs } = Astro.props;
 
-const faqs = getProductFaqs(product.slug, product.kind);
+const faqs = getProductFaqs(product.slug, product.kind, locale);
 
 const capabilityIcons: IconName[] = ['cpu', 'shield', 'refresh', 'mail', 'package', 'settings'];
 
@@ -43,7 +48,7 @@ const capabilityBlocks = extractCapabilities([...(product.about ?? []), ...produ
 const overviewLede = product.overview.paragraphs.join(' ');
 const bestFitLede = product.overview.paragraphs[0];
 const bestFitItems = product.features;
-const buyLabel = `Get ${product.title}`;
+const buyLabel = `${pd.getProduct} ${product.title}`;
 ---
 
 <article class="section-shell cheat-tier-page tool-detail-page">
@@ -55,7 +60,7 @@ const buyLabel = `Get ${product.title}`;
         <header class="cheat-tier-col-head">
           <div class="cheat-tier-section-head__title-wrap">
             <span class="cheat-tier-section-head__accent" aria-hidden="true" />
-            <h2 id={`tool-overview-${product.slug}`} class="cheat-tier-section-head__title">Overview</h2>
+            <h2 id={`tool-overview-${product.slug}`} class="cheat-tier-section-head__title">{pd.overview}</h2>
           </div>
           <div class="cheat-tier-col-head__copy">
             <p class="cheat-tier-section-head__lede">{overviewLede}</p>
@@ -73,7 +78,7 @@ const buyLabel = `Get ${product.title}`;
         <header class="cheat-tier-col-head">
           <div class="cheat-tier-section-head__title-wrap">
             <span class="cheat-tier-section-head__accent" aria-hidden="true" />
-            <h2 id={`tool-acquisition-${product.slug}`} class="cheat-tier-section-head__title">Acquisition</h2>
+            <h2 id={`tool-acquisition-${product.slug}`} class="cheat-tier-section-head__title">{pd.acquisition}</h2>
           </div>
           <div class="cheat-tier-col-head__copy">
             <p class="cheat-tier-section-head__lede">{product.acquisition.title}</p>
@@ -94,7 +99,7 @@ const buyLabel = `Get ${product.title}`;
                   {step.num}
                 </span>
                 <div class="cheat-tier-aside-step__body">
-                  <span class="cheat-tier-aside-step__label">Step {step.num}</span>
+                  <span class="cheat-tier-aside-step__label">{pd.step} {step.num}</span>
                   <h3>{step.title}</h3>
                   <p>{step.desc}</p>
                 </div>
@@ -112,10 +117,10 @@ const buyLabel = `Get ${product.title}`;
             <div class="cheat-tier-section-head__title-wrap">
               <span class="cheat-tier-section-head__accent" aria-hidden="true" />
               <h2 id={`tool-capabilities-${product.slug}`} class="cheat-tier-section-head__title">
-                Key capabilities
+                {pd.keyCapabilities}
               </h2>
             </div>
-            <p class="cheat-tier-section-head__lede">What you get with {product.title}</p>
+            <p class="cheat-tier-section-head__lede">{pd.keyCapabilitiesLede} {product.title}</p>
           </header>
 
           <div class="cheat-tier-grid cheat-tier-grid--capabilities">
@@ -143,7 +148,7 @@ const buyLabel = `Get ${product.title}`;
           <header class="cheat-tier-section-head">
             <div class="cheat-tier-section-head__title-wrap">
               <span class="cheat-tier-section-head__accent" aria-hidden="true" />
-              <h2 id={`tool-bestfit-${product.slug}`} class="cheat-tier-section-head__title">Best fit</h2>
+              <h2 id={`tool-bestfit-${product.slug}`} class="cheat-tier-section-head__title">{pd.bestFit}</h2>
             </div>
             <p class="cheat-tier-section-head__lede">{bestFitLede}</p>
           </header>
@@ -165,12 +170,13 @@ const buyLabel = `Get ${product.title}`;
 
   <FaqSection
     items={faqs}
-    eyebrow="FAQ"
-    title={`${product.title} FAQ`}
-    subtitle={`Questions about ${product.title} — features, setup and current status.`}
+    eyebrow={pd.faqEyebrow}
+    title={`${product.title} ${pd.faqTitle}`}
+    subtitle={`${product.title} — ${pd.faqSubtitle}`}
     titleId={`tool-faq-${product.slug}`}
     showFilters
     filterTopics={['all', 'tools', 'safety', 'setup']}
+    topicLabels={t.faq.topics}
     layout="left"
     centered={false}
     class="cheat-tier-faq section-band mt-14"

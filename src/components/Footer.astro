@@ -1,12 +1,17 @@
 ---
-import { t } from '../i18n';
+import { getTranslations, defaultLocale } from '../i18n';
+import { localeLabels, locales } from '../i18n/config';
+import { localizedPath } from '../utils/path';
+
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
 ---
 
 <footer class="site-footer">
   <div class="container site-footer__grid">
     <div class="site-footer__col site-footer__col--brand">
       <div class="site-footer__brand">
-        <a href="/" class="site-footer__brand-link" aria-label={t.ui.homeAria}>
+        <a href={localizedPath(locale, '/')} class="site-footer__brand-link" aria-label={t.ui.homeAria}>
           <span class="site-footer__brand-logo-wrap" aria-hidden="true">
             <img
               src="/favicon-32.png"
@@ -39,7 +44,7 @@ import { t } from '../i18n';
         {
           t.footer.exploreLinks.map((link) => (
             <li>
-              <a href={link.href} aria-label={link.ariaLabel}>{link.label}</a>
+              <a href={localizedPath(locale, link.href)} aria-label={link.ariaLabel}>{link.label}</a>
             </li>
           ))
         }
@@ -52,7 +57,22 @@ import { t } from '../i18n';
         {
           t.footer.helpLegalLinks.map((link) => (
             <li>
-              <a href={link.href} aria-label={link.ariaLabel}>{link.label}</a>
+              <a href={localizedPath(locale, link.href)} aria-label={link.ariaLabel}>{link.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <nav class="site-footer__col" aria-label={t.ui.language}>
+      <p class="site-footer__label">{t.ui.language}</p>
+      <ul class="site-footer__links">
+        {
+          locales.map((code) => (
+            <li>
+              <a href={localizedPath(code, '/')} hreflang={code} lang={code}>
+                {localeLabels[code]}
+              </a>
             </li>
           ))
         }
@@ -74,12 +94,12 @@ import { t } from '../i18n';
           {
             t.footer.bottomLinks.map((link) => (
               <li>
-                <a href={link.href} aria-label={link.ariaLabel}>{link.label}</a>
+                <a href={localizedPath(locale, link.href)} aria-label={link.ariaLabel}>{link.label}</a>
               </li>
             ))
           }
           <li>
-            <a href="#" class="site-footer__back-top" data-back-to-top>Back to top ↑</a>
+            <a href="#" class="site-footer__back-top" data-back-to-top>{t.ui.backToTop}</a>
           </li>
         </ul>
       </nav>

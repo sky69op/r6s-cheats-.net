@@ -5,13 +5,21 @@ export interface SiteConfig {
   description: string;
 }
 
+export type NavLinkId = 'home' | 'features' | 'cheats' | 'tools' | 'forums';
+
 export interface NavLink {
+  id?: NavLinkId;
   href: string;
   label: string;
   ariaLabel?: string;
 }
 
+export type FeatureId = 'aimbot' | 'esp' | 'drone_esp' | 'no_recoil' | 'utility_suite';
+export type ToolkitId = 'aimbot' | 'vision' | 'intel' | 'operators' | 'recoil' | 'profiles';
+export type ProductCategoryKey = 'system_utility' | 'account_recovery' | 'cosmetic';
+
 export interface FeatureItem {
+  id: FeatureId;
   title: string;
   subtitle: string;
   desc: string;
@@ -35,6 +43,7 @@ export interface TierCard {
 export interface ProductCard {
   badge: string;
   category: string;
+  categoryKey: ProductCategoryKey;
   title: string;
   subtitle: string;
   desc: string;
@@ -66,10 +75,26 @@ export interface StepItem {
 
 export interface ToolkitItem {
   num: string;
+  id: ToolkitId;
   label: string;
   title: string;
   desc: string;
 }
+
+export interface HeroStatusPill {
+  icon: import('../components/icons/types').IconName;
+  label: string;
+}
+
+export type FaqTopicKey =
+  | 'all'
+  | 'plans'
+  | 'esp'
+  | 'scripts'
+  | 'safety'
+  | 'tools'
+  | 'forums'
+  | 'setup';
 
 export interface WhyItem {
   title: string;
@@ -88,6 +113,7 @@ export interface Translations {
     ctaPrimary: string;
     modesLabel: string;
     modes: string[];
+    statusPills: HeroStatusPill[];
   };
   features: {
     pageTitle: string;
@@ -117,6 +143,8 @@ export interface Translations {
     items: string[];
   };
   cheats: {
+    pageTitle: string;
+    pageDescription: string;
     eyebrow: string;
     title: string;
     subtitle: string;
@@ -125,6 +153,8 @@ export interface Translations {
     items: TierCard[];
   };
   tools: {
+    pageTitle: string;
+    pageDescription: string;
     eyebrow: string;
     title: string;
     subtitle: string;
@@ -134,11 +164,16 @@ export interface Translations {
     items: ProductCard[];
   };
   forums: {
+    pageTitle: string;
+    pageDescription: string;
     eyebrow: string;
     title: string;
     subtitle: string;
     viewAll: string;
     read: string;
+    posted: string;
+    relatedThreads: string;
+    backToForum: string;
   };
   toolkit: {
     eyebrow: string;
@@ -154,9 +189,13 @@ export interface Translations {
     asideItems: { num: string; title: string; desc: string }[];
   };
   faq: {
+    pageTitle: string;
+    pageDescription: string;
     eyebrow: string;
     title: string;
     subtitle: string;
+    viewAll: string;
+    topics: Record<FaqTopicKey, string>;
     items: FaqItem[];
   };
   footer: {
@@ -197,5 +236,32 @@ export interface Translations {
     menuClose: string;
     themeLight: string;
     themeDark: string;
+    get: string;
+    view: string;
+    breadcrumbs: {
+      home: string;
+      features: string;
+      cheats: string;
+      tools: string;
+      forums: string;
+      faq: string;
+    };
+    language: string;
+    backToTop: string;
+    backToHome: string;
+    popular: string;
+    moreFeatures: string;
+    productDetail: {
+      overview: string;
+      acquisition: string;
+      keyCapabilities: string;
+      keyCapabilitiesLede: string;
+      bestFit: string;
+      step: string;
+      getProduct: string;
+      faqEyebrow: string;
+      faqTitle: string;
+      faqSubtitle: string;
+    };
   };
 }

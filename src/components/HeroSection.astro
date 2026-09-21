@@ -1,9 +1,10 @@
 ---
-import { t } from '../i18n';
-import { heroStatusPills } from '../data/sectionIcons';
+import { getTranslations, defaultLocale } from '../i18n';
 import Icon from './icons/Icon.astro';
 import IconArrow from './IconArrow.astro';
 
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
 const h = t.hero;
 ---
 
@@ -69,7 +70,7 @@ const h = t.hero;
       <div class="hero-status-marquee-track">
         {[0, 1].map((copy) => (
           <div class="hero-status-marquee-group" aria-hidden={copy === 1 ? 'true' : undefined}>
-            {heroStatusPills.map((pill) => (
+            {h.statusPills.map((pill) => (
               <span class="hero-status-pill">
                 <Icon name={pill.icon} size={14} />
                 {pill.label}

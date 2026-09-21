@@ -1,50 +1,52 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { forumPosts } from '../../data/forums';
-import { t } from '../../i18n';
+import { getForumPosts } from '../../data/forums';
+import { getTranslations, defaultLocale } from '../../i18n';
 import { pageTitle } from '../../config/seo';
+import { localizedPath } from '../../utils/path';
 import { breadcrumbSchema, collectionPageSchema } from '../../utils/schema';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionHeader from '../../components/SectionHeader.astro';
 import ForumCard from '../../components/ForumCard.astro';
-import Icon from '../../components/icons/Icon.astro';
+
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
+const forumPosts = getForumPosts(locale);
 
 const breadcrumbs = [
-  { name: 'Home', path: '/' },
-  { name: 'Forums', path: '/forums/' },
+  { name: t.ui.breadcrumbs.home, path: localizedPath(locale, '/') },
+  { name: t.ui.breadcrumbs.forums, path: localizedPath(locale, '/forums/') },
 ];
 ---
 
 <BaseLayout
-  title={pageTitle(t.forums.title)}
-  description={t.forums.subtitle}
+  title={pageTitle(t.forums.pageTitle)}
+  description={t.forums.pageDescription}
   jsonLd={[
     collectionPageSchema({
-      name: t.forums.title,
-      description: t.forums.subtitle,
-      url: '/forums/',
+      name: t.forums.pageTitle,
+      description: t.forums.pageDescription,
+      url: localizedPath(locale, '/forums/'),
+      locale,
     }),
     breadcrumbSchema(breadcrumbs),
   ]}
 >
   <section class="section-shell">
-    <div class="container section-center">
-      <div class="max-w-3xl text-left">
-        <Breadcrumbs items={breadcrumbs} />
-      </div>
-      <SectionHeader eyebrow={t.forums.eyebrow} title={t.forums.title} desc={t.forums.subtitle} />
+    <div class="container section-center ui-container">
+      <Breadcrumbs items={breadcrumbs} />
+      <SectionHeader
+        eyebrow={t.forums.eyebrow}
+        title={t.forums.title}
+        desc={t.forums.subtitle}
+        titleId="forums-title"
+        class="mt-6"
+      />
 
-      <div class="forum-list max-w-3xl" aria-label="All forum threads">
+      <div class="forum-list mt-12">
         {forumPosts.map((post) => (
           <ForumCard post={post} />
         ))}
-      </div>
-
-      <div class="mt-10 max-w-3xl text-left">
-        <a href="/" class="btn btn-outline">
-          <Icon name="chevronLeft" size={16} />
-          Back to home
-        </a>
       </div>
     </div>
   </section>

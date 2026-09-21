@@ -6,7 +6,9 @@ import {
   getForumPost,
   getRelatedForumPosts,
 } from '../../data/forums';
+import { getTranslations, defaultLocale } from '../../i18n';
 import { pageTitle } from '../../config/seo';
+import { localizedPath } from '../../utils/path';
 import {
   articleSchema,
   breadcrumbSchema,
@@ -17,42 +19,54 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ForumCard from '../../components/ForumCard.astro';
 import Icon from '../../components/icons/Icon.astro';
 import type { ForumBlock } from '../../data/forums';
+import { getForumOgImage } from '../../data/forums/og-images';
 
 export function getStaticPaths() {
   return getAllForumSlugs().map((slug) => ({ params: { slug } }));
 }
 
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
 const { slug } = Astro.params;
-const post = getForumPost(slug!);
+const post = getForumPost(slug!, locale);
 
 if (!post) {
-  return Astro.redirect('/forums/');
+  return Astro.redirect(localizedPath(locale, '/forums/'));
 }
 
-const postPath = `/forums/${post.slug}/`;
+const postPath = localizedPath(locale, `/forums/${post.slug}/`);
 const title = displayForumTitle(post.title);
 const breadcrumbs = [
-  { name: 'Home', path: '/' },
-  { name: 'Forums', path: '/forums/' },
+  { name: t.ui.breadcrumbs.home, path: localizedPath(locale, '/') },
+  { name: t.ui.breadcrumbs.forums, path: localizedPath(locale, '/forums/') },
   { name: title, path: postPath },
 ];
 
-const related = getRelatedForumPosts(post.slug, 3);
+const related = getRelatedForumPosts(post.slug, 3, locale);
+
+function localizeHref(href: string): string {
+  if (href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('#')) return href;
+  if (href.startsWith('/')) return localizedPath(locale, href);
+  return href;
+}
 
 function linkify(text: string): string {
   return text
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+    .replace(/\[([^\]]+)\]\((\/[^)]+)\)/g, (_m, label, path) => `<a href="${localizeHref(path)}">${label}</a>`)
+    .replace(/\[([^\]]+)\]\((https?:[^)]+)\)/g, '<a href="$2">$1</a>')
     .replace(/(https:\/\/r6scheats\.net[^\s.,;)]*)/g, '<a href="$1">$1</a>');
 }
 
 const published = parseForumDate(post.date);
+const ogImage = getForumOgImage(post.slug);
 ---
 
 <BaseLayout
   title={pageTitle(title)}
   description={post.desc}
   ogType="article"
+  ogImage={ogImage}
   ogImageAlt={title}
   articlePublishedTime={published}
   articleModifiedTime={published}
@@ -62,6 +76,7 @@ const published = parseForumDate(post.date);
       description: post.desc,
       url: postPath,
       datePublished: published,
+      locale,
     }),
     breadcrumbSchema(breadcrumbs),
   ]}
@@ -76,7 +91,7 @@ const published = parseForumDate(post.date);
         <p class="forum-post-lead">{post.desc}</p>
         <p class="forum-post-date">
           <Icon name="calendar" size={14} />
-          Posted {post.date}
+          {t.forums.posted} {post.date}
         </p>
       </header>
 
@@ -131,14 +146,17 @@ const published = parseForumDate(post.date);
               </div>
             );
           }
-          return <p set:html={linkify(block.text)} />;
+          if (block.type === 'p') {
+            return <p set:html={linkify(block.text)} />;
+          }
+          return null;
         })}
       </div>
 
       {
         related.length > 0 && (
           <section class="forum-related mt-14" aria-labelledby="forum-related-heading">
-            <h2 id="forum-related-heading" class="forum-related__title">Related threads</h2>
+            <h2 id="forum-related-heading" class="forum-related__title">{t.forums.relatedThreads}</h2>
             <div class="forum-list forum-list--compact">
               {related.map((item) => (
                 <ForumCard post={item} compact />
@@ -149,9 +167,9 @@ const published = parseForumDate(post.date);
       }
 
       <div class="mt-10 pt-8 border-t border-(--border)">
-        <a href="/forums/" class="forum-back-link">
+        <a href={localizedPath(locale, '/forums/')} class="forum-back-link">
           <Icon name="chevronLeft" size={16} />
-          Back to forum
+          {t.forums.backToForum}
         </a>
       </div>
     </div>

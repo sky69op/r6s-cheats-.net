@@ -4,11 +4,25 @@ import sharp from 'sharp';
 
 const root = process.cwd();
 const widths = [512, 640, 960];
+const activeWidthSet = new Set(widths.map(String));
 const dirs = ['public/images/gameplay'];
+
+function pruneStaleWebps(dir) {
+  let removed = 0;
+  for (const file of fs.readdirSync(dir)) {
+    const match = file.match(/^(.+)-(\d+)\.webp$/);
+    if (!match || activeWidthSet.has(match[2])) continue;
+    fs.unlinkSync(path.join(dir, file));
+    removed += 1;
+  }
+  if (removed) console.log(`Removed ${removed} stale webp variant(s) from ${path.relative(root, dir)}`);
+}
 
 async function optimizeDir(relativeDir) {
   const dir = path.join(root, relativeDir);
   if (!fs.existsSync(dir)) return;
+
+  pruneStaleWebps(dir);
 
   const files = fs.readdirSync(dir).filter((file) => /\.png$/i.test(file) && !/-\d+\.webp$/i.test(file));
 

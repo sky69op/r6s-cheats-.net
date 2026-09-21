@@ -1,0 +1,293 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import {
+  displayForumTitle,
+  getAllForumSlugs,
+  getForumPost,
+  getRelatedForumPosts,
+} from '../../../data/forums';
+import { getTranslations, defaultLocale } from '../../../i18n';
+import { pageTitle } from '../../../config/seo';
+import { localizedPath } from '../../../utils/path';
+import {
+  articleSchema,
+  breadcrumbSchema,
+  parseForumDate,
+} from '../../../utils/schema';
+import { resolveCheckoutHref } from '../../../config/affiliate';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import ForumCard from '../../../components/ForumCard.astro';
+import Icon from '../../../components/icons/Icon.astro';
+import type { ForumBlock } from '../../../data/forums';
+import { getForumOgImage } from '../../../data/forums/og-images';
+
+export function getStaticPaths() {
+  return getAllForumSlugs().map((slug) => ({ params: { slug } }));
+}
+
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
+const { slug } = Astro.params;
+const post = getForumPost(slug!, locale);
+
+if (!post) {
+  return Astro.redirect(localizedPath(locale, '/forums/'));
+}
+
+const postPath = localizedPath(locale, `/forums/${post.slug}/`);
+const title = displayForumTitle(post.title);
+const breadcrumbs = [
+  { name: t.ui.breadcrumbs.home, path: localizedPath(locale, '/') },
+  { name: t.ui.breadcrumbs.forums, path: localizedPath(locale, '/forums/') },
+  { name: title, path: postPath },
+];
+
+const related = getRelatedForumPosts(post.slug, 3, locale);
+
+function localizeHref(href: string): string {
+  if (href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('#')) return href;
+  if (href.startsWith('/')) return localizedPath(locale, href);
+  return href;
+}
+
+function linkify(text: string): string {
+  return text
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\[([^\]]+)\]\((\/[^)]+)\)/g, (_m, label, path) => `<a href="${localizeHref(path)}">${label}</a>`)
+    .replace(/\[([^\]]+)\]\((https?:[^)]+)\)/g, '<a href="$2">$1</a>')
+    .replace(/(https:\/\/r6scheats\.net[^\s.,;)]*)/g, '<a href="$1">$1</a>');
+}
+
+const published = parseForumDate(post.date);
+const ogImage = getForumOgImage(post.slug);
+---
+
+<BaseLayout
+  title={pageTitle(title)}
+  description={post.desc}
+  ogType="article"
+  ogImage={ogImage}
+  ogImageAlt={title}
+  articlePublishedTime={published}
+  articleModifiedTime={published}
+  jsonLd={[
+    articleSchema({
+      name: title,
+      description: post.desc,
+      url: postPath,
+      datePublished: published,
+      locale,
+    }),
+    breadcrumbSchema(breadcrumbs),
+  ]}
+>
+  <article class="section-shell">
+    <div class="container mx-auto max-w-3xl">
+      <Breadcrumbs items={breadcrumbs} />
+
+      <header class="forum-post-header mt-6">
+        <span class="forum-card-badge">{post.tag}</span>
+        <h1 class="forum-post-title">{title}</h1>
+        <p class="forum-post-lead">{post.desc}</p>
+        <p class="forum-post-date">
+          <Icon name="calendar" size={14} />
+          {t.forums.posted} {post.date}
+        </p>
+      </header>
+
+      <div class="forum-prose mt-10">
+        {post.body.map((block: ForumBlock) => {
+          if (block.type === 'h2') {
+            return <h2>{block.text}</h2>;
+          }
+          if (block.type === 'h3') {
+            return <h3>{block.text}</h3>;
+          }
+          if (block.type === 'ul' || block.type === 'ol') {
+            const ListTag = block.type;
+            return (
+              <ListTag>
+                {block.items.map((item) => (
+                  <li set:html={linkify(item)} />
+                ))}
+              </ListTag>
+            );
+          }
+          if (block.type === 'table') {
+            return (
+              <div class="forum-prose-table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      {block.headers.map((header) => (
+                        <th>{header}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {block.rows.map((row) => (
+                      <tr>
+                        {row.map((cell) => (
+                          <td set:html={linkify(cell)} />
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            );
+          }
+          if (block.type === 'cta') {
+            return (
+              <div class="forum-cta-block">
+                <h3>{block.title}</h3>
+                <p set:html={linkify(block.text)} />
+                <a href={resolveCheckoutHref(block.href)}>{block.title} →</a>
+              </div>
+            );
+          }
+          if (block.type === 'p') {
+            return <p set:html={linkify(block.text)} />;
+          }
+          return null;
+        })}
+      </div>
+
+      {
+        related.length > 0 && (
+          <section class="forum-related mt-14" aria-labelledby="forum-related-heading">
+            <h2 id="forum-related-heading" class="forum-related__title">{t.forums.relatedThreads}</h2>
+            <div class="forum-list forum-list--compact">
+              {related.map((item) => (
+                <ForumCard post={item} compact />
+              ))}
+            </div>
+          </section>
+        )
+      }
+
+      <div class="mt-10 pt-8 border-t border-(--border)">
+        <a href={localizedPath(locale, '/forums/')} class="forum-back-link">
+          <Icon name="chevronLeft" size={16} />
+          {t.forums.backToForum}
+        </a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .forum-post-header {
+    text-align: left;
+  }
+
+  .forum-post-title {
+    margin-top: 0.875rem;
+    font-family: var(--font-heading);
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text);
+    text-transform: none;
+  }
+
+  .forum-post-lead {
+    margin-top: 1rem;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--text-muted);
+  }
+
+  .forum-post-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-top: 1.25rem;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+  }
+
+  .forum-post-date svg {
+    stroke: var(--text-muted);
+  }
+
+  .forum-related__title {
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text);
+    text-transform: none;
+    margin-bottom: 1rem;
+  }
+
+  .forum-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .forum-back-link:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .forum-prose h2 {
+    font-family: var(--font-heading);
+    font-size: 1.375rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    text-transform: none;
+    color: var(--text);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .forum-prose h3 {
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .forum-prose p {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+
+  .forum-prose ul,
+  .forum-prose ol {
+    margin: 0 0 1rem 1.25rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+
+  .forum-prose li {
+    margin-bottom: 0.375rem;
+  }
+
+  .forum-prose strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .forum-prose p a,
+  .forum-prose li a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .forum-prose p a:hover,
+  .forum-prose li a:hover {
+    color: var(--accent-hover);
+  }
+</style>

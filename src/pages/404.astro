@@ -1,25 +1,81 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { t } from '../i18n';
-import IconArrow from '../components/IconArrow.astro';
+import { getTranslations, defaultLocale } from '../i18n';
+import { localizedPath } from '../utils/path';
+
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
+const home = localizedPath(locale, '/');
+const cheats = localizedPath(locale, '/cheats/');
+const tools = localizedPath(locale, '/tools/r6s-cheats/');
 ---
 
-<BaseLayout title={`Page not found | ${t.site.name}`} description="The page you requested could not be found on r6scheats.net." noindex={true}>
-  <section class="section-shell">
-    <div class="container section-center">
-      <p class="section-label">404</p>
-      <h1 class="section-title mt-3">Page not found</h1>
-      <p class="mt-4 max-w-md text-[var(--text-muted)]">
-        That URL does not exist or may have moved. Head back to the homepage or browse cheat tiers and tools.
+<!doctype html>
+<html lang={locale === defaultLocale ? 'en' : locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="googlebot" content="noindex, nofollow" />
+    <title>Page not found | {t.site.name}</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: system-ui, sans-serif;
+        background: #0a0d10;
+        color: #e8eaed;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 1.5rem;
+      }
+      main {
+        max-width: 28rem;
+        text-align: center;
+      }
+      h1 {
+        margin: 0.5rem 0 0;
+        font-size: 1.75rem;
+      }
+      p {
+        color: #9aa0a6;
+        line-height: 1.6;
+      }
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        justify-content: center;
+        margin-top: 1.5rem;
+      }
+      a {
+        color: #b794ff;
+        text-decoration: none;
+        border: 1px solid #3c4043;
+        border-radius: 0.5rem;
+        padding: 0.625rem 1rem;
+      }
+      a:hover {
+        border-color: #7f3dee;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p>404</p>
+      <h1>Page not found</h1>
+      <p>
+        That URL does not exist or may have moved on {t.site.domain}. Return to the homepage or browse
+        cheat tiers and tools.
       </p>
-      <div class="mt-8 flex flex-wrap justify-start gap-3">
-        <a href="/" class="btn btn-primary">
-          Back to home
-          <IconArrow />
-        </a>
-        <a href="/tools/r6s-cheats/" class="btn btn-outline">View tools</a>
-        <a href="/cheats/" class="btn btn-outline">Browse cheats</a>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+      <nav aria-label="Recovery links">
+        <a href={home}>Back to home</a>
+        <a href={cheats}>Browse cheats</a>
+        <a href={tools}>View tools</a>
+      </nav>
+    </main>
+  </body>
+</html>

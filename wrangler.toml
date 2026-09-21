@@ -1,0 +1,16 @@
+# Cloudflare Pages — static deploy for r6scheats.net
+# Dashboard settings (required):
+#   Build command     = npm run build
+#   Output directory  = dist
+#   Root directory    = /
+#   Deploy command    = (leave empty — do NOT use npm start)
+# Build environment variables (Settings → Environment variables):
+#   PUBLIC_GSC_VERIFICATION = (token from Google Search Console HTML tag method)
+#   PUBLIC_GA_MEASUREMENT_ID = (optional)
+#   PUBLIC_DISCORD_URL = (optional — adds Discord to Organization.sameAs schema)
+name = "r6scheats"
+compatibility_date = "2024-09-01"
+pages_build_output_dir = "dist"
+
+[vars]
+# Prefer setting PUBLIC_* vars in the Cloudflare dashboard so they apply at build time.

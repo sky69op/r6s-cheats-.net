@@ -1,111 +1,64 @@
 ---
-
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-
-import { t } from '../../../i18n';
-
-import { productHub, productPages } from '../../../data/products';
-
+import { getProductHub, getProductPages } from '../../../data/products';
 import { productCategoryIcons } from '../../../data/sectionIcons';
-
+import { getTranslations, defaultLocale } from '../../../i18n';
 import { pageTitle } from '../../../config/seo';
-
+import { localizedPath } from '../../../utils/path';
 import { breadcrumbSchema, collectionPageSchema } from '../../../utils/schema';
-
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
-
 import CatalogCard from '../../../components/CatalogCard.astro';
 
-import { toolPath } from '../../../utils/path';
-
-
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
+const productHub = getProductHub(locale);
+const utilityProducts = getProductPages(locale).filter((p) => p.kind === 'utility');
 
 const breadcrumbs = [
-
-  { name: 'Home', path: '/' },
-
-  { name: 'Tools', path: productHub.path },
-
+  { name: t.ui.breadcrumbs.home, path: localizedPath(locale, '/') },
+  { name: t.ui.breadcrumbs.tools, path: localizedPath(locale, productHub.path) },
 ];
-
-
-
-const utilityProducts = productPages.filter((p) => p.kind === 'utility');
-
 ---
 
-
-
 <BaseLayout
-
   title={pageTitle(productHub.title)}
-
   description={productHub.description}
-
   jsonLd={[
     collectionPageSchema({
       name: productHub.title,
       description: productHub.description,
-      url: productHub.path,
+      url: localizedPath(locale, productHub.path),
+      locale,
     }),
     breadcrumbSchema(breadcrumbs),
   ]}
-
 >
-
   <section class="section-shell section-band pt-8">
-
-    <div class="container mx-auto max-w-6xl">
-
+    <div class="container mx-auto max-w-6xl ui-container">
       <Breadcrumbs items={breadcrumbs} />
 
-
-
       <div class="mt-6">
-
         <h1 class="section-title">{t.tools.title}</h1>
-
         <p class="section-desc">{t.tools.subtitle}</p>
-
       </div>
-
-
 
       <div class="card-grid card-grid-3 mt-12">
-
         {utilityProducts.map((product, i) => (
-
           <CatalogCard
-
             label={product.category ?? 'Utility'}
-
             title={product.title}
-
-            href={toolPath(product.slug)}
-
+            href={localizedPath(locale, `/tools/r6s-cheats/${product.slug}/`)}
             buyUrl={product.buyUrl}
-
             features={product.features}
-
             more={product.more}
-
-            icon={productCategoryIcons[product.category ?? ''] ?? 'package'}
-
-            buyLabel="Get"
-
-            viewLabel="View"
-
+            icon={productCategoryIcons[product.categoryKey ?? 'system_utility'] ?? 'package'}
+            buyLabel={t.ui.get}
+            viewLabel={t.ui.view}
+            moreFeaturesLabel={t.ui.moreFeatures}
             revealDelay={i * 80}
-
           />
-
         ))}
-
       </div>
-
     </div>
-
   </section>
-
 </BaseLayout>
-

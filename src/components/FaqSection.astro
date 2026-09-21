@@ -1,5 +1,6 @@
 ---
 import type { SiteFaqItem, FaqTopic } from '../data/faq';
+import type { FaqTopicKey } from '../i18n/types';
 import SectionHeader from './SectionHeader.astro';
 import Icon from './icons/Icon.astro';
 
@@ -11,6 +12,7 @@ interface Props {
   titleId?: string;
   showFilters?: boolean;
   filterTopics?: FaqTopic[];
+  topicLabels?: Record<FaqTopicKey, string>;
   centered?: boolean;
   showHeader?: boolean;
   layout?: 'center' | 'left';
@@ -25,13 +27,14 @@ const {
   titleId = 'faq-heading',
   showFilters = false,
   filterTopics,
+  topicLabels,
   centered = true,
   showHeader = true,
   layout = 'center',
   class: className,
 } = Astro.props;
 
-const topicLabels: Record<FaqTopic, string> = {
+const defaultTopicLabels: Record<FaqTopicKey, string> = {
   all: 'All',
   plans: 'Plans',
   esp: 'Map hack / ESP',
@@ -42,6 +45,7 @@ const topicLabels: Record<FaqTopic, string> = {
   setup: 'Setup',
 };
 
+const labels = topicLabels ?? defaultTopicLabels;
 const filters = filterTopics ?? (['all', 'plans', 'esp', 'scripts', 'safety', 'tools'] as FaqTopic[]);
 ---
 
@@ -72,7 +76,7 @@ const filters = filterTopics ?? (['all', 'plans', 'esp', 'scripts', 'safety', 't
               class:list={['faq-filter-chip', { 'is-active': i === 0 }]}
               data-faq-filter={topic}
             >
-              {topicLabels[topic]}
+              {labels[topic as FaqTopicKey] ?? topic}
             </button>
           ))}
         </div>

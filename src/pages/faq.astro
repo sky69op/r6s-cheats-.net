@@ -1,64 +1,51 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getAllFaqs } from '../data/faq';
+import { getTranslations, defaultLocale } from '../i18n';
 import { pageTitle } from '../config/seo';
+import { localizedPath } from '../utils/path';
 import { breadcrumbSchema, faqPageSchema, webPageSchema } from '../utils/schema';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import FaqSection from '../components/FaqSection.astro';
 
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
+
 const breadcrumbs = [
-  { name: 'Home', path: '/' },
-  { name: 'FAQ', path: '/faq/' },
+  { name: t.ui.breadcrumbs.home, path: localizedPath(locale, '/') },
+  { name: t.ui.breadcrumbs.faq, path: localizedPath(locale, '/faq/') },
 ];
 
-const faqs = getAllFaqs();
+const faqs = getAllFaqs(locale);
 ---
 
 <BaseLayout
-  title={pageTitle('FAQ — R6S Cheats & Tools')}
-  description="Answers about Rainbow Six Siege cheat tiers, ESP, aimbot, HWID utilities, forum threads and checkout at r6scheats.net."
+  title={pageTitle(t.faq.pageTitle)}
+  description={t.faq.pageDescription}
   jsonLd={[
     webPageSchema({
-      name: 'FAQ — R6S Cheats & Tools',
-      description:
-        'Answers about Rainbow Six Siege cheat tiers, ESP, aimbot, HWID utilities, forum threads and checkout at r6scheats.net.',
-      url: '/faq/',
+      name: t.faq.pageTitle,
+      description: t.faq.pageDescription,
+      url: localizedPath(locale, '/faq/'),
+      locale,
     }),
-    faqPageSchema(faqs.map((f, i) => ({ num: String(i + 1).padStart(2, '0'), q: f.q, a: f.a.replace(/<[^>]+>/g, '') }))),
     breadcrumbSchema(breadcrumbs),
+    faqPageSchema(faqs.map((f, i) => ({ num: String(i + 1).padStart(2, '0'), q: f.q, a: f.a.replace(/<[^>]+>/g, '') }))),
   ]}
 >
-  <section class="section-shell faq-page pt-8">
-    <div class="container faq-section__container">
+  <section class="section-shell section-band pt-8">
+    <div class="container mx-auto max-w-3xl ui-container">
       <Breadcrumbs items={breadcrumbs} />
-      <h1 id="faq-page-title" class="faq-page__title">FAQ</h1>
+      <FaqSection
+        items={faqs}
+        eyebrow={t.faq.eyebrow}
+        title={t.faq.title}
+        subtitle={t.faq.subtitle}
+        titleId="faq-page-title"
+        showFilters
+        topicLabels={t.faq.topics}
+        class="mt-6"
+      />
     </div>
   </section>
-
-  <FaqSection
-    items={faqs}
-    titleId="faq-page-title"
-    showHeader={false}
-    layout="left"
-    showFilters
-    filterTopics={['all', 'plans', 'esp', 'scripts', 'safety', 'tools', 'forums', 'setup']}
-    class="faq-page__list"
-  />
 </BaseLayout>
-
-<style>
-  .faq-page__title {
-    margin-top: 1.5rem;
-    font-family: var(--font-heading);
-    font-size: clamp(1.75rem, 4vw, 2.25rem);
-    font-weight: 700;
-    line-height: 1.2;
-    color: var(--text);
-    text-align: left;
-    text-transform: none;
-  }
-
-  .faq-page__list {
-    padding-top: 0;
-  }
-</style>

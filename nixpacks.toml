@@ -1,3 +1,4 @@
+# Railway / Nixpacks only — Cloudflare Pages uses static output from dist/ (see wrangler.toml).
 [phases.setup]
 nixPkgs = ["nodejs_22", "npm-9_x"]
 

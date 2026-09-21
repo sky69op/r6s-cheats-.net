@@ -1,0 +1,36 @@
+---
+import { getForumPosts } from '../data/forums';
+import { getTranslations, defaultLocale } from '../i18n';
+import { localizedPath } from '../utils/path';
+import SectionHeader from './SectionHeader.astro';
+import ForumCard from './ForumCard.astro';
+import IconArrow from './IconArrow.astro';
+
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
+const posts = getForumPosts(locale).slice(0, 6);
+---
+
+<section id="forums" class="section-shell" aria-labelledby="forums-home-title">
+  <div class="container section-center">
+    <SectionHeader
+      eyebrow={t.forums.eyebrow}
+      title={t.forums.title}
+      desc={t.forums.subtitle}
+      titleId="forums-home-title"
+    />
+
+    <div class="forum-list mt-12">
+      {posts.map((post) => (
+        <ForumCard post={post} />
+      ))}
+    </div>
+
+    <div class="home-forum-cta flex justify-center">
+      <a href={localizedPath(locale, '/forums/')} class="btn btn-outline">
+        {t.forums.viewAll}
+        <IconArrow />
+      </a>
+    </div>
+  </div>
+</section>

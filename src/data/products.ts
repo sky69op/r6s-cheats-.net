@@ -1,4 +1,7 @@
-import { t } from '../i18n';
+import { getTranslations, defaultLocale, resolveLocale, type Locale, type MaybeLocale } from '../i18n';
+import { getProductLocaleContent } from './products/locale';
+import { getLocaleProductSeo } from './products/seo-locale';
+import type { Translations } from '../i18n/types';
 import { checkoutForSlug, checkoutPath } from '../config/affiliate';
 import type { IconName } from '../components/icons/types';
 
@@ -35,6 +38,7 @@ export interface ProductPage {
   kind: 'tier' | 'utility';
   badge: string;
   category?: string;
+  categoryKey?: import('../i18n/types').ProductCategoryKey;
   tier?: string;
   name: string;
   title: string;
@@ -95,7 +99,7 @@ const sharedLimitations =
 
 const r6sSystemRequirements: SystemRequirement[] = [
   { icon: 'windows', text: 'Supported 64-bit edition of Windows 10 or Windows 11.' },
-  { icon: 'steam', text: 'Current Rainbow Six Siege client via Ubisoft Connect with latest patches applied.' },
+  { icon: 'settings', text: 'Current Rainbow Six Siege client via Ubisoft Connect with latest patches applied.' },
   { icon: 'settings', text: 'Administrator access for loader installation and patch updates.' },
   { icon: 'wifi', text: 'Stable internet connection for portal access and patch delivery.' },
   { icon: 'cpu', text: 'A system that meets Rainbow Six Siege published hardware requirements.' },
@@ -223,8 +227,8 @@ function slide(...keys: GalleryKey[]): ProductSlide[] {
 }
 
 function slugFromHref(href: string): string {
-  const segment = href.replace(productBase, '').replace(/^\//, '').replace(/\/$/, '');
-  return segment || 'r6s-cheats';
+  const cleaned = href.replace(/^\//, '').replace(/\/$/, '');
+  return cleaned.split('/').pop() ?? cleaned;
 }
 
 const tierAbout: Record<string, ProductPage['about']> = {
@@ -519,11 +523,12 @@ const productContent: Record<
   },
 };
 
-function buildTierPages(): ProductPage[] {
-  return t.cheats.items.map((cheat) => {
+function buildTierPages(translations: Translations, locale: Locale): ProductPage[] {
+  return translations.cheats.items.map((cheat) => {
     const slug = slugFromHref(cheat.href);
     const content = productContent[slug];
-    const displayName = cheat.name === 'Lite' ? 'R6S Lite' : cheat.name === 'Pro' ? 'R6S Pro' : 'R6S Elite';
+    const localeContent = getProductLocaleContent(locale, slug);
+    const displayName = cheat.title;
     return {
       slug,
       kind: 'tier',
@@ -538,29 +543,34 @@ function buildTierPages(): ProductPage[] {
       variant: cheat.variant,
       buyUrl: checkoutForSlug(slug),
       images: content.images,
-      overview: content.overview,
-      acquisition: acquisitionFor(displayName),
-      goodToKnow: content.goodToKnow,
-      limitations: content.limitations,
-      fullFeatures: content.fullFeatures,
-      systemRequirements: content.systemRequirements,
-      about: tierAbout[slug],
-      body: tierBodies[slug] ?? [],
+      overview: localeContent.overview,
+      acquisition: {
+        title: localeContent.acquisitionTitle.replace('{name}', displayName),
+        steps: localeContent.acquisitionSteps,
+      },
+      goodToKnow: localeContent.goodToKnow,
+      limitations: localeContent.limitations,
+      fullFeatures: localeContent.fullFeatures,
+      systemRequirements: localeContent.systemRequirements,
+      about: localeContent.about,
+      body: localeContent.body,
     };
   });
 }
 
-function buildUtilityPages(): ProductPage[] {
-  return t.tools.items
+function buildUtilityPages(translations: Translations, locale: Locale): ProductPage[] {
+  return translations.tools.items
     .filter((p) => p.href !== productBase)
     .map((product) => {
       const slug = slugFromHref(product.href);
       const content = productContent[slug];
+      const localeContent = getProductLocaleContent(locale, slug);
       return {
         slug,
         kind: 'utility',
         badge: product.badge,
         category: product.category,
+        categoryKey: product.categoryKey,
         name: product.title,
         title: product.title,
         subtitle: product.subtitle,
@@ -569,49 +579,115 @@ function buildUtilityPages(): ProductPage[] {
         more: product.more,
         buyUrl: checkoutForSlug(slug),
         images: content.images,
-        overview: content.overview,
-        acquisition: acquisitionFor(product.title),
-        goodToKnow: content.goodToKnow,
-        limitations: content.limitations,
-        fullFeatures: content.fullFeatures,
-        systemRequirements: content.systemRequirements,
-        body: utilityBodies[slug] ?? [],
+        overview: localeContent.overview,
+        acquisition: {
+          title: localeContent.acquisitionTitle.replace('{name}', product.title),
+          steps: localeContent.acquisitionSteps,
+        },
+        goodToKnow: localeContent.goodToKnow,
+        limitations: localeContent.limitations,
+        fullFeatures: localeContent.fullFeatures,
+        systemRequirements: localeContent.systemRequirements,
+        body: localeContent.body,
       };
     });
 }
 
-export const productPages: ProductPage[] = [...buildTierPages(), ...buildUtilityPages()];
+const pagesCache = new Map<Locale, ProductPage[]>();
 
-export const cheatPages = productPages.filter((p) => p.kind === 'tier');
-
-export function getProductPage(slug: string) {
-  return productPages.find((p) => p.slug === slug);
+export function getProductPages(locale: MaybeLocale = defaultLocale): ProductPage[] {
+  const resolved = resolveLocale(locale);
+  if (!pagesCache.has(resolved)) {
+    const translations = getTranslations(resolved);
+    pagesCache.set(resolved, [...buildTierPages(translations, resolved), ...buildUtilityPages(translations, resolved)]);
+  }
+  return pagesCache.get(resolved)!;
 }
 
-export function getCheatPage(slug: string) {
-  return cheatPages.find((p) => p.slug === slug);
+export function getCheatPages(locale: MaybeLocale = defaultLocale) {
+  return getProductPages(locale).filter((p) => p.kind === 'tier');
 }
 
-export function getAllProductSlugs() {
-  return productPages.map((p) => p.slug);
+export function getProductPage(slug: string, locale: MaybeLocale = defaultLocale) {
+  return getProductPages(locale).find((p) => p.slug === slug);
 }
 
-export function getAllCheatSlugs() {
-  return cheatPages.map((p) => p.slug);
+export function getCheatPage(slug: string, locale: MaybeLocale = defaultLocale) {
+  return getCheatPages(locale).find((p) => p.slug === slug);
 }
 
-export const productHub = {
-  path: productBase,
-  title: t.tools.title,
-  subtitle: t.tools.subtitle,
-  description:
-    'Rainbow Six Siege utility tools — HWID spoofer, account recovery, and Unlock All for PC. Compare features and checkout securely at r6scheats.net.',
-  buyUrl: checkoutPath('r6s'),
-};
+export function getAllProductSlugs(locale: MaybeLocale = defaultLocale) {
+  return getProductPages(locale).map((p) => p.slug);
+}
 
-export const cheatsHub = {
-  path: '/cheats/',
-  title: 'R6S Cheats',
-  subtitle: 'Lite, Pro and Elite tiers for ranked, unranked and quick match on PC.',
-  buyUrl: checkoutPath('r6s'),
-};
+export function getAllCheatSlugs(locale: MaybeLocale = defaultLocale) {
+  return getCheatPages(locale).map((p) => p.slug);
+}
+
+export function getUtilitySlugs(locale: MaybeLocale = defaultLocale) {
+  return getProductPages(locale).filter((p) => p.kind === 'utility').map((p) => p.slug);
+}
+
+export function getCheatSeoTitle(
+  slug: string,
+  locale: MaybeLocale = defaultLocale,
+  fallback: string,
+): string {
+  const seo = getLocaleProductSeo(resolveLocale(locale));
+  return seo.cheats[slug as keyof typeof seo.cheats]?.title ?? fallback;
+}
+
+export function getCheatSeoDescription(
+  slug: string,
+  locale: MaybeLocale = defaultLocale,
+  fallback: string,
+): string {
+  const seo = getLocaleProductSeo(resolveLocale(locale));
+  return seo.cheats[slug as keyof typeof seo.cheats]?.description ?? fallback;
+}
+
+export function getToolSeoTitle(
+  slug: string,
+  locale: MaybeLocale = defaultLocale,
+  fallback: string,
+): string {
+  const seo = getLocaleProductSeo(resolveLocale(locale));
+  return seo.tools[slug as keyof typeof seo.tools]?.title ?? fallback;
+}
+
+export function getToolSeoDescription(
+  slug: string,
+  locale: MaybeLocale = defaultLocale,
+  fallback: string,
+): string {
+  const seo = getLocaleProductSeo(resolveLocale(locale));
+  return seo.tools[slug as keyof typeof seo.tools]?.description ?? fallback;
+}
+
+export function getProductHub(locale: MaybeLocale = defaultLocale) {
+  const translations = getTranslations(locale);
+  return {
+    path: productBase,
+    title: translations.tools.pageTitle,
+    subtitle: translations.tools.subtitle,
+    description: translations.tools.pageDescription,
+    buyUrl: checkoutPath('r6s'),
+  };
+}
+
+export function getCheatsHub(locale: MaybeLocale = defaultLocale) {
+  const translations = getTranslations(locale);
+  return {
+    path: '/cheats/',
+    title: translations.cheats.pageTitle,
+    subtitle: translations.cheats.subtitle,
+    description: translations.cheats.pageDescription,
+    buyUrl: checkoutPath('r6s'),
+  };
+}
+
+/** @deprecated Use getProductHub(locale) */
+export const productHub = getProductHub();
+
+/** @deprecated Use getCheatsHub(locale) */
+export const cheatsHub = getCheatsHub();

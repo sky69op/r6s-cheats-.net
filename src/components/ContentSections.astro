@@ -1,9 +1,12 @@
 ---
-import { t } from '../i18n';
+import { getTranslations, defaultLocale } from '../i18n';
+import { localizedPath } from '../utils/path';
 import FaqSection from './FaqSection.astro';
 import { getLandingFaqs } from '../data/faq';
 
-const landingFaqs = getLandingFaqs();
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
+const landingFaqs = getLandingFaqs(locale);
 ---
 
 <section id="faq" aria-labelledby="faq-title">
@@ -13,8 +16,9 @@ const landingFaqs = getLandingFaqs();
     title={t.faq.title}
     subtitle={t.faq.subtitle}
     titleId="faq-title"
+    topicLabels={t.faq.topics}
   />
   <div class="container section-center home-faq-cta flex justify-center">
-    <a href="/faq/" class="btn btn-outline">View all FAQ</a>
+    <a href={localizedPath(locale, '/faq/')} class="btn btn-outline">{t.faq.viewAll}</a>
   </div>
 </section>

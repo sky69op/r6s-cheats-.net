@@ -24,9 +24,20 @@ export function absoluteAssetUrl(path: string): string {
 export function pageTitle(keyword: string, brand = t.site.name): string {
   const suffix = ` | ${brand}`;
   const max = 60;
-  if (`${keyword}${suffix}`.length <= max) return `${keyword}${suffix}`;
+  const full = `${keyword}${suffix}`;
+  if (full.length <= max) return full;
   const trimmed = keyword.slice(0, Math.max(20, max - suffix.length - 1)).trim();
   return `${trimmed}${suffix}`;
+}
+
+/** Trim meta descriptions for Google snippet limits (~155–160 chars). */
+export function metaDescription(text: string, max = 160): string {
+  const normalized = text.replace(/\s+/g, ' ').trim();
+  if (normalized.length <= max) return normalized;
+  const slice = normalized.slice(0, max - 1);
+  const lastSpace = slice.lastIndexOf(' ');
+  const cut = lastSpace > max * 0.6 ? slice.slice(0, lastSpace) : slice;
+  return `${cut.trim()}…`;
 }
 
 export const DEFAULT_OG_IMAGE_WIDTH = 1200;

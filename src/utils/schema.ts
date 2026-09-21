@@ -1,5 +1,12 @@
 import type { FaqItem } from '../i18n/types';
+import { getTranslations } from '../i18n';
+import { hrefLang, resolveLocale, type MaybeLocale, defaultLocale } from '../i18n/config';
+import { organizationSameAs } from '../config/social';
 import { SITE_ORIGIN, absoluteAssetUrl, canonicalUrl } from '../config/seo';
+
+function schemaLanguage(locale: MaybeLocale = defaultLocale) {
+  return hrefLang[resolveLocale(locale)];
+}
 
 export interface BreadcrumbItem {
   name: string;
@@ -19,56 +26,71 @@ export function breadcrumbSchema(items: BreadcrumbItem[]) {
   };
 }
 
-export function websiteSchema() {
+export function websiteSchema(locale: MaybeLocale = defaultLocale) {
+  const t = getTranslations(locale);
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Rainbow Six Siege Cheats',
+    name: t.site.name,
     url: `${SITE_ORIGIN}/`,
-    inLanguage: 'en-US',
-    description:
-      'Rainbow Six Siege cheats with ESP, aimbot, no recoil, wallhack and ranked-safe tiers for PC.',
+    inLanguage: schemaLanguage(locale),
+    description: t.site.description,
   };
 }
 
-export function organizationSchema() {
+export function organizationSchema(locale: MaybeLocale = defaultLocale) {
+  const t = getTranslations(locale);
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Rainbow Six Siege Cheats',
+    name: t.site.name,
     url: `${SITE_ORIGIN}/`,
     logo: `${SITE_ORIGIN}/logo.png`,
-    sameAs: [],
+    sameAs: organizationSameAs(),
   };
 }
 
-export function collectionPageSchema(input: { name: string; description: string; url: string }) {
+export function collectionPageSchema(input: {
+  name: string;
+  description: string;
+  url: string;
+  locale?: MaybeLocale;
+}) {
+  const locale = input.locale ?? defaultLocale;
+  const t = getTranslations(locale);
   return {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: input.name,
     description: input.description,
     url: canonicalUrl(input.url),
-    inLanguage: 'en-US',
+    inLanguage: schemaLanguage(locale),
     isPartOf: {
       '@type': 'WebSite',
-      name: 'Rainbow Six Siege Cheats',
+      name: t.site.name,
       url: `${SITE_ORIGIN}/`,
     },
   };
 }
 
-export function webPageSchema(input: { name: string; description: string; url: string }) {
+export function webPageSchema(input: {
+  name: string;
+  description: string;
+  url: string;
+  locale?: MaybeLocale;
+}) {
+  const locale = input.locale ?? defaultLocale;
+  const t = getTranslations(locale);
   return {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
     name: input.name,
     description: input.description,
     url: canonicalUrl(input.url),
-    inLanguage: 'en-US',
+    inLanguage: schemaLanguage(locale),
     isPartOf: {
       '@type': 'WebSite',
-      name: 'Rainbow Six Siege Cheats',
+      name: t.site.name,
       url: `${SITE_ORIGIN}/`,
     },
   };
@@ -94,7 +116,10 @@ export function softwareApplicationSchema(input: {
   description: string;
   url: string;
   image?: string;
+  locale?: MaybeLocale;
 }) {
+  const locale = input.locale ?? defaultLocale;
+  const t = getTranslations(locale);
   return {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
@@ -103,11 +128,11 @@ export function softwareApplicationSchema(input: {
     url: canonicalUrl(input.url),
     applicationCategory: 'GameApplication',
     operatingSystem: 'Windows 10, Windows 11',
-    offers: {
-      '@type': 'Offer',
-      price: '0',
-      priceCurrency: 'USD',
-      availability: 'https://schema.org/InStock',
+    inLanguage: schemaLanguage(locale),
+    provider: {
+      '@type': 'Organization',
+      name: t.site.name,
+      url: `${SITE_ORIGIN}/`,
     },
     ...(input.image
       ? {
@@ -124,7 +149,10 @@ export function articleSchema(input: {
   image?: string;
   datePublished: string;
   dateModified?: string;
+  locale?: MaybeLocale;
 }) {
+  const locale = input.locale ?? defaultLocale;
+  const t = getTranslations(locale);
   return {
     '@context': 'https://schema.org',
     '@type': 'DiscussionForumPosting',
@@ -134,14 +162,14 @@ export function articleSchema(input: {
     ...(input.image ? { image: absoluteAssetUrl(input.image) } : {}),
     datePublished: input.datePublished,
     dateModified: input.dateModified ?? input.datePublished,
-    inLanguage: 'en-US',
+    inLanguage: schemaLanguage(locale),
     author: {
       '@type': 'Organization',
-      name: 'Rainbow Six Siege Cheats',
+      name: t.site.name,
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Rainbow Six Siege Cheats',
+      name: t.site.name,
       logo: {
         '@type': 'ImageObject',
         url: `${SITE_ORIGIN}/logo.png`,

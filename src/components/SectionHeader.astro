@@ -5,12 +5,13 @@ interface Props {
   desc?: string;
   titleId?: string;
   centered?: boolean;
+  class?: string;
 }
 
-const { eyebrow, title, desc, titleId, centered = false } = Astro.props;
+const { eyebrow, title, desc, titleId, centered = false, class: className } = Astro.props;
 ---
 
-<header class:list={['section-header', { 'section-header-center': centered }]} data-reveal>
+<header class:list={['section-header', { 'section-header-center': centered }, className]} data-reveal>
   <p class="section-label">{eyebrow}</p>
   <h2 id={titleId} class="section-title">{title}</h2>
   {desc && <p class="section-desc">{desc}</p>}

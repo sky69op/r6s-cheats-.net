@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { t } from '../i18n';
+import { getTranslations, htmlLang, ogLocales, hrefLang, locales, defaultLocale, resolveLocale } from '../i18n';
 import {
   canonicalUrl,
   DEFAULT_OG_IMAGE,
@@ -9,7 +9,9 @@ import {
   GA_MEASUREMENT_ID,
   GSC_VERIFICATION,
   absoluteAssetUrl,
+  metaDescription,
 } from '../config/seo';
+import { basePathFromUrl, localizedPath } from '../utils/path';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import JsonLd from '../components/JsonLd.astro';
@@ -27,6 +29,9 @@ interface Props {
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
+const locale = resolveLocale(Astro.currentLocale);
+const t = getTranslations(locale);
+
 const {
   title = t.site.title,
   description = t.site.description,
@@ -40,14 +45,18 @@ const {
 } = Astro.props;
 
 const canonical = canonicalUrl(Astro.url.pathname);
+const metaDesc = metaDescription(description);
 const ogImageUrl = absoluteAssetUrl(ogImage);
 const robotsContent = noindex
   ? 'noindex, nofollow'
   : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+const alternateLocales = locales.filter((code) => code !== locale);
+const pageBasePath = basePathFromUrl(Astro.url.pathname);
+const xDefaultHref = canonicalUrl(localizedPath(defaultLocale, pageBasePath));
 ---
 
 <!doctype html>
-<html lang="en" data-theme="r6s">
+<html lang={htmlLang[locale]} data-theme="r6s">
   <head>
     <meta charset="UTF-8" />
     <script is:inline define:vars={{ checkoutRedirectMap: CHECKOUT_REDIRECT_MAP }}>
@@ -93,12 +102,22 @@ const robotsContent = noindex
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={metaDesc} />
     <meta name="author" content={t.site.name} />
     <meta name="robots" content={robotsContent} />
     <meta name="googlebot" content={robotsContent} />
     <meta name="theme-color" content="#7F3DEE" />
     <link rel="canonical" href={canonical} />
+    {
+      locales.map((code) => (
+        <link
+          rel="alternate"
+          hreflang={hrefLang[code]}
+          href={canonicalUrl(localizedPath(code, pageBasePath))}
+        />
+      ))
+    }
+    <link rel="alternate" hreflang="x-default" href={xDefaultHref} />
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
@@ -118,7 +137,7 @@ const robotsContent = noindex
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={metaDesc} />
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:secure_url" content={ogImageUrl} />
     <meta property="og:image:alt" content={ogImageAlt} />
@@ -127,7 +146,10 @@ const robotsContent = noindex
     <meta property="og:url" content={canonical} />
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={t.site.name} />
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale" content={ogLocales[locale]} />
+    {alternateLocales.map((code) => (
+      <meta property="og:locale:alternate" content={ogLocales[code]} />
+    ))}
 
     {
       ogType === 'article' && articlePublishedTime && (
@@ -144,7 +166,7 @@ const robotsContent = noindex
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:description" content={metaDesc} />
     <meta name="twitter:image" content={ogImageUrl} />
     <meta name="twitter:image:alt" content={ogImageAlt} />
 
@@ -160,29 +182,18 @@ const robotsContent = noindex
     <link
       href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Manrope:wght@400;500;600&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Manrope:wght@400;500;600&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
 
     {jsonLd && <JsonLd data={jsonLd} />}
     <slot name="head" />
-
-    {
-      GA_MEASUREMENT_ID && (
-        <>
-          <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} />
-          <script
-            is:inline
-            define:vars={{ GA_MEASUREMENT_ID }}
-          >
-            window.dataLayer = window.dataLayer || [];
-            function gtag() {
-              dataLayer.push(arguments);
-            }
-            gtag('js', new Date());
-            gtag('config', GA_MEASUREMENT_ID, { anonymize_ip: true });
-          </script>
-        </>
-      )
-    }
   </head>
   <body class="min-h-screen bg-background text-foreground antialiased">
     <div class="dust-layer" aria-hidden="true"></div>

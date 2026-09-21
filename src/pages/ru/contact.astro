@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getTranslations, defaultLocale } from '../../i18n';
+import { pageTitle } from '../../config/seo';
+import { localizedPath } from '../../utils/path';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import IconArrow from '../../components/IconArrow.astro';
+import { breadcrumbSchema, webPageSchema } from '../../utils/schema';
+
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
+const content = t.legalPages.contact;
+---
+
+<BaseLayout
+  title={pageTitle(content.title)}
+  description={content.description}
+  jsonLd={[
+    webPageSchema({
+      name: content.title,
+      description: content.description,
+      url: localizedPath(locale, '/contact/'),
+      locale,
+    }),
+    breadcrumbSchema([
+      { name: t.ui.breadcrumbs.home, path: localizedPath(locale, '/') },
+      { name: t.footer.contact, path: localizedPath(locale, '/contact/') },
+    ]),
+  ]}
+>
+  <section class="section-shell">
+    <div class="container section-center ui-container">
+      <div class="max-w-2xl text-left">
+        <Breadcrumbs
+          items={[
+            { name: t.ui.breadcrumbs.home, path: localizedPath(locale, '/') },
+            { name: t.footer.contact, path: localizedPath(locale, '/contact/') },
+          ]}
+        />
+        <h1 class="section-title mt-4 text-left normal-case" style="text-transform: none;">
+          {t.contact.title}
+        </h1>
+        <p class="mt-4 text-lg leading-relaxed text-(--text-muted)">{t.contact.subtitle}</p>
+
+        <aside class="ui-card mt-10 p-6 text-left">
+          <p class="text-sm font-semibold text-foreground">{t.contact.asideTitle}</p>
+          <ul class="ui-stack mt-4">
+            {t.contact.asideItems.map((item) => (
+              <li class="flex gap-3">
+                <span class="faq-num">{item.num}</span>
+                <div>
+                  <p class="text-sm font-medium text-foreground">{item.title}</p>
+                  <p class="mt-0.5 text-sm text-(--text-muted)">{item.desc}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </aside>
+
+        <div class="ui-cluster mt-10">
+          <a href={localizedPath(locale, '/faq/')} class="btn btn-outline">
+            Read FAQ
+            <IconArrow />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

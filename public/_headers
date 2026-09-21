@@ -27,3 +27,9 @@
 
 /sitemap.xml
   Cache-Control: public, max-age=86400
+
+/404.html
+  X-Robots-Tag: noindex, nofollow
+
+/go/*
+  X-Robots-Tag: noindex, nofollow

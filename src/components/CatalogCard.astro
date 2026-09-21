@@ -14,6 +14,8 @@ interface Props {
   variant?: 'essential' | 'popular' | 'limited';
   buyLabel?: string;
   viewLabel?: string;
+  popularLabel?: string;
+  moreFeaturesLabel?: string;
   revealDelay?: number;
 }
 
@@ -26,8 +28,10 @@ const {
   more = 0,
   icon = 'package',
   variant,
-  buyLabel = 'Buy',
-  viewLabel = 'Details',
+  buyLabel = 'Get',
+  viewLabel = 'View',
+  popularLabel = 'Popular',
+  moreFeaturesLabel = 'more features',
   revealDelay = 0,
 } = Astro.props;
 
@@ -36,15 +40,15 @@ const shortTitle = title.replace(/^(R6S|Rainbow Six Siege)\s+/i, '');
 ---
 
 <article
-  class:list={['cheat-card', 'group', { 'cheat-card--standard': variant === 'popular' }]}
+  class:list={['ui-card', 'cheat-card', 'group', { 'cheat-card--standard': variant === 'popular' }]}
   data-reveal
   style={revealDelay ? `--reveal-delay: ${revealDelay}ms` : undefined}
 >
-  {variant === 'popular' && <span class="cheat-card__ribbon">Popular</span>}
+  {variant === 'popular' && <span class="cheat-card__ribbon">{popularLabel}</span>}
   <div class="cheat-card__scanline" aria-hidden="true"></div>
   <div class="cheat-card__inner">
     <div class="cheat-card__head">
-      <div class="icon-shell">
+      <div class="ui-icon-wrap icon-shell">
         <Icon name={icon} size={22} />
       </div>
       <span class="catalog-card__label">{label}</span>
@@ -62,7 +66,7 @@ const shortTitle = title.replace(/^(R6S|Rainbow Six Siege)\s+/i, '');
         </li>
       ))}
       {more > 0 && (
-        <li class="catalog-card__more">+{more} more features</li>
+        <li class="catalog-card__more">+{more} {moreFeaturesLabel}</li>
       )}
     </ul>
 

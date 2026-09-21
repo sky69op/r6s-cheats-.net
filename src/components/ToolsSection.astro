@@ -1,13 +1,15 @@
 ---
-import { t } from '../i18n';
-import { productPages } from '../data/products';
+import { getTranslations, defaultLocale } from '../i18n';
+import { getProductPages } from '../data/products';
 import { productCategoryIcons } from '../data/sectionIcons';
 import SectionHeader from './SectionHeader.astro';
 import CatalogCard from './CatalogCard.astro';
 import { toolPath } from '../utils/path';
 
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
 const s = t.tools;
-const utilityProducts = productPages.filter((p) => p.kind === 'utility');
+const utilityProducts = getProductPages(locale).filter((p) => p.kind === 'utility');
 ---
 
 <section id="tools" class="section-shell" aria-labelledby="tools-title">
@@ -19,13 +21,14 @@ const utilityProducts = productPages.filter((p) => p.kind === 'utility');
         <CatalogCard
           label={product.category ?? 'Utility'}
           title={product.title}
-          href={toolPath(product.slug)}
+          href={toolPath(product.slug, locale)}
           buyUrl={product.buyUrl}
           features={product.features}
           more={product.more}
-          icon={productCategoryIcons[product.category ?? ''] ?? 'package'}
-          buyLabel="Buy"
-          viewLabel="Details"
+          icon={productCategoryIcons[product.categoryKey ?? 'system_utility'] ?? 'package'}
+          buyLabel={t.ui.get}
+          viewLabel={t.ui.view}
+          moreFeaturesLabel={t.ui.moreFeatures}
           revealDelay={i * 80}
         />
       ))}

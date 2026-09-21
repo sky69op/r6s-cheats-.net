@@ -1,55 +1,66 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { getAllProductSlugs, getProductPage, productHub } from '../../../data/products';
+import {
+  getProductPage,
+  getToolSeoDescription,
+  getToolSeoTitle,
+  getUtilitySlugs,
+  getProductHub,
+} from '../../../data/products';
+import { getTranslations, defaultLocale } from '../../../i18n';
 import { pageTitle } from '../../../config/seo';
+import { localizedPath } from '../../../utils/path';
 import {
   breadcrumbSchema,
   softwareApplicationSchema,
 } from '../../../utils/schema';
-import ProductDetail from '../../../components/ProductDetail.astro';
 import ToolDetail from '../../../components/tool-detail/ToolDetail.astro';
 
 const UTILITY_SLUGS = new Set(['ugc', 'unlock-all', 'hwid-spoofer']);
 
 export function getStaticPaths() {
-  return getAllProductSlugs().map((slug) => ({ params: { slug } }));
+  return getUtilitySlugs().map((slug) => ({ params: { slug } }));
 }
 
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
+const productHub = getProductHub(locale);
 const { slug } = Astro.params;
-const product = getProductPage(slug!);
+const product = getProductPage(slug!, locale);
 
 if (!product) {
-  return Astro.redirect(productHub.path);
+  return Astro.redirect(localizedPath(locale, productHub.path));
 }
 
-const isUtilityTool = product.kind === 'utility' && UTILITY_SLUGS.has(product.slug);
+if (!UTILITY_SLUGS.has(product.slug)) {
+  return Astro.redirect(localizedPath(locale, `/cheats/${product.slug}/`));
+}
 
-const pagePath = `${productHub.path}${product.slug}/`;
+const pagePath = localizedPath(locale, `${productHub.path}${product.slug}/`);
+const seoTitle = getToolSeoTitle(product.slug, locale, product.title);
+const seoDescription = getToolSeoDescription(product.slug, locale, product.desc);
 const breadcrumbs = [
-  { name: 'Home', path: '/' },
-  { name: 'Tools', path: productHub.path },
+  { name: t.ui.breadcrumbs.home, path: localizedPath(locale, '/') },
+  { name: t.ui.breadcrumbs.tools, path: localizedPath(locale, productHub.path) },
   { name: product.title, path: pagePath },
 ];
 ---
 
 <BaseLayout
-  title={pageTitle(product.title)}
-  description={product.desc}
+  title={pageTitle(seoTitle)}
+  description={seoDescription}
+  ogImage={product.images[0]?.src}
+  ogImageAlt={product.images[0]?.alt ?? seoTitle}
   jsonLd={[
     softwareApplicationSchema({
-      name: product.title,
-      description: product.desc,
+      name: seoTitle,
+      description: seoDescription,
       url: pagePath,
       image: product.images[0]?.src,
+      locale,
     }),
     breadcrumbSchema(breadcrumbs),
   ]}
 >
-  {
-    isUtilityTool ? (
-      <ToolDetail product={product} breadcrumbs={breadcrumbs} />
-    ) : (
-      <ProductDetail product={product} breadcrumbs={breadcrumbs} />
-    )
-  }
+  <ToolDetail product={product} breadcrumbs={breadcrumbs} />
 </BaseLayout>

@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAllFaqs } from '../../data/faq';
+import { getTranslations, defaultLocale } from '../../i18n';
+import { pageTitle } from '../../config/seo';
+import { localizedPath } from '../../utils/path';
+import { breadcrumbSchema, faqPageSchema, webPageSchema } from '../../utils/schema';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import FaqSection from '../../components/FaqSection.astro';
+
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
+
+const breadcrumbs = [
+  { name: t.ui.breadcrumbs.home, path: localizedPath(locale, '/') },
+  { name: t.ui.breadcrumbs.faq, path: localizedPath(locale, '/faq/') },
+];
+
+const faqs = getAllFaqs(locale);
+---
+
+<BaseLayout
+  title={pageTitle(t.faq.pageTitle)}
+  description={t.faq.pageDescription}
+  jsonLd={[
+    webPageSchema({
+      name: t.faq.pageTitle,
+      description: t.faq.pageDescription,
+      url: localizedPath(locale, '/faq/'),
+      locale,
+    }),
+    breadcrumbSchema(breadcrumbs),
+    faqPageSchema(faqs.map((f, i) => ({ num: String(i + 1).padStart(2, '0'), q: f.q, a: f.a.replace(/<[^>]+>/g, '') }))),
+  ]}
+>
+  <section class="section-shell section-band pt-8">
+    <div class="container mx-auto max-w-3xl ui-container">
+      <Breadcrumbs items={breadcrumbs} />
+      <FaqSection
+        items={faqs}
+        eyebrow={t.faq.eyebrow}
+        title={t.faq.title}
+        subtitle={t.faq.subtitle}
+        titleId="faq-page-title"
+        showFilters
+        topicLabels={t.faq.topics}
+        class="mt-6"
+      />
+    </div>
+  </section>
+</BaseLayout>

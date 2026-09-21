@@ -1,11 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { t } from '../i18n';
+import { getTranslations, defaultLocale } from '../i18n';
 import { pageTitle } from '../config/seo';
+import { localizedPath } from '../utils/path';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import IconArrow from '../components/IconArrow.astro';
 import { breadcrumbSchema, webPageSchema } from '../utils/schema';
 
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
 const content = t.legalPages.contact;
 ---
 
@@ -14,23 +17,24 @@ const content = t.legalPages.contact;
   description={content.description}
   jsonLd={[
     webPageSchema({
-      name: t.contact.title,
-      description: t.contact.subtitle,
-      url: '/contact/',
+      name: content.title,
+      description: content.description,
+      url: localizedPath(locale, '/contact/'),
+      locale,
     }),
     breadcrumbSchema([
-      { name: 'Home', path: '/' },
-      { name: 'Contact', path: '/contact/' },
+      { name: t.ui.breadcrumbs.home, path: localizedPath(locale, '/') },
+      { name: t.footer.contact, path: localizedPath(locale, '/contact/') },
     ]),
   ]}
 >
   <section class="section-shell">
-    <div class="container section-center">
+    <div class="container section-center ui-container">
       <div class="max-w-2xl text-left">
         <Breadcrumbs
           items={[
-            { name: 'Home', path: '/' },
-            { name: 'Contact', path: '/contact/' },
+            { name: t.ui.breadcrumbs.home, path: localizedPath(locale, '/') },
+            { name: t.footer.contact, path: localizedPath(locale, '/contact/') },
           ]}
         />
         <h1 class="section-title mt-4 text-left normal-case" style="text-transform: none;">
@@ -38,9 +42,9 @@ const content = t.legalPages.contact;
         </h1>
         <p class="mt-4 text-lg leading-relaxed text-(--text-muted)">{t.contact.subtitle}</p>
 
-        <aside class="mt-10 rounded-lg border border-(--border) bg-(--surface) p-6 text-left">
+        <aside class="ui-card mt-10 p-6 text-left">
           <p class="text-sm font-semibold text-foreground">{t.contact.asideTitle}</p>
-          <ul class="mt-4 space-y-4">
+          <ul class="ui-stack mt-4">
             {t.contact.asideItems.map((item) => (
               <li class="flex gap-3">
                 <span class="faq-num">{item.num}</span>
@@ -53,8 +57,8 @@ const content = t.legalPages.contact;
           </ul>
         </aside>
 
-        <div class="mt-10 flex flex-wrap gap-3">
-          <a href="/faq/" class="btn btn-outline">
+        <div class="ui-cluster mt-10">
+          <a href={localizedPath(locale, '/faq/')} class="btn btn-outline">
             Read FAQ
             <IconArrow />
           </a>

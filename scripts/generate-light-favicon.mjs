@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
-import { removeBackground } from './process-brand-images.mjs';
+import { generateHeaderLogoVariants, removeBackground } from './process-brand-images.mjs';
 
 export async function generateLightFavicon() {
   const root = process.cwd();
@@ -20,7 +20,12 @@ export async function generateLightFavicon() {
     feather: 8,
   });
 
-  await sharp(processedPath).resize(512, 512, transparentFit).png().toFile(logoLight);
+  await sharp(processedPath)
+    .resize(512, 512, transparentFit)
+    .png({ compressionLevel: 9, palette: true })
+    .toFile(logoLight);
+
+  await generateHeaderLogoVariants(logoLight, 'logo-light');
 
   await sharp(logoLight).resize(32, 32, transparentFit).png().toFile(path.join(publicDir, 'favicon-32-light.png'));
   await sharp(logoLight).resize(16, 16, transparentFit).png().toFile(path.join(publicDir, 'favicon-16-light.png'));

@@ -1,16 +1,60 @@
 import type { SitemapItem } from '@astrojs/sitemap';
-import { forumPosts } from '../data/forums';
+import { locales } from '../i18n/config';
+import { getForumPosts } from '../data/forums';
+import { localizedPath } from '../utils/path';
 import { parseForumDate } from '../utils/schema';
+import pagePriorities from './sitemap-priorities.json';
 
+type ChangeFreq = SitemapItem['changefreq'];
+
+interface PageMeta {
+  priority: number;
+  changefreq: ChangeFreq;
+}
+
+const localeWeights =
+  (pagePriorities as Record<string, unknown>)._localeWeights as Record<string, number> | undefined;
+
+function buildPriorityMap(): Map<string, PageMeta> {
+  const map = new Map<string, PageMeta>();
+  const basePages = Object.fromEntries(
+    Object.entries(pagePriorities as Record<string, PageMeta | Record<string, number>>).filter(
+      ([key]) => !key.startsWith('_'),
+    ),
+  ) as Record<string, PageMeta>;
+
+  for (const [path, meta] of Object.entries(basePages)) {
+    for (const locale of locales) {
+      const weight = localeWeights?.[locale] ?? 1;
+      map.set(localizedPath(locale, path), {
+        priority: Math.min(1, Number((meta.priority * weight).toFixed(1))),
+        changefreq: meta.changefreq,
+      });
+    }
+  }
+
+  return map;
+}
+
+const PAGE_META = buildPriorityMap();
 const buildDate = new Date().toISOString();
 
 const forumLastmod = new Map(
-  forumPosts.map((post) => [`/forums/${post.slug}/`, parseForumDate(post.date)] as const),
+  getForumPosts('en').flatMap((post) =>
+    locales.map(
+      (locale) =>
+        [localizedPath(locale, `/forums/${post.slug}/`), parseForumDate(post.date)] as const,
+    ),
+  ),
 );
 
 function pathnameFromUrl(url: string): string {
   const path = new URL(url).pathname;
   return path.endsWith('/') ? path : `${path}/`;
+}
+
+export function getIndexablePaths(): string[] {
+  return [...PAGE_META.keys()].sort();
 }
 
 export function sitemapSerialize(item: SitemapItem): SitemapItem | undefined {
@@ -20,40 +64,14 @@ export function sitemapSerialize(item: SitemapItem): SitemapItem | undefined {
     return undefined;
   }
 
-  item.lastmod = buildDate;
-
-  if (path === '/') {
-    item.priority = 1;
-    item.changefreq = 'weekly';
-    return item;
+  const meta = PAGE_META.get(path);
+  if (!meta) {
+    return undefined;
   }
 
-  if (path === '/forums/') {
-    item.priority = 0.9;
-    item.changefreq = 'weekly';
-    return item;
-  }
+  item.priority = meta.priority;
+  item.changefreq = meta.changefreq;
+  item.lastmod = forumLastmod.get(path) ?? buildDate;
 
-  if (path.startsWith('/forums/')) {
-    item.priority = 0.7;
-    item.changefreq = 'monthly';
-    item.lastmod = forumLastmod.get(path) ?? buildDate;
-    return item;
-  }
-
-  if (path.startsWith('/tools/') || path.startsWith('/cheats/')) {
-    item.priority = 0.8;
-    item.changefreq = 'weekly';
-    return item;
-  }
-
-  if (path === '/about/' || path === '/contact/' || path === '/privacy/' || path === '/faq/') {
-    item.priority = 0.5;
-    item.changefreq = 'yearly';
-    return item;
-  }
-
-  item.priority = 0.6;
-  item.changefreq = 'monthly';
   return item;
 }

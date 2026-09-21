@@ -29,4 +29,5 @@ export type IconName =
   | 'layers'
   | 'monitor'
   | 'x'
-  | 'circleCheck';
+  | 'circleCheck'
+  | 'globe';

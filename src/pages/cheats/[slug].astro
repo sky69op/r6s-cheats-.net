@@ -1,7 +1,15 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getAllCheatSlugs, getCheatPage, cheatsHub } from '../../data/products';
+import {
+  getAllCheatSlugs,
+  getCheatPage,
+  getCheatsHub,
+  getCheatSeoDescription,
+  getCheatSeoTitle,
+} from '../../data/products';
+import { getTranslations, defaultLocale } from '../../i18n';
 import { pageTitle } from '../../config/seo';
+import { localizedPath } from '../../utils/path';
 import {
   breadcrumbSchema,
   softwareApplicationSchema,
@@ -12,30 +20,38 @@ export function getStaticPaths() {
   return getAllCheatSlugs().map((slug) => ({ params: { slug } }));
 }
 
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
 const { slug } = Astro.params;
-const product = getCheatPage(slug!);
+const cheatsHub = getCheatsHub(locale);
+const product = getCheatPage(slug!, locale);
 
 if (!product) {
-  return Astro.redirect(cheatsHub.path);
+  return Astro.redirect(localizedPath(locale, cheatsHub.path));
 }
 
-const pagePath = `${cheatsHub.path}${product.slug}/`;
+const pagePath = localizedPath(locale, `${cheatsHub.path}${product.slug}/`);
+const seoTitle = getCheatSeoTitle(product.slug, locale, product.title);
+const seoDescription = getCheatSeoDescription(product.slug, locale, product.desc);
 const breadcrumbs = [
-  { name: 'Home', path: '/' },
-  { name: 'Cheats', path: cheatsHub.path },
+  { name: t.ui.breadcrumbs.home, path: localizedPath(locale, '/') },
+  { name: t.ui.breadcrumbs.cheats, path: localizedPath(locale, cheatsHub.path) },
   { name: product.name, path: pagePath },
 ];
 ---
 
 <BaseLayout
-  title={pageTitle(`${product.name} R6S Cheats`)}
-  description={product.desc}
+  title={pageTitle(seoTitle)}
+  description={seoDescription}
+  ogImage={product.images[0]?.src}
+  ogImageAlt={product.images[0]?.alt ?? seoTitle}
   jsonLd={[
     softwareApplicationSchema({
-      name: product.name,
-      description: product.desc,
+      name: seoTitle,
+      description: seoDescription,
       url: pagePath,
       image: product.images[0]?.src,
+      locale,
     }),
     breadcrumbSchema(breadcrumbs),
   ]}

@@ -1,6 +1,7 @@
 ---
-import { t } from '../i18n';
+import { getTranslations, defaultLocale } from '../i18n';
 import { featureIcons } from '../data/sectionIcons';
+import { localizedPath } from '../utils/path';
 import SectionHeader from './SectionHeader.astro';
 import Icon from './icons/Icon.astro';
 
@@ -18,6 +19,8 @@ const {
   class: className,
 } = Astro.props;
 
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
 const s = t.features;
 ---
 
@@ -40,15 +43,14 @@ const s = t.features;
 
         return (
           <article
-            class:list={['feature-block', { 'feature-block--center': centerLast }]}
+            class:list={['ui-card', 'ui-card--flat', 'feature-block', { 'feature-block--center': centerLast }]}
             data-reveal
             style={`--reveal-delay: ${index * 60}ms`}
           >
             <div class="feature-block-head">
               <span class="icon-wrap icon-wrap-sm feature-block-icon">
-                <Icon name={featureIcons[item.title] ?? 'crosshair'} size={16} />
+                <Icon name={featureIcons[item.id] ?? 'crosshair'} size={16} />
               </span>
-              <p class="feature-name">{item.title}</p>
             </div>
             <div class="feature-block-divider" aria-hidden="true"></div>
             <p class="feature-headline">{item.subtitle}</p>
@@ -69,7 +71,7 @@ const s = t.features;
     {
       showSeeAll && (
         <div class="features-see-all mt-8" data-reveal>
-          <a href={s.seeAllHref} class="features-see-all-link">
+          <a href={localizedPath(locale, s.seeAllHref)} class="features-see-all-link">
             <span>{s.seeAll}</span>
             <span class="features-see-all-arrow" aria-hidden="true">→</span>
           </a>

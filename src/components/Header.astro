@@ -1,36 +1,60 @@
 ---
-import { t } from '../i18n';
+import { getTranslations, resolveLocale } from '../i18n';
 import { checkoutPath } from '../config/affiliate';
+import { localizedPath } from '../utils/path';
 import Icon from './icons/Icon.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
 
-const navIcons: Record<string, 'crosshair' | 'package' | 'layers' | 'mail' | 'monitor'> = {
-  Home: 'monitor',
-  Features: 'crosshair',
-  Cheats: 'package',
-  Tools: 'layers',
-  Forums: 'mail',
-};
+const locale = resolveLocale(Astro.currentLocale);
+const t = getTranslations(locale);
+
+const navIcons = {
+  home: 'monitor',
+  features: 'crosshair',
+  cheats: 'package',
+  tools: 'layers',
+  forums: 'mail',
+} as const;
 
 const purchaseUrl = checkoutPath('r6s');
 ---
 
 <header class="site-header">
   <div class="container site-header__bar">
-    <a href="/" class="site-logo-link inline-flex min-w-0 items-center gap-2" aria-label={t.ui.homeAria}>
+    <a href={localizedPath(locale, '/')} class="site-logo-link inline-flex min-w-0 items-center gap-2" aria-label={t.ui.homeAria}>
       <span class="site-logo-link__img-wrap shrink-0" aria-hidden="true">
-        <img src="/logo.png" alt="" width="32" height="32" class="site-logo-link__img theme-logo theme-logo--dark" />
-        <img src="/logo-light.png" alt="" width="32" height="32" class="site-logo-link__img theme-logo theme-logo--light" />
+        <img
+          src="/logo-36.webp"
+          srcset="/logo-36.webp 1x, /logo-72.webp 2x"
+          alt=""
+          width="36"
+          height="36"
+          decoding="async"
+          fetchpriority="high"
+          class="site-logo-link__img theme-logo theme-logo--dark"
+        />
+        <img
+          src="/logo-light-36.webp"
+          srcset="/logo-light-36.webp 1x, /logo-light-72.webp 2x"
+          alt=""
+          width="36"
+          height="36"
+          decoding="async"
+          fetchpriority="high"
+          class="site-logo-link__img theme-logo theme-logo--light"
+        />
       </span>
-      <span class="logo-text truncate" aria-hidden="true">R6s<span class="logo-accent">Cheats</span></span>
+      <span class="logo-text site-logo-link__text truncate" aria-hidden="true">R6s<span class="logo-accent">Cheats</span></span>
     </a>
 
     <nav class="desktop-nav absolute left-1/2 hidden -translate-x-1/2 items-center gap-5 xl:gap-6 lg:flex" aria-label="Primary">
       {t.nav.map((link) => (
-        <a href={link.href} class="nav-link" data-nav-link>{link.label}</a>
+        <a href={localizedPath(locale, link.href)} class="nav-link" data-nav-link>{link.label}</a>
       ))}
     </nav>
 
     <div class="site-header__actions">
+      <LanguageSwitcher locale={locale} />
       <button
         type="button"
         class="theme-toggle"
@@ -53,23 +77,27 @@ const purchaseUrl = checkoutPath('r6s');
         type="button"
         class="menu-toggle"
         data-menu-toggle
+        data-label-open={t.ui.menuOpen}
+        data-label-close={t.ui.menuClose}
         aria-expanded="false"
         aria-controls="mobile-menu"
         aria-label={t.ui.menuOpen}
       >
-        <svg data-icon-menu width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg data-icon-menu width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" />
         </svg>
-        <svg data-icon-close class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg data-icon-close class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M6 6l12 12M18 6 6 18" stroke-linecap="round" />
         </svg>
       </button>
     </div>
 
+    <button type="button" class="mobile-nav-backdrop" data-mobile-backdrop aria-label={t.ui.menuClose} tabindex="-1"></button>
+
     <nav id="mobile-menu" class="mobile-nav" aria-label="Mobile" data-mobile-nav>
       {t.nav.map((link) => (
-        <a href={link.href} class="nav-link inline-flex items-center gap-2" data-mobile-link data-nav-link>
-          <Icon name={navIcons[link.label] ?? 'crosshair'} size={16} />
+        <a href={localizedPath(locale, link.href)} class="nav-link inline-flex items-center gap-2" data-mobile-link data-nav-link>
+          <Icon name={navIcons[link.id ?? 'home']} size={16} />
           {link.label}
         </a>
       ))}

@@ -3,13 +3,17 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import FeaturesSection from '../../components/FeaturesSection.astro';
 import ToolkitSection from '../../components/ToolkitSection.astro';
-import { t } from '../../i18n';
+import { getTranslations, defaultLocale } from '../../i18n';
 import { pageTitle } from '../../config/seo';
+import { localizedPath } from '../../utils/path';
 import { breadcrumbSchema, webPageSchema } from '../../utils/schema';
 
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
+
 const breadcrumbs = [
-  { name: 'Home', path: '/' },
-  { name: 'Features', path: '/features/' },
+  { name: t.ui.breadcrumbs.home, path: localizedPath(locale, '/') },
+  { name: t.ui.breadcrumbs.features, path: localizedPath(locale, '/features/') },
 ];
 ---
 
@@ -20,13 +24,14 @@ const breadcrumbs = [
     webPageSchema({
       name: t.features.pageTitle,
       description: t.features.pageDescription,
-      url: '/features/',
+      url: localizedPath(locale, '/features/'),
+      locale,
     }),
     breadcrumbSchema(breadcrumbs),
   ]}
 >
   <section class="section-shell section-band pt-8">
-    <div class="container section-center">
+    <div class="container section-center ui-container">
       <Breadcrumbs items={breadcrumbs} />
       <h1 id="features-page-title" class="section-title mt-4">{t.features.title}</h1>
       <p class="section-desc">{t.features.subtitle}</p>

@@ -55,25 +55,66 @@ function initReveal() {
 }
 
 function initMobileMenu() {
-  const toggle = document.querySelector('[data-menu-toggle]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
   const nav = document.querySelector('[data-mobile-nav]');
+  const backdrop = document.querySelector<HTMLButtonElement>('[data-mobile-backdrop]');
   const iconMenu = document.querySelector('[data-icon-menu]');
   const iconClose = document.querySelector('[data-icon-close]');
   const links = document.querySelectorAll('[data-mobile-link]');
 
   if (!toggle || !nav) return;
 
+  const labelOpen = toggle.dataset.labelOpen ?? 'Open menu';
+  const labelClose = toggle.dataset.labelClose ?? 'Close menu';
+
   const setOpen = (open: boolean) => {
     nav.classList.toggle('is-open', open);
+    toggle.classList.toggle('is-open', open);
+    backdrop?.classList.toggle('is-open', open);
     toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? labelClose : labelOpen);
     iconMenu?.classList.toggle('hidden', open);
     iconClose?.classList.toggle('hidden', !open);
+    document.body.classList.toggle('mobile-nav-open', open);
   };
 
   toggle.addEventListener('click', () => setOpen(!nav.classList.contains('is-open')));
+  backdrop?.addEventListener('click', () => setOpen(false));
   links.forEach((link) => link.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && nav.classList.contains('is-open')) {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
   window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => {
     if (e.matches) setOpen(false);
+  });
+}
+
+function initLanguageSwitcher() {
+  const root = document.querySelector('[data-lang-switcher]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-lang-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-lang-menu]');
+
+  if (!root || !toggle || !menu) return;
+
+  const setOpen = (open: boolean) => {
+    menu.hidden = !open;
+    toggle.setAttribute('aria-expanded', String(open));
+  };
+
+  toggle.addEventListener('click', (event) => {
+    event.stopPropagation();
+    setOpen(menu.hidden);
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!root.contains(event.target as Node)) setOpen(false);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setOpen(false);
   });
 }
 
@@ -250,22 +291,30 @@ function initHeroBackground() {
 }
 
 function initNavHighlight() {
-  const path = window.location.pathname.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
+  const rawPath = window.location.pathname.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
   const hash = window.location.hash;
+  const localeRoots = ['/ru', '/de', '/es', '/fr', '/pt'];
+  const isLocaleHome = localeRoots.includes(rawPath);
 
   document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]').forEach((link) => {
     const href = link.getAttribute('href') ?? '';
     let isActive = false;
 
-    if (href.startsWith('/#')) {
+    if (href.includes('#')) {
+      const linkHash = href.slice(href.indexOf('#'));
+      const linkPath = href.slice(0, href.indexOf('#')).replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
+      isActive =
+        (rawPath === linkPath || (linkPath === '/' && isLocaleHome)) &&
+        hash === linkHash;
+    } else if (href.startsWith('/#')) {
       const linkHash = href.slice(1);
-      isActive = (path === '/' || path === '') && hash === linkHash;
+      isActive = (rawPath === '/' || isLocaleHome) && hash === linkHash;
     } else {
       const linkPath = href.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
       if (linkPath === '/') {
-        isActive = (path === '/' || path === '') && !hash;
+        isActive = (rawPath === '/' || isLocaleHome) && !hash;
       } else {
-        isActive = path === linkPath || path.startsWith(`${linkPath}/`);
+        isActive = rawPath === linkPath || rawPath.startsWith(`${linkPath}/`);
       }
     }
 
@@ -306,6 +355,7 @@ if (document.readyState === 'loading') {
     initFonts();
     initReveal();
     initMobileMenu();
+    initLanguageSwitcher();
     initThemeToggle();
     initFaqFilters();
     initHeroCharacterMotion();
@@ -316,6 +366,7 @@ if (document.readyState === 'loading') {
   initFonts();
   initReveal();
   initMobileMenu();
+  initLanguageSwitcher();
   initThemeToggle();
   initFaqFilters();
   initHeroCharacterMotion();

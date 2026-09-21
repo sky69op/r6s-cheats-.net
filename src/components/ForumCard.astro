@@ -2,26 +2,37 @@
 import { displayForumTitle } from '../data/forums';
 import type { ForumPost } from '../i18n/types';
 import { forumPostPath } from '../utils/path';
+import { getTranslations, defaultLocale } from '../i18n';
+import Icon from './icons/Icon.astro';
+import IconArrow from './IconArrow.astro';
 
 interface Props {
   post: ForumPost;
   compact?: boolean;
 }
 
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
 const { post, compact = false } = Astro.props;
-const path = forumPostPath(post.slug);
+const path = forumPostPath(post.slug, locale);
 const title = displayForumTitle(post.title);
 ---
 
-<article class:list={['forum-card', 'forum-card--listing', compact && 'forum-card--compact']}>
+<article class:list={['ui-card', 'forum-card', 'forum-card--listing', compact && 'forum-card--compact']}>
+  <a href={path} class="forum-card-hit" aria-label={`${t.forums.read}: ${title}`}></a>
   <div class="forum-card-body">
     <span class="forum-card-badge">{post.tag}</span>
-    <h2 class="forum-card-title">
-      <a href={path}>{title}</a>
-    </h2>
+    <h2 class="forum-card-title">{title}</h2>
     <p class="forum-card-desc">{post.desc}</p>
-    <a href={path} class="forum-card-link" aria-label={`Read thread: ${title}`}>
-      {title} →
-    </a>
+    <div class="forum-card-meta">
+      <span><Icon name="calendar" size={14} /> {post.date}</span>
+      <span><Icon name="clock" size={14} /> {post.readTime}</span>
+    </div>
+    <div class="forum-card-footer">
+      <span class="forum-card-link">
+        {t.forums.read}
+        <IconArrow />
+      </span>
+    </div>
   </div>
 </article>

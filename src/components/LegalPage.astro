@@ -1,7 +1,6 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { t } from '../i18n';
-import { pageTitle } from '../config/seo';
+import { getTranslations, defaultLocale } from '../i18n';
+import { localizedPath } from '../utils/path';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Icon from './icons/Icon.astro';
 
@@ -12,14 +11,16 @@ interface Props {
   sections: { heading: string; paragraphs: string[] }[];
 }
 
+const locale = Astro.currentLocale ?? defaultLocale;
+const t = getTranslations(locale);
 const { title, description, breadcrumbLabel, sections } = Astro.props;
 ---
 
 <article class="section-shell">
-  <div class="container mx-auto max-w-3xl text-left">
+  <div class="container mx-auto max-w-3xl ui-container text-left">
     <Breadcrumbs
       items={[
-        { name: 'Home', path: '/' },
+        { name: t.ui.breadcrumbs.home, path: localizedPath(locale, '/') },
         { name: breadcrumbLabel, path: Astro.url.pathname },
       ]}
     />
@@ -27,7 +28,7 @@ const { title, description, breadcrumbLabel, sections } = Astro.props;
       <h1 class="section-title text-left normal-case" style="text-transform: none; font-size: clamp(1.75rem, 4vw, 2.25rem);">
         {title}
       </h1>
-      <p class="mt-4 text-lg leading-relaxed text-[var(--text-muted)]">{description}</p>
+      <p class="mt-4 text-lg leading-relaxed text-(--text-muted)">{description}</p>
     </header>
 
     <div class="legal-prose mt-10">
@@ -41,12 +42,12 @@ const { title, description, breadcrumbLabel, sections } = Astro.props;
       ))}
     </div>
 
-    <div class="mt-12 flex flex-wrap gap-3 border-t border-[var(--border)] pt-8">
-      <a href="/contact/" class="btn btn-primary text-sm">
-        Contact support
+    <div class="ui-cluster mt-12 border-t border-(--border) pt-8">
+      <a href={localizedPath(locale, '/contact/')} class="btn btn-primary btn-sm">
+        {t.footer.contact}
         <Icon name="mail" size={16} />
       </a>
-      <a href="/" class="btn btn-outline text-sm">Back to home</a>
+      <a href={localizedPath(locale, '/')} class="btn btn-outline btn-sm">{t.ui.backToHome}</a>
     </div>
   </div>
 </article>

@@ -1,0 +1,459 @@
+import type { Translations } from './types';
+
+const toolsBase = '/tools/r6s-cheats/';
+
+export const es: Translations = {
+  site: {
+    name: 'R6s Cheats',
+    domain: 'r6scheats.net',
+    title: 'Hacks R6S: Trucos, Aimbot, ESP y Wallhack',
+    description:
+      'Trucos R6S directos desde r6scheats.net—Lite ESP y radar, Pro aimbot y triggerbot, Elite unlock all. Loader compatible con BattlEye y estado de parches en vivo para PC.',
+  },
+  nav: [
+    { id: 'home', href: '/', label: 'Inicio' },
+    { id: 'features', href: '/features/', label: 'Funciones' },
+    { id: 'cheats', href: '/cheats/', label: 'Trucos' },
+    { id: 'tools', href: '/tools/r6s-cheats/', label: 'Herramientas' },
+    { id: 'forums', href: '/forums/', label: 'Foros' },
+  ],
+  hero: {
+    status: 'Rainbow Six Siege — build del parche en línea',
+    eyebrow: 'Rainbow Six Siege',
+    titleLine1: 'R6s',
+    titleLine2: 'Cheats',
+    subtitle:
+      'Directo del equipo de build—sin revendedores. Un loader, tres niveles y banner de estado en vivo tras cada parche BattlEye para ranked en PC.',
+    ctaPrimary: 'Ver niveles de trucos',
+    modesLabel: 'Modos de Rainbow Six Siege',
+    modes: ['Ranked', 'Unranked', 'Partida rápida', 'Partidas personalizadas'],
+    statusPills: [
+      { icon: 'eye', label: 'ESP activo' },
+      { icon: 'radar', label: 'Radar online' },
+      { icon: 'zap', label: 'Build de temporada' },
+      { icon: 'shield', label: 'Compatible con BattlEye' },
+      { icon: 'crosshair', label: 'Soft Aim listo' },
+      { icon: 'target', label: 'No Recoil' },
+      { icon: 'stream', label: 'Stream Proof' },
+      { icon: 'package', label: 'Loot ESP' },
+      { icon: 'eye', label: 'Skeleton ESP' },
+      { icon: 'radar', label: 'UAV Radar' },
+      { icon: 'package', label: 'Map Hack' },
+      { icon: 'headphones', label: 'Soporte 24/7' },
+      { icon: 'zap', label: 'Entrega instantánea' },
+      { icon: 'shield', label: 'Seguro en ranked' },
+      { icon: 'crosshair', label: 'Trigger Bot' },
+      { icon: 'target', label: 'Selección de huesos' },
+      { icon: 'alert', label: 'Estado en vivo' },
+      { icon: 'refresh', label: 'Auto-actualizaciones' },
+    ],
+  },
+  features: {
+    pageTitle: 'Funciones de trucos R6S — Aimbot, ESP, Wallhack y Radar 2D',
+    pageDescription:
+      'Aimbot suave con soft aim, multipoint bones y círculo FOV, ESP con caja 2D, wallhack de esqueleto, ESP de gadgets, círculo en la cabeza, radar 2D, triggerbot, sin retroceso, no spread y configs guardar/cargar para PC en Steam y Ubisoft Connect.',
+    eyebrow: 'Funciones',
+    title: 'Todo lo que necesitas en un solo paquete',
+    subtitle: 'ESP, control de puntería y herramientas de utilidad para Rainbow Six Siege, mantenidas en cada parche.',
+    seeAll: 'Ver todas las funciones',
+    seeAllHref: '/features/',
+    items: [
+      {
+        title: 'Aimbot',
+        subtitle: 'Rastrea. Bloquea. Gana.',
+        desc: 'Aimbot suave con límites de FOV, selección de huesos y suavizado humanizado para operadores como Ash, Jäger y Vigil. El ajuste de retardo mantiene los flicks naturales en ranked.',
+        tags: ['r6s aimbot', 'soft aim', 'triggerbot', 'multipoint bones', 'r6 aimbot'],
+        points: ['Asistencia de puntería de operadores', 'Límites de FOV', 'Selección de huesos', 'Suavizado humanizado'],
+      },
+      {
+        title: 'ESP / Wallhack',
+        subtitle: 'Ve a los roamers antes de que flanqueen.',
+        desc: 'ESP de jugadores, localizador de gadgets, alertas de drones y seguimiento de posición enemiga a través de paredes—incluso fuera del campo de visión estándar.',
+        tags: ['r6s esp', '2d box esp', 'skeleton esp', 'r6s wallhack', 'head circle'],
+        points: ['Overlay de intel de jugadores', 'Wallhack de jugadores', 'Localizador de gadgets', 'Alertas de drones'],
+      },
+      {
+        title: 'ESP de drones y gadgets',
+        subtitle: 'Intel sin desperdiciar drones.',
+        desc: 'Marcadores de posición de drones, alertas de trampas e indicaciones de gadgets. No vuelvas a perder una Claymore, trampa de Kapkan o defensor roamer.',
+        tags: ['r6s drone hack', 'gadget esp', 'map hack', '2d radar', 'trap alerts'],
+        points: ['ESP de gadgets', 'Marcadores de drones', 'Alertas de trampas', 'Conciencia del mapa'],
+      },
+      {
+        title: 'Sin retroceso',
+        subtitle: 'Dispara como un pro.',
+        desc: 'Control de retroceso específico por arma con perfiles por fusil, reducción de dispersión y ajuste de retardo. Perfecto para entry fraggers y anchors con patrones de spray ajustados.',
+        tags: ['r6s no recoil', 'r6s cheat', 'recoil control r6', 'spray control'],
+        points: ['Control de retroceso', 'Perfiles de armas', 'Reducción de dispersión', 'Control de spray'],
+      },
+      {
+        title: 'Suite de utilidades',
+        subtitle: 'Herramientas extra para momentos decisivos.',
+        desc: 'Unlock All, triggerbot, speed hack y overlays a prueba de stream—todo más allá del ESP y aimbot básicos.',
+        points: [
+          'Desbloquear todos los operadores',
+          'Triggerbot',
+          'Sin dispersión',
+          'Speed hack',
+          'A prueba de stream',
+        ],
+        tags: ['r6s unlock all', 'r6s triggerbot', 'r6s external cheat', 'stream proof'],
+      },
+    ],
+  },
+  whyUs: {
+    eyebrow: 'Por qué nosotros',
+    title: 'Diseñado para Rainbow Six Siege',
+    items: [
+      {
+        title: 'Actualizaciones compatibles con BattlEye',
+        desc: 'Nuestro equipo sigue BattlEye y los parches del juego, publicando builds rápido para que no te quedes offline tras una actualización de Rainbow Six Siege.',
+      },
+      {
+        title: 'Puntería humanizada',
+        desc: 'Suavizado, timing natural de flicks y valores predeterminados conservadores imitan a jugadores de alto rango—no patrones obvios de bot que atraen reportes.',
+      },
+      {
+        title: 'Cero impacto en FPS',
+        desc: 'El renderizado optimizado del overlay mantiene tu framerate estable en tiroteos intensos y 1v1 al final de la ronda.',
+      },
+      {
+        title: 'Soporte de operadores',
+        desc: 'Las guías del portal ayudan con la configuración del loader, configs de operadores y resets de HWID—tutoriales paso a paso en tu panel.',
+      },
+    ],
+  },
+  setup: {
+    eyebrow: 'Implementación',
+    title: 'Cinco minutos desde la descarga hasta la cola.',
+    subtitle: 'Sigue el flujo guiado del loader para Rainbow Six Siege en PC con Ubisoft Connect.',
+    steps: [
+      { step: '01', title: 'Verificar', desc: 'Completa el checkout con nuestro partner y desbloquea tu portal de operadores.' },
+      { step: '02', title: 'Descargar', desc: 'Obtén el loader del último parche desde tu panel.' },
+      { step: '03', title: 'Iniciar', desc: 'Ejecuta el loader externo—no se requieren cambios en el BIOS.' },
+      { step: '04', title: 'Configurar', desc: 'Carga presets de ranked o unranked, ajusta los módulos de ESP y aimbot.' },
+      { step: '05', title: 'Cola', desc: 'Inicia Rainbow Six Siege y sube de rango con confianza.' },
+    ],
+  },
+  compatibility: {
+    eyebrow: 'Compatibilidad de plataforma',
+    title: 'Funciona en tu equipo.',
+    subtitle: 'Consulta el banner de estado en vivo antes de iniciar Rainbow Six Siege tras actualizaciones.',
+    items: ['Windows 10 y 11', 'Ubisoft Connect', 'Cliente de juego R6S', 'Actualizador automático', 'Sincronización de configs en la nube', 'Guías del portal', 'Reset de HWID', 'Loader externo'],
+  },
+  cheats: {
+    pageTitle: 'Trucos R6S — Aimbot, ESP, Wallhack y Niveles',
+    pageDescription:
+      'Compara Lite, Pro y Elite para PC ranked—Lite ESP y wallhack de gadgets, Pro aimbot con triggerbot y sin retroceso, Elite wallhack completo con hack de drones y Unlock All. Loader compatible con BattlEye para Steam y Ubisoft Connect.',
+    eyebrow: 'Precios',
+    title: 'Niveles de trucos R6S',
+    subtitle:
+      'Intel Lite, control de puntería Pro y builds privados Elite—ESP, wallhack, radar 2D y presets seguros para ranked en PC.',
+    viewAll: 'Ver todos los trucos',
+    explore: 'Explorar',
+    items: [
+      {
+        badge: 'Disponible',
+        tier: 'Esencial',
+        name: 'Lite',
+        title: 'R6S Lite',
+        desc: 'Nivel de entrada con ESP de jugadores, localizador de gadgets, conciencia de drones y overlay de minimapa.',
+        features: ['ESP y cajas de jugadores', 'Localizador de gadgets y trampas', 'Alertas de posición de drones', 'Etiquetas de nombres de operadores', 'Overlay de minimapa', 'Modo a prueba de stream'],
+        more: 8,
+        href: '/cheats/lite/',
+        variant: 'essential',
+      },
+      {
+        badge: 'Disponible',
+        tier: 'Popular',
+        name: 'Pro',
+        title: 'R6S Pro',
+        desc: 'Aimbot, sin retroceso, triggerbot y scripts de control de retroceso para juego ranked y unranked.',
+        features: ['Aimbot suave', 'Control sin retroceso', 'Triggerbot', 'Selector de FOV y huesos', 'Perfiles de armas', 'Reducción de dispersión'],
+        more: 18,
+        href: '/cheats/pro/',
+        variant: 'popular',
+      },
+      {
+        badge: 'Plazas limitadas',
+        tier: 'Privado',
+        name: 'Elite',
+        title: 'R6S Elite',
+        desc: 'Build privada con wallhack completo, hack de drones, Unlock All y soporte directo del desarrollador.',
+        features: ['Suite completa de wallhack', 'Hack de drones', 'Desbloquear todos los operadores', 'Módulo speed hack', 'Cola prioritaria de parches', 'Soporte directo del desarrollador'],
+        more: 42,
+        href: '/cheats/elite/',
+        variant: 'limited',
+      },
+    ],
+  },
+  tools: {
+    pageTitle: 'Herramientas de trucos R6S — Spoofer HWID, UGC Unban y Unlock All',
+    pageDescription:
+      'Herramientas de utilidad para PC—spoofer HWID tras flags de hardware BattlEye, workspace UGC unban para apelaciones Ubisoft y BattlEye, y vista previa de skins Unlock All. Guías de configuración en r6scheats.net.',
+    eyebrow: 'Herramientas',
+    title: 'Herramientas de trucos R6S',
+    subtitle:
+      'Spoofer HWID, workspace UGC unban, ayuda con apelaciones BattlEye y Unlock All para PC en Ubisoft Connect y Steam.',
+    viewAll: 'Ver todas las herramientas',
+    get: 'Obtener',
+    explore: 'Explorar',
+    items: [
+      {
+        badge: 'Disponible',
+        category: 'Utilidad del sistema',
+        categoryKey: 'system_utility',
+        title: 'Spoofer HWID',
+        subtitle: 'Spoofer de ID de hardware Rainbow Six Siege',
+        desc: 'Spoofer HWID para seriales de disco, direcciones MAC e IDs de GPU tras flags de hardware de BattlEye—guía de configuración del portal antes de iniciar a través de Ubisoft Connect.',
+        features: ['Spoofer y herramientas de limpieza', 'Rotación de perfiles de serial', 'Escaneo de compatibilidad', 'Verificación post-spoof'],
+        more: 9,
+        href: `${toolsBase}hwid-spoofer/`,
+      },
+      {
+        badge: 'Disponible',
+        category: 'Recuperación de cuenta',
+        categoryKey: 'account_recovery',
+        title: 'Herramienta UGC Unban',
+        subtitle: 'Espacio de trabajo de apelaciones BattlEye y Ubisoft',
+        desc: 'Herramienta UGC unban R6S para restricciones de Ubisoft, bans de BattlEye y retenciones de seguridad—flujos de apelación personalizados, seguimiento de casos y automatización de disputas.',
+        features: ['Flujos de apelación personalizados', 'Automatización de disputas', 'Documentación de casos', 'Panel de seguimiento de estado'],
+        more: 6,
+        href: `${toolsBase}ugc/`,
+      },
+      {
+        badge: 'Disponible',
+        category: 'Cosméticos',
+        categoryKey: 'cosmetic',
+        title: 'Unlock All',
+        subtitle: 'Desbloquea todos los operadores localmente',
+        desc: 'Unlock All ligero para outfits de operadores, skins de armas y variantes raras—vista previa local sin compras en la tienda Ubisoft.',
+        features: ['Desbloqueo de operadores', 'Personalizador de armas y charms', 'Vista previa de skins Elite', 'Exportación de favoritos de loadout'],
+        more: 7,
+        href: `${toolsBase}unlock-all/`,
+      },
+    ],
+  },
+  forums: {
+    pageTitle: 'Foro de configuración de trucos R6S — Loader, hotkeys y guías ESP',
+    pageDescription:
+      'Foro de configuración: errores del loader, exclusiones de antivirus, hotkeys de ESP y soft aim, presets de radar, ajuste de triggerbot, multipoint bones, guías de rebuild BattlEye y configs post-parche para PC.',
+    eyebrow: 'Foro de trucos',
+    title: 'Foro de instrucciones de trucos',
+    subtitle:
+      'Hilos paso a paso sobre R6s Cheats — instalación, exclusiones de antivirus, errores del loader, hotkeys, ESP, soft aim, presets de radar y rebuilds tras parches. Cada guía está escrita solo para Windows PC.',
+    viewAll: 'Ver todos los temas',
+    read: 'Ver hilo',
+    posted: 'Publicado',
+    relatedThreads: 'Hilos relacionados',
+    backToForum: 'Volver al foro',
+  },
+  toolkit: {
+    eyebrow: 'Software',
+    title: 'Organizado, fácil de configurar',
+    subtitle: 'Cada módulo está agrupado para ajustes rápidos en mitad de la ronda sin navegar por el caos.',
+    items: [
+      { num: '01', id: 'aimbot', label: 'Aimbot', title: 'Puntería que se adapta a tu operador', desc: 'Aimbot suave, triggerbot, límites de FOV y ajuste de retardo en una pestaña de puntería.' },
+      { num: '02', id: 'vision', label: 'Visión', title: 'ESP que se mantiene legible', desc: 'Filtra por distancia, color de equipo, tipo de gadget y sensibilidad de alertas de drones.' },
+      { num: '03', id: 'intel', label: 'Intel', title: 'Drones y gadgets bajo control', desc: 'Marcadores de drones, alertas de trampas y wallhack en un overlay compacto.' },
+      { num: '04', id: 'operators', label: 'Operadores', title: 'Perfiles de armas por operador', desc: 'Guarda scripts de retroceso de Ash, Jäger, Vigil y anchors, e intercámbialos con hotkeys.' },
+      { num: '05', id: 'recoil', label: 'Retroceso', title: 'Automatización de control de spray', desc: 'Sin retroceso, reducción de dispersión y perfiles específicos por arma para fragging eficiente.' },
+      { num: '06', id: 'profiles', label: 'Perfiles', title: 'Configs para cada modo', desc: 'Presets separados para ranked, unranked y partidas personalizadas con respaldo en la nube.' },
+    ],
+  },
+  contact: {
+    eyebrow: 'Soporte',
+    title: '¿Preguntas antes de implementar?',
+    subtitle: 'Consulta primero las FAQ. Para problemas de cuenta, HWID o loader, revisa las guías con tu email de pedido a mano.',
+    asideTitle: 'Incluye al solucionar problemas',
+    asideItems: [
+      { num: '01', title: 'Email del pedido', desc: 'La dirección usada en el checkout en r6scheats.net o a través de nuestro checkout seguro.' },
+      { num: '02', title: 'Plataforma', desc: 'Ubisoft Connect en Windows 10 u 11—y la versión de tu cliente Rainbow Six Siege.' },
+      { num: '03', title: 'Detalle del error', desc: 'Captura de pantalla o mensaje exacto del loader o Ubisoft Connect.' },
+    ],
+  },
+  faq: {
+    pageTitle: 'FAQ trucos R6S — Aimbot, ESP, BattlEye y ayuda HWID',
+    pageDescription:
+      'FAQ: ajustes de FOV y suavizado del aimbot, toggles de ESP y wallhack de gadgets, actualizaciones BattlEye, spoofer HWID, workflows UGC unban, Unlock All y ayuda con checkout del loader para PC.',
+    eyebrow: 'FAQ',
+    title: 'Respuestas claras antes del checkout.',
+    subtitle: 'Compatibilidad, bans y acceso—sin promesas vagas.',
+    viewAll: 'FAQ completa',
+    topics: {
+      all: 'Todos',
+      plans: 'Planes',
+      esp: 'Map Hack / ESP',
+      scripts: 'Scripts',
+      safety: 'Seguridad',
+      tools: 'Herramientas',
+      forums: 'Foro',
+      setup: 'Configuración',
+    },
+    items: [
+      {
+        num: '01',
+        q: '¿Dónde compruebo si los trucos R6S están en línea?',
+        a: 'El banner de estado en vivo está en r6scheats.net. Compruébalo siempre tras una actualización de Rainbow Six Siege o BattlEye.',
+      },
+      {
+        num: '02',
+        q: '¿Qué ocurre después de comprar?',
+        a: 'Tu portal desbloquea el loader, la guía de configuración y la biblioteca de configs a través de nuestro checkout seguro. Sigue la guía antes de iniciar Rainbow Six Siege.',
+      },
+      {
+        num: '03',
+        q: '¿Puedo recibir un ban usando trucos R6S de terceros?',
+        a: 'Sí—cualquier modificación conlleva riesgo. BattlEye y los sistemas de reportes evolucionan. Lee el estado actual y acepta el riesgo antes de usar.',
+      },
+      {
+        num: '04',
+        q: '¿Qué plataformas son compatibles?',
+        a: 'Rainbow Six Siege vía Ubisoft Connect en Windows 10/11 de 64 bits únicamente. macOS y Linux no son compatibles.',
+      },
+      {
+        num: '05',
+        q: '¿Puedo mover mi licencia a un PC nuevo?',
+        a: 'Sí—usa el reset de HWID en tu portal. Los límites dependen de tu nivel.',
+      },
+      {
+        num: '06',
+        q: '¿Dónde se listan las herramientas y utilidades?',
+        a: 'Los niveles de trucos, Spoofer HWID, UGC y Unlock All están en r6scheats.net/tools/r6s-cheats con listas de funciones y checkout a través de nuestro partner.',
+      },
+    ],
+  },
+  footer: {
+    tagline: 'R6s Cheats para PC — aimbot, soft aim, skeleton ESP, wallhack, radar 2D, triggerbot y loader compatible con BattlEye.',
+    explore: 'Explorar',
+    exploreLinks: [
+      { href: '/cheats/', label: 'Resumen de trucos', ariaLabel: 'Trucos' },
+      { href: '/features/', label: 'Lista de funciones', ariaLabel: 'Funciones' },
+      { href: '/cheats/pro/', label: 'Página de aimbot', ariaLabel: 'Aimbot' },
+      { href: '/cheats/lite/', label: 'Página de ESP', ariaLabel: 'ESP' },
+      { href: '/forums/r6s-radar-settings/', label: 'Página de radar', ariaLabel: 'Radar' },
+      { href: '/forums/', label: 'Foro comunitario', ariaLabel: 'Foros' },
+    ],
+    helpLegal: 'Ayuda y legal',
+    helpLegalLinks: [
+      { href: '/contact/', label: 'Centro de ayuda', ariaLabel: 'Centro de ayuda' },
+      { href: '/faq/', label: 'Respuestas FAQ', ariaLabel: 'FAQ' },
+      { href: '/forums/r6s-patch-rebuild-guide/', label: 'Actualizaciones de parches', ariaLabel: 'Actualizaciones de parches' },
+      { href: '/forums/r6s-cheat-setup/', label: 'Guías de configuración', ariaLabel: 'Guías de configuración' },
+      { href: '/forums/r6s-loader-errors/', label: 'Errores del loader', ariaLabel: 'Errores del loader' },
+    ],
+    bottomLinks: [
+      { href: '/about/', label: 'Sobre nosotros', ariaLabel: 'Sobre nosotros' },
+      { href: '/privacy/', label: 'Política de privacidad', ariaLabel: 'Política de privacidad' },
+      { href: '/contact/', label: 'Contacto', ariaLabel: 'Contacto' },
+      { href: '/sitemap.xml', label: 'Mapa del sitio XML', ariaLabel: 'Mapa del sitio XML' },
+    ],
+    rightsReserved: 'Todos los derechos reservados.',
+    privacy: 'Política de privacidad',
+    about: 'Sobre nosotros',
+    contact: 'Contacto',
+  },
+  legalPages: {
+    about: {
+      title: 'Sobre Rainbow Six Siege Cheats',
+      description:
+        'Sobre R6s Cheats — aimbot, ESP, wallhack, radar 2D, triggerbot, spoofer HWID, Unlock All y niveles compatibles con BattlEye para PC en r6scheats.net.',
+      sections: [
+        {
+          heading: 'Quiénes somos',
+          paragraphs: [
+            'R6s Cheats es un recurso centrado en PC para jugadores que exploran ESP, aimbot, sin retroceso y flujos de Unlock All. Publicamos comparativas de niveles, guías de configuración y notas de estado en vivo para que puedas evaluar builds antes del checkout.',
+            'No estamos afiliados con Ubisoft Entertainment ni Rainbow Six Siege. Todos los nombres de productos se usan solo para identificación.',
+          ],
+        },
+        {
+          heading: 'Qué publicamos',
+          paragraphs: [
+            'Nuestro sitio cubre los niveles de trucos Lite, Pro y Elite, utilidades HWID, Unlock All y flujos de recuperación de cuenta. Los hilos del foro explican configs seguras para ranked, comprobaciones del día de parche y el comportamiento de las actualizaciones de BattlEye.',
+            'El contenido se actualiza cuando llegan parches o cuando cambian los módulos del loader. Consulta el banner de estado de la página principal antes de cada sesión.',
+          ],
+        },
+        {
+          heading: 'Soporte',
+          paragraphs: [
+            'Las preguntas sobre compatibilidad, errores del loader o checkout están cubiertas en nuestras FAQ y guías de configuración. Incluye tu email de pedido, cuenta de Ubisoft y versión de Windows al revisar los pasos de solución de problemas.',
+          ],
+        },
+      ],
+    },
+    privacy: {
+      title: 'Política de privacidad',
+      description:
+        'Cómo Rainbow Six Siege Cheats gestiona analíticas, cookies y datos de contacto cuando usas r6scheats.net.',
+      sections: [
+        {
+          heading: 'Información que recopilamos',
+          paragraphs: [
+            'Podemos recopilar analíticas web estándar como visitas a páginas, tipo de dispositivo, navegador y región aproximada a través de Google Analytics cuando está habilitado. El checkout y la entrega de licencias ocurren en páginas de checkout externas—no almacenamos datos de tarjetas de pago en r6scheats.net.',
+          ],
+        },
+        {
+          heading: 'Cómo usamos los datos',
+          paragraphs: [
+            'Las analíticas nos ayudan a entender qué guías y páginas de productos son útiles para mejorar el contenido y corregir enlaces rotos. Los tickets de soporte pueden conservar la dirección de email y el contenido del mensaje que proporciones hasta que se resuelva el problema.',
+          ],
+        },
+        {
+          heading: 'Cookies',
+          paragraphs: [
+            'Usamos cookies mínimas necesarias para analíticas y atribución de afiliados. Puedes bloquear cookies en la configuración de tu navegador; el contenido principal del sitio sigue siendo accesible sin ellas.',
+          ],
+        },
+        {
+          heading: 'Contacto',
+          paragraphs: [
+            'Para preguntas sobre privacidad, revisa esta política y usa la página de contacto para consultas generales del sitio.',
+          ],
+        },
+      ],
+    },
+    contact: {
+      title: 'Contactar Rainbow Six Siege Cheats',
+      description:
+        'Soporte: errores del loader, reset HWID, estado de parches BattlEye, configuración de aimbot y ESP, checkout y ayuda UGC unban para PC en r6scheats.net.',
+    },
+  },
+  ui: {
+    skipLink: 'Saltar al contenido principal',
+    browseCheats: 'Probar ahora',
+    browseCheatsMobile: 'Iniciar checkout',
+    homeAria: 'Inicio R6s Cheats',
+    checkoutAria: 'Iniciar checkout',
+    menuOpen: 'Abrir menú',
+    menuClose: 'Cerrar menú',
+    themeLight: 'Cambiar a modo claro',
+    themeDark: 'Cambiar a modo oscuro',
+    get: 'Obtener',
+    view: 'Ver',
+    breadcrumbs: {
+      home: 'Inicio',
+      features: 'Funciones',
+      cheats: 'Trucos',
+      tools: 'Herramientas',
+      forums: 'Foros',
+      faq: 'FAQ',
+    },
+    language: 'Idioma',
+    backToTop: 'Volver arriba ↑',
+    backToHome: 'Volver al inicio',
+    popular: 'Popular',
+    moreFeatures: 'más funciones',
+    productDetail: {
+      overview: 'Resumen',
+      acquisition: 'Adquisición',
+      keyCapabilities: 'Funciones principales',
+      keyCapabilitiesLede: 'Esto incluye',
+      bestFit: 'Ideal para',
+      step: 'Paso',
+      getProduct: 'Obtener',
+      faqEyebrow: 'FAQ',
+      faqTitle: 'FAQ',
+      faqSubtitle: 'Preguntas sobre funciones, configuración y estado actual.',
+    },
+  },
+};

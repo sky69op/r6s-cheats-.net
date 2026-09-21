@@ -341,16 +341,29 @@ async function removeBackground(
   console.log(`Wrote ${path.relative(root, outputPath)} (${resolvedMode} background)`);
 }
 
+const transparentFit = { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } };
+
+async function generateHeaderLogoVariants(sourcePath, prefix) {
+  for (const size of [36, 72]) {
+    const output = path.join(publicDir, `${prefix}-${size}.webp`);
+    await sharp(sourcePath)
+      .resize(size, size, transparentFit)
+      .webp({ quality: 85, effort: 4 })
+      .toFile(output);
+    console.log(`Wrote ${path.relative(root, output)}`);
+  }
+}
+
 async function generateFavicons(sourcePath) {
   const logoPng = path.join(publicDir, 'logo.png');
 
   await sharp(sourcePath)
-    .resize(512, 512, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
-    .png()
+    .resize(512, 512, transparentFit)
+    .png({ compressionLevel: 9, palette: true })
     .toFile(logoPng);
   console.log(`Wrote ${path.relative(root, logoPng)}`);
 
-  const transparentFit = { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } };
+  await generateHeaderLogoVariants(logoPng, 'logo');
 
   await sharp(logoPng).resize(180, 180, transparentFit).png().toFile(path.join(publicDir, 'apple-touch-icon.png'));
   await sharp(logoPng).resize(32, 32, transparentFit).png().toFile(path.join(publicDir, 'favicon-32.png'));
@@ -360,7 +373,7 @@ async function generateFavicons(sourcePath) {
   console.log('Wrote apple-touch-icon.png, favicon-16.png, favicon-32.png, favicon.ico');
 }
 
-export { removeBackground };
+export { removeBackground, generateHeaderLogoVariants };
 
 async function main() {
   fs.mkdirSync(heroDir, { recursive: true });
