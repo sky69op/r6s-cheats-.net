@@ -1,0 +1,27 @@
+---
+import { displayForumTitle } from '../data/forums';
+import type { ForumPost } from '../i18n/types';
+import { forumPostPath } from '../utils/path';
+
+interface Props {
+  post: ForumPost;
+  compact?: boolean;
+}
+
+const { post, compact = false } = Astro.props;
+const path = forumPostPath(post.slug);
+const title = displayForumTitle(post.title);
+---
+
+<article class:list={['forum-card', 'forum-card--listing', compact && 'forum-card--compact']}>
+  <div class="forum-card-body">
+    <span class="forum-card-badge">{post.tag}</span>
+    <h2 class="forum-card-title">
+      <a href={path}>{title}</a>
+    </h2>
+    <p class="forum-card-desc">{post.desc}</p>
+    <a href={path} class="forum-card-link" aria-label={`Read thread: ${title}`}>
+      {title} →
+    </a>
+  </div>
+</article>

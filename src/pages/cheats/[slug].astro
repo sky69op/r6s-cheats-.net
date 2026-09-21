@@ -6,7 +6,7 @@ import {
   breadcrumbSchema,
   softwareApplicationSchema,
 } from '../../utils/schema';
-import ProductDetail from '../../components/ProductDetail.astro';
+import CheatTierDetail from '../../components/cheat-tier/CheatTierDetail.astro';
 
 export function getStaticPaths() {
   return getAllCheatSlugs().map((slug) => ({ params: { slug } }));
@@ -40,5 +40,5 @@ const breadcrumbs = [
     breadcrumbSchema(breadcrumbs),
   ]}
 >
-  <ProductDetail product={product} breadcrumbs={breadcrumbs} />
+  <CheatTierDetail product={product} breadcrumbs={breadcrumbs} />
 </BaseLayout>

@@ -1,104 +1,110 @@
 ---
 import { t } from '../i18n';
-
-const resourceLinks = [
-  { href: '/blog/', label: 'Blog archive', ariaLabel: 'Blog' },
-  { href: '/cheats/', label: 'Cheats hub', ariaLabel: 'Cheats' },
-  { href: '/products/r6s-cheats/', label: 'Product catalog', ariaLabel: 'Products' },
-  { href: '/contact/', label: t.footer.contact },
-];
-
-const legalLinks = [
-  { href: '/about/', label: t.footer.about },
-  { href: '/privacy/', label: t.footer.privacy },
-];
 ---
 
-<footer class="site-footer section-band">
-  <div class="container site-footer__inner">
-    <div class="site-footer-grid">
-      <div class="site-footer-brand">
-        <a href="/" class="site-logo-link inline-flex items-center gap-2.5" aria-label={t.ui.homeAria}>
-          <img src="/logo.svg" alt="" width="32" height="32" class="site-logo-link__img" style="border-radius: 6px;" />
-          <span class="logo-text" aria-hidden="true">R6s<span class="logo-accent">Cheats</span></span>
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="site-footer__col site-footer__col--brand">
+      <div class="site-footer__brand">
+        <a href="/" class="site-footer__brand-link" aria-label={t.ui.homeAria}>
+          <span class="site-footer__brand-logo-wrap" aria-hidden="true">
+            <img
+              src="/favicon-32.png"
+              alt=""
+              width="32"
+              height="32"
+              class="site-footer__brand-logo theme-logo theme-logo--dark"
+              decoding="async"
+            />
+            <img
+              src="/favicon-32-light.png"
+              alt=""
+              width="32"
+              height="32"
+              class="site-footer__brand-logo theme-logo theme-logo--light"
+              decoding="async"
+            />
+          </span>
         </a>
-        <p class="site-footer-tagline">{t.footer.tagline}</p>
-
-        <div class="site-footer-social">
-          <p class="site-footer-label">{t.footer.socialTitle}</p>
-          <ul class="site-footer-links">
-            {t.footer.socialLinks.map((link) => (
-              <li>
-                <a
-                  href={link.href}
-                  class="site-footer-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={link.href.includes('discord') ? t.ui.discordAria : undefined}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <span class="site-footer__brand-name logo-text" aria-hidden="true">
+          R6s<span class="logo-accent">Cheats</span>
+        </span>
       </div>
-
-      <nav class="site-footer-col" aria-label={t.footer.explore}>
-        <p class="site-footer-label">{t.footer.explore}</p>
-        <ul class="site-footer-links">
-          {t.footer.exploreLinks.map((link) => (
-            <li>
-              <a href={link.href} class="site-footer-link" aria-label={link.ariaLabel}>{link.label}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      <nav class="site-footer-col" aria-label={t.footer.support}>
-        <p class="site-footer-label">{t.footer.support}</p>
-        <ul class="site-footer-links">
-          {resourceLinks.map((link) => (
-            <li>
-              <a href={link.href} class="site-footer-link" aria-label={link.ariaLabel}>{link.label}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      <nav class="site-footer-col" aria-label={t.footer.externalTitle}>
-        <p class="site-footer-label">{t.footer.externalTitle}</p>
-        <ul class="site-footer-links">
-          {t.footer.externalLinks.map((link) => (
-            <li>
-              <a
-                href={link.href}
-                class="site-footer-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <p class="site-footer-label site-footer-label--spaced">{t.footer.legal}</p>
-        <ul class="site-footer-links">
-          {legalLinks.map((link) => (
-            <li>
-              <a href={link.href} class="site-footer-link">{link.label}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <p class="site-footer__tagline">{t.footer.tagline}</p>
     </div>
 
-    <div class="site-footer-bottom">
-      <p class="site-footer-copy">
-        &copy; {new Date().getFullYear()} {t.site.name} · {t.site.domain}
+    <nav class="site-footer__col" aria-label={t.footer.explore}>
+      <p class="site-footer__label">{t.footer.explore}</p>
+      <ul class="site-footer__links">
+        {
+          t.footer.exploreLinks.map((link) => (
+            <li>
+              <a href={link.href} aria-label={link.ariaLabel}>{link.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <nav class="site-footer__col" aria-label={t.footer.helpLegal}>
+      <p class="site-footer__label">{t.footer.helpLegal}</p>
+      <ul class="site-footer__links">
+        {
+          t.footer.helpLegalLinks.map((link) => (
+            <li>
+              <a href={link.href} aria-label={link.ariaLabel}>{link.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container site-footer__bottom">
+    <div class="site-footer__legal">
+      <p class="site-footer__copyright">
+        &copy; {new Date().getFullYear()}
+        <span class="site-footer__copyright-brand logo-text">
+          R6s<span class="logo-accent">Cheats</span>
+        </span>.
+        {t.footer.rightsReserved}
       </p>
-      <p class="site-footer-disclaimer">{t.footer.disclaimer}</p>
+      <nav class="site-footer__legal-nav" aria-label="Legal and site links">
+        <ul>
+          {
+            t.footer.bottomLinks.map((link) => (
+              <li>
+                <a href={link.href} aria-label={link.ariaLabel}>{link.label}</a>
+              </li>
+            ))
+          }
+          <li>
+            <a href="#" class="site-footer__back-top" data-back-to-top>Back to top ↑</a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
 </footer>
+
+<script is:inline>
+  (function () {
+    var light = document.documentElement.getAttribute('data-color-mode') === 'light';
+    document.querySelectorAll('.site-footer__brand-logo-wrap').forEach(function (wrap) {
+      var darkLogo = wrap.querySelector('.theme-logo--dark');
+      var lightLogo = wrap.querySelector('.theme-logo--light');
+      if (!darkLogo || !lightLogo) return;
+      darkLogo.style.display = light ? 'none' : 'block';
+      lightLogo.style.display = light ? 'block' : 'none';
+    });
+  })();
+</script>
+
+<script>
+  document.querySelectorAll('[data-back-to-top]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>

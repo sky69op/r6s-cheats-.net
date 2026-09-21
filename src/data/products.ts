@@ -55,13 +55,13 @@ export interface ProductPage {
   body: { type: 'h2' | 'p'; text: string }[];
 }
 
-const productBase = '/products/r6s-cheats/';
+const productBase = '/tools/r6s-cheats/';
 
 const defaultAcquisitionSteps: AcquisitionStep[] = [
   {
     num: '01',
     title: 'Review current status',
-    desc: 'Check the live banner on r6scheats.net and Discord #status before purchase—especially after a Rainbow Six Siege or BattlEye update.',
+    desc: 'Check the live banner on r6scheats.net before purchase—especially after a Rainbow Six Siege or BattlEye update.',
   },
   {
     num: '02',
@@ -71,7 +71,7 @@ const defaultAcquisitionSteps: AcquisitionStep[] = [
   {
     num: '03',
     title: 'Contact the team',
-    desc: 'Open Discord and confirm availability, Ubisoft Connect platform, and payment details with your order email ready.',
+    desc: 'Confirm availability, Ubisoft Connect platform, and payment details with your order email ready before checkout.',
   },
   {
     num: '04',
@@ -108,45 +108,105 @@ const gameplay = '/images/gameplay';
 const galleryRaw = {
   gpEsp: {
     src: `${gameplay}/r6s-esp.png`,
-    alt: 'Rainbow Six Siege ESP showing enemy operator positions through walls',
+    alt: 'Rainbow Six Siege ESP skeleton overlay on back porch',
     caption: 'ESP awareness',
-    captionDesc: 'Player ESP, gadget tracking and drone alerts during a ranked push.',
+    captionDesc: 'Skeleton ESP and distance markers through walls during a ranked push.',
   },
   gpAimbot: {
     src: `${gameplay}/r6s-aimbot.png`,
-    alt: 'Rainbow Six Siege aimbot with smooth tracking on enemy operator',
+    alt: 'Rainbow Six Siege aimbot with red target lock in engine control',
     caption: 'Aimbot module',
-    captionDesc: 'Smooth aimbot with FOV limits and bone selection active.',
+    captionDesc: 'Smooth aimbot with FOV ring and bone selection active.',
   },
   gpWallhack: {
     src: `${gameplay}/r6s-wallhack.png`,
-    alt: 'Rainbow Six Siege wallhack showing operators through destructible walls',
+    alt: 'Rainbow Six Siege wallhack showing operators through garage walls',
     caption: 'Wallhack overlay',
-    captionDesc: 'Full wallhack showing enemy positions through map geometry.',
+    captionDesc: 'Box ESP and player counts through map geometry.',
   },
   gpUnlockAll: {
     src: `${gameplay}/r6s-unlock-all.png`,
-    alt: 'Rainbow Six Siege Unlock All previewing elite operator skin',
+    alt: 'Rainbow Six Siege gameplay with operator intel overlays',
     caption: 'Unlock All preview',
     captionDesc: 'Local operator and weapon skin preview via Unlock All—client-side only.',
   },
   gpRecoil: {
     src: `${gameplay}/r6s-no-recoil.png`,
-    alt: 'Rainbow Six Siege no recoil control on assault rifle',
+    alt: 'Rainbow Six Siege headshot kill with recoil control active',
     caption: 'No recoil control',
     captionDesc: 'Weapon-specific recoil compensation for tight spray patterns.',
   },
   gpDrone: {
-    src: `${gameplay}/r6s-drone-hack.png`,
-    alt: 'Rainbow Six Siege drone hack revealing enemy positions',
-    caption: 'Drone hack',
-    captionDesc: 'Drone position markers and gadget intel for round control.',
+    src: `${gameplay}/r6s-esp-replay.png`,
+    alt: 'Rainbow Six Siege replay view with ESP overlays in laundry',
+    caption: 'Intel overlays',
+    captionDesc: 'Replay-safe ESP markers for reviewing round positioning.',
   },
   gpPlayerEsp: {
     src: `${gameplay}/r6s-player-esp.png`,
-    alt: 'Rainbow Six Siege player ESP with name tags and distance readouts',
+    alt: 'Rainbow Six Siege player ESP with skeleton through bike repair wall',
     caption: 'Player ESP overlay',
-    captionDesc: 'Operator name tags, team colors and distance markers through walls.',
+    captionDesc: 'Operator skeletons and penetration callouts through walls.',
+  },
+  gpPlayerEspTags: {
+    src: `${gameplay}/r6s-player-esp-tags.png`,
+    alt: 'Rainbow Six Siege player ESP with operator names and distance tags',
+    caption: 'Name tags & distance',
+    captionDesc: 'Operator names, health bars and snaplines in front yard.',
+  },
+  gpEspShowers: {
+    src: `${gameplay}/r6s-esp-showers.png`,
+    alt: 'Rainbow Six Siege cyan skeleton ESP in showers',
+    caption: 'Skeleton ESP',
+    captionDesc: 'Clean skeleton overlay with headshot confirmation in ranked.',
+  },
+  gpEspScope: {
+    src: `${gameplay}/r6s-esp-scope.png`,
+    alt: 'Rainbow Six Siege scope view with ESP through lounge wall',
+    caption: 'Scoped ESP',
+    captionDesc: 'Enemy boxes visible through walls while ADS on 3F Lounge.',
+  },
+  gpEspReception: {
+    src: `${gameplay}/r6s-esp-reception.png`,
+    alt: 'Rainbow Six Siege wallhack with username tags at reception',
+    caption: 'Wallhack intel',
+    captionDesc: 'Username ESP and round status overlay at 1F Reception.',
+  },
+  gpAimbotVault: {
+    src: `${gameplay}/r6s-aimbot-vault.png`,
+    alt: 'Rainbow Six Siege aimbot reticle on vault holographic sight',
+    caption: 'Aimbot reticle',
+    captionDesc: 'Circular FOV aimbot lock during a 3v3 clutch.',
+  },
+  gpWallhackGarage: {
+    src: `${gameplay}/r6s-wallhack-garage.png`,
+    alt: 'Rainbow Six Siege wallhack boxes in garage firefight',
+    caption: 'Garage wallhack',
+    captionDesc: 'Multi-target box ESP during a 5v4 garage defense.',
+  },
+  gpWinRound: {
+    src: `${gameplay}/r6s-win-round.png`,
+    alt: 'Rainbow Six Siege round win with cheat overlay active',
+    caption: 'Round control',
+    captionDesc: 'Clean round win after wallhack and aim support in ranked.',
+  },
+  gpSupplyCorridor: {
+    src: `${gameplay}/r6s-supply-corridor.png`,
+    alt: 'Rainbow Six Siege aimbot in B1 supply room corridor',
+    caption: 'Corridor fights',
+    captionDesc: 'Target lock and ESP in tight corridor engagements.',
+  },
+  gpCourtyard: {
+    src: `${gameplay}/r6s-gameplay-courtyard.png`,
+    alt: 'Rainbow Six Siege exterior courtyard gameplay view',
+    caption: 'Exterior intel',
+    captionDesc: 'Courtyard positioning with full HUD and map read.',
+  },
+  gpRappel: {
+    src: `${gameplay}/r6s-rappel.png`,
+    alt: 'Rainbow Six Siege rappel entry on exterior wall',
+    caption: 'Entry support',
+    captionDesc: 'Exterior rappel timing with overlay-ready ranked setup.',
   },
 };
 
@@ -198,7 +258,7 @@ const tierAbout: Record<string, ProductPage['about']> = {
     { type: 'h2', text: 'Use Elite responsibly' },
     {
       type: 'p',
-      text: 'Elite power demands disciplined profiles. Test in custom games, start with portal conservative presets, and scale up over days—not minutes. Staff in Discord help Elite users tune before their first ranked queue.',
+      text: 'Elite power demands disciplined profiles. Test in custom games, start with portal conservative presets, and scale up over days—not minutes. Elite setup guides help you tune before your first ranked queue.',
     },
   ],
 };
@@ -225,7 +285,7 @@ const tierBodies: Record<string, ProductPage['body']> = {
     { type: 'h2', text: 'Recommended pairing' },
     {
       type: 'p',
-      text: 'Pro is the most popular tier at r6scheats.net—enough firepower for high-rank lobbies without Elite slot limits. Pair with our aimbot guide in the blog before your first ranked session.',
+      text: 'Pro is the most popular tier at r6scheats.net—enough firepower for high-rank lobbies without Elite slot limits. Pair with our aimbot thread in the forums before your first ranked session.',
     },
   ],
   elite: [
@@ -237,7 +297,7 @@ const tierBodies: Record<string, ProductPage['body']> = {
     { type: 'h2', text: 'Availability' },
     {
       type: 'p',
-      text: 'Elite shows as limited slots on the status banner. Open a Discord ticket if checkout is gated—staff confirm slot availability before purchase.',
+      text: 'Elite shows as limited slots on the status banner. Check the status page if checkout is gated—confirm slot availability before purchase.',
     },
   ],
 };
@@ -247,12 +307,12 @@ const utilityBodies: Record<string, ProductPage['body']> = {
     { type: 'h2', text: 'When you need it' },
     {
       type: 'p',
-      text: 'Use when fresh Ubisoft accounts fail instantly on one PC but work elsewhere—classic HWID enforcement. Do not use for account-only BattlEye cases; see [UGC](/products/r6s-cheats/ugc/) instead.',
+      text: 'Use when fresh Ubisoft accounts fail instantly on one PC but work elsewhere—classic HWID enforcement. Do not use for account-only BattlEye cases; see [UGC](/tools/r6s-cheats/ugc/) instead.',
     },
     { type: 'h2', text: 'Full workflow' },
     {
       type: 'p',
-      text: 'Restore point, driver cleanup, spoof application, cold reboot, identifier verification, then conservative cheat profile before ranked. Full checklist ships in the portal and in our HWID blog guide.',
+      text: 'Restore point, driver cleanup, spoof application, cold reboot, identifier verification, then conservative cheat profile before ranked. Full checklist ships in the portal and in our HWID forum thread.',
     },
   ],
   'ugc': [
@@ -264,7 +324,7 @@ const utilityBodies: Record<string, ProductPage['body']> = {
     { type: 'h2', text: 'Realistic expectations' },
     {
       type: 'p',
-      text: 'Some BattlEye bans cannot be reversed. UGC organizes evidence and follow-ups for Ubisoft review. Pair with [HWID Spoofer](/products/r6s-cheats/hwid-spoofer/) when hardware is flagged, or a new account when reputation is burned.',
+      text: 'Some BattlEye bans cannot be reversed. UGC organizes evidence and follow-ups for Ubisoft review. Pair with [HWID Spoofer](/tools/r6s-cheats/hwid-spoofer/) when hardware is flagged, or a new account when reputation is burned.',
     },
   ],
   'unlock-all': [
@@ -286,7 +346,7 @@ const productContent: Record<
   Pick<ProductPage, 'overview' | 'images' | 'fullFeatures' | 'goodToKnow' | 'limitations' | 'systemRequirements'>
 > = {
   lite: {
-    images: slide('gpPlayerEsp', 'gpEsp', 'gpDrone'),
+    images: slide('gpPlayerEsp', 'gpEsp', 'gpEspShowers', 'gpEspScope', 'gpPlayerEspTags'),
     goodToKnow: sharedGoodToKnow,
     limitations: sharedLimitations,
     systemRequirements: r6sSystemRequirements,
@@ -315,7 +375,7 @@ const productContent: Record<
     },
   },
   pro: {
-    images: slide('gpAimbot', 'gpEsp', 'gpPlayerEsp'),
+    images: slide('gpAimbot', 'gpAimbotVault', 'gpRecoil', 'gpEsp', 'gpPlayerEspTags'),
     goodToKnow: sharedGoodToKnow,
     limitations: sharedLimitations,
     systemRequirements: r6sSystemRequirements,
@@ -334,7 +394,7 @@ const productContent: Record<
       'Custom game test profile',
       'Cloud config backup',
       'Patch auto-updater',
-      'Discord operator support',
+      'Portal setup guides',
     ],
     overview: {
       title: 'Built around a clear R6S aimbot workflow',
@@ -345,7 +405,7 @@ const productContent: Record<
     },
   },
   elite: {
-    images: slide('gpRecoil', 'gpWallhack', 'gpUnlockAll'),
+    images: slide('gpWallhack', 'gpWallhackGarage', 'gpWinRound', 'gpSupplyCorridor', 'gpUnlockAll'),
     goodToKnow: sharedGoodToKnow,
     limitations: sharedLimitations,
     systemRequirements: r6sSystemRequirements,
@@ -356,7 +416,7 @@ const productContent: Record<
       'Speed hack module',
       'Unlock All operators',
       'Priority patch queue',
-      'Direct dev Discord support',
+      'Direct dev support',
       'Elite conservative presets',
       'Cloud config backup',
       'Patch auto-updater',
@@ -366,12 +426,12 @@ const productContent: Record<
       title: 'Built around a full R6S operator workflow',
       paragraphs: [
         'R6S Elite is the private build with full wallhack, drone hack, Unlock All and priority patch delivery. Every Lite and Pro module is included—no caps, no upsells inside the loader.',
-        'Elite slots are limited so patch cycles stay fast and builds stay maintainable. Direct dev support in Discord helps you tune conservative profiles before ranked. Check the status banner on r6scheats.net before purchase.',
+        'Elite slots are limited so patch cycles stay fast and builds stay maintainable. Direct dev support helps you tune conservative profiles before ranked. Check the status banner on r6scheats.net before purchase.',
       ],
     },
   },
   'hwid-spoofer': {
-    images: slide('gpEsp', 'gpPlayerEsp', 'gpWallhack'),
+    images: slide('gpCourtyard', 'gpRappel', 'gpSupplyCorridor'),
     goodToKnow:
       'Run the compatibility scan in the portal before spoofing. Create a Windows restore point first. Verify identifiers changed after a cold reboot before launching Rainbow Six Siege.',
     limitations:
@@ -392,7 +452,7 @@ const productContent: Record<
       'Identifier diff report',
       'Cold reboot guide',
       'Portal step-by-step workflow',
-      'Discord recovery support',
+      'Portal recovery support',
     ],
     overview: {
       title: 'Built around a clear hardware recovery workflow',
@@ -403,7 +463,7 @@ const productContent: Record<
     },
   },
   ugc: {
-    images: slide('gpEsp', 'gpPlayerEsp', 'gpWallhack'),
+    images: slide('gpWinRound', 'gpEspReception', 'gpDrone'),
     goodToKnow:
       'Gather order email, platform account details and restriction screenshots before opening a ticket. UGC structures appeals—it does not bypass platform review.',
     limitations:
@@ -411,7 +471,7 @@ const productContent: Record<
     systemRequirements: [
       { icon: 'mail', text: 'Order email used at checkout on r6scheats.net.' },
       { icon: 'shield', text: 'Account details and ban or restriction notification if available.' },
-      { icon: 'wifi', text: 'Internet access for Discord support and case dashboard.' },
+      { icon: 'wifi', text: 'Internet access for portal support and case dashboard.' },
     ],
     fullFeatures: [
       'Custom appeal workflows',
@@ -428,12 +488,12 @@ const productContent: Record<
       title: 'Built around account recovery and appeal workflows',
       paragraphs: [
         'UGC (Unban & Governance Control) helps you recover restricted gaming, social and marketplace accounts with structured appeal workflows and automation—not instant unban guarantees.',
-        'Build custom dispute paths, track case status and rebuild your presence with smart restriction-management tools. Support walks you through each step via Discord when you need hands-on help.',
+        'Build custom dispute paths, track case status and rebuild your presence with smart restriction-management tools. Portal guides walk you through each step when you need hands-on help.',
       ],
     },
   },
   'unlock-all': {
-    images: slide('gpUnlockAll', 'gpPlayerEsp', 'gpEsp'),
+    images: slide('gpUnlockAll', 'gpPlayerEspTags', 'gpEspReception', 'gpEsp'),
     goodToKnow:
       'Unlock All previews operators and skins locally on your client. Other players in your lobby see your real inventory—not preview skins. Included with Elite tier.',
     limitations:
@@ -491,7 +551,7 @@ function buildTierPages(): ProductPage[] {
 }
 
 function buildUtilityPages(): ProductPage[] {
-  return t.products.items
+  return t.tools.items
     .filter((p) => p.href !== productBase)
     .map((product) => {
       const slug = slugFromHref(product.href);
@@ -540,29 +600,18 @@ export function getAllCheatSlugs() {
   return cheatPages.map((p) => p.slug);
 }
 
-const cheatsHubSlides = slide('gpAimbot', 'gpRecoil', 'gpWallhack');
-
-export const heroSlides = slide(
-  'gpEsp',
-  'gpAimbot',
-  'gpWallhack',
-  'gpUnlockAll',
-  'gpRecoil',
-  'gpDrone',
-  'gpPlayerEsp',
-);
-
 export const productHub = {
   path: productBase,
-  title: t.products.title,
-  subtitle: t.products.subtitle,
-  description: 'HWID, recovery and cosmetic utilities for Rainbow Six Siege on PC.',
-  buyUrl: checkoutPath('dota2'),
+  title: t.tools.title,
+  subtitle: t.tools.subtitle,
+  description:
+    'Rainbow Six Siege utility tools — HWID spoofer, account recovery, and Unlock All for PC. Compare features and checkout securely at r6scheats.net.',
+  buyUrl: checkoutPath('r6s'),
 };
 
 export const cheatsHub = {
   path: '/cheats/',
   title: 'R6S Cheats',
   subtitle: 'Lite, Pro and Elite tiers for ranked, unranked and quick match on PC.',
-  buyUrl: checkoutPath('dota2'),
+  buyUrl: checkoutPath('r6s'),
 };

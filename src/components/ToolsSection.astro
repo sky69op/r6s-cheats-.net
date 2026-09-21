@@ -1,0 +1,34 @@
+---
+import { t } from '../i18n';
+import { productPages } from '../data/products';
+import { productCategoryIcons } from '../data/sectionIcons';
+import SectionHeader from './SectionHeader.astro';
+import CatalogCard from './CatalogCard.astro';
+import { toolPath } from '../utils/path';
+
+const s = t.tools;
+const utilityProducts = productPages.filter((p) => p.kind === 'utility');
+---
+
+<section id="tools" class="section-shell" aria-labelledby="tools-title">
+  <div class="container section-center">
+    <SectionHeader eyebrow={s.eyebrow} title={s.title} desc={s.subtitle} titleId="tools-title" />
+
+    <div class="card-grid card-grid-3 mt-12" data-reveal-group>
+      {utilityProducts.map((product, i) => (
+        <CatalogCard
+          label={product.category ?? 'Utility'}
+          title={product.title}
+          href={toolPath(product.slug)}
+          buyUrl={product.buyUrl}
+          features={product.features}
+          more={product.more}
+          icon={productCategoryIcons[product.category ?? ''] ?? 'package'}
+          buyLabel="Buy"
+          viewLabel="Details"
+          revealDelay={i * 80}
+        />
+      ))}
+    </div>
+  </div>
+</section>

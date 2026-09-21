@@ -3,31 +3,34 @@ import { t } from '../i18n';
 import { checkoutPath } from '../config/affiliate';
 import Icon from './icons/Icon.astro';
 
-const navIcons: Record<string, 'crosshair' | 'package' | 'layers' | 'mail' | 'alert'> = {
+const navIcons: Record<string, 'crosshair' | 'package' | 'layers' | 'mail' | 'monitor'> = {
+  Home: 'monitor',
   Features: 'crosshair',
   Cheats: 'package',
-  Products: 'layers',
-  Blog: 'mail',
-  FAQ: 'alert',
+  Tools: 'layers',
+  Forums: 'mail',
 };
 
-const purchaseUrl = checkoutPath('dota2');
+const purchaseUrl = checkoutPath('r6s');
 ---
 
 <header class="site-header">
-  <div class="container relative flex h-16 items-center justify-between lg:h-[4.25rem]">
-    <a href="/" class="site-logo-link inline-flex min-w-0 items-center gap-2.5" aria-label={t.ui.homeAria}>
-      <img src="/logo.svg" alt="" width="38" height="38" class="site-logo-link__img shrink-0" style="border-radius: 8px;" />
+  <div class="container site-header__bar">
+    <a href="/" class="site-logo-link inline-flex min-w-0 items-center gap-2" aria-label={t.ui.homeAria}>
+      <span class="site-logo-link__img-wrap shrink-0" aria-hidden="true">
+        <img src="/logo.png" alt="" width="32" height="32" class="site-logo-link__img theme-logo theme-logo--dark" />
+        <img src="/logo-light.png" alt="" width="32" height="32" class="site-logo-link__img theme-logo theme-logo--light" />
+      </span>
       <span class="logo-text truncate" aria-hidden="true">R6s<span class="logo-accent">Cheats</span></span>
     </a>
 
-    <nav class="desktop-nav absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 lg:flex" aria-label="Primary">
+    <nav class="desktop-nav absolute left-1/2 hidden -translate-x-1/2 items-center gap-5 xl:gap-6 lg:flex" aria-label="Primary">
       {t.nav.map((link) => (
         <a href={link.href} class="nav-link" data-nav-link>{link.label}</a>
       ))}
     </nav>
 
-    <div class="flex items-center gap-3">
+    <div class="site-header__actions">
       <button
         type="button"
         class="theme-toggle"
@@ -37,11 +40,11 @@ const purchaseUrl = checkoutPath('dota2');
         aria-label={t.ui.themeLight}
         title={t.ui.themeLight}
       >
-        <svg class="theme-toggle__icon theme-toggle__icon--light" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <svg class="theme-toggle__icon theme-toggle__icon--light" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <circle cx="12" cy="12" r="4"></circle>
           <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
         </svg>
-        <svg class="theme-toggle__icon theme-toggle__icon--dark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <svg class="theme-toggle__icon theme-toggle__icon--dark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
       </button>

@@ -2,11 +2,12 @@
 import { cheatPages } from '../data/products';
 import { cheatTierIcons } from '../data/sectionIcons';
 import Icon from './icons/Icon.astro';
+import type { IconName } from './icons/types';
 import { cheatPath } from '../utils/path';
 
 interface CompareRow {
   feature: string;
-  icon: 'eye' | 'crosshair' | 'check' | 'zap' | 'package' | 'shield';
+  icon: IconName;
   lite: boolean;
   pro: boolean;
   elite: boolean;

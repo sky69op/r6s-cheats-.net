@@ -1,5 +1,5 @@
 import type { IconName } from '../components/icons/types';
-import { cheatPath, productPath, ROUTES } from '../utils/path';
+import { cheatPath, toolPath, ROUTES } from '../utils/path';
 
 export type FaqTopic =
   | 'all'
@@ -7,8 +7,8 @@ export type FaqTopic =
   | 'esp'
   | 'scripts'
   | 'safety'
-  | 'products'
-  | 'blog'
+  | 'tools'
+  | 'forums'
   | 'setup';
 
 export interface SiteFaqItem {
@@ -32,12 +32,12 @@ function link(text: string, href: string): string {
 const lite = link('R6S Lite', cheatPath('lite'));
 const pro = link('R6S Pro', cheatPath('pro'));
 const elite = link('R6S Elite', cheatPath('elite'));
-const productsHub = link('R6S products', ROUTES.products);
-const hwid = link('HWID Spoofer', productPath('hwid-spoofer'));
-const ugc = link('UGC', productPath('ugc'));
-const unlockAll = link('Unlock All', productPath('unlock-all'));
+const toolsHub = link('R6S tools', ROUTES.tools);
+const hwid = link('HWID Spoofer', toolPath('hwid-spoofer'));
+const ugc = link('UGC', toolPath('ugc'));
+const unlockAll = link('Unlock All', toolPath('unlock-all'));
 const faqPage = link('full FAQ', '/faq/');
-const blog = link('blog guides', ROUTES.blog);
+const forums = link('forum threads', ROUTES.forums);
 
 export const siteFaqs: SiteFaqItem[] = [
   {
@@ -45,7 +45,7 @@ export const siteFaqs: SiteFaqItem[] = [
     topic: 'setup',
     icon: 'alert',
     q: 'Where do I check if R6S cheats are online?',
-    a: a('The live status banner is on r6scheats.net and in the Discord #status channel. Always check after a Rainbow Six Siege or BattlEye update.'),
+    a: a('The live status banner is on r6scheats.net. Always check after a Rainbow Six Siege or BattlEye update.'),
   },
   {
     id: 'after-buy',
@@ -73,14 +73,14 @@ export const siteFaqs: SiteFaqItem[] = [
     topic: 'setup',
     icon: 'refresh',
     q: 'Can I move my license to a new PC?',
-    a: a('Yes—use the HWID reset in your portal or open a Discord ticket. Limits depend on your tier.'),
+    a: a('Yes—use the HWID reset in your portal. Limits depend on your tier.'),
   },
   {
-    id: 'products-page',
-    topic: 'products',
+    id: 'tools-page',
+    topic: 'tools',
     icon: 'package',
-    q: 'Where are products and utilities listed?',
-    a: `${productsHub} lists cheat tiers, ${hwid}, ${ugc}, and ${unlockAll} with feature lists and checkout via our partner.`,
+    q: 'Where are tools and utilities listed?',
+    a: `${toolsHub} lists cheat tiers, ${hwid}, ${ugc}, and ${unlockAll} with feature lists and checkout via our partner.`,
   },
   {
     id: 'what-is-esp',
@@ -151,7 +151,7 @@ export const siteFaqs: SiteFaqItem[] = [
   },
   {
     id: 'hwid-when',
-    topic: 'products',
+    topic: 'tools',
     icon: 'cpu',
     q: 'When do I need the HWID Spoofer?',
     a: `Use ${hwid} when fresh Ubisoft accounts fail instantly on one PC but work elsewhere—hardware enforcement. Not for account-only BattlEye cases; see ${ugc} instead.`,
@@ -159,7 +159,7 @@ export const siteFaqs: SiteFaqItem[] = [
   },
   {
     id: 'ugc-what',
-    topic: 'products',
+    topic: 'tools',
     icon: 'mail',
     q: 'What is UGC?',
     a: `${ugc} (Unban & Governance Control) is an appeal workspace for Ubisoft restrictions and BattlEye bans—custom workflows and case tracking, not a guaranteed unban service.`,
@@ -167,7 +167,7 @@ export const siteFaqs: SiteFaqItem[] = [
   },
   {
     id: 'unlock-all',
-    topic: 'products',
+    topic: 'tools',
     icon: 'tag',
     q: 'Does Unlock All modify my Ubisoft inventory?',
     a: `${unlockAll} previews operators and skins locally on your client. Other players see your real inventory. Included with ${elite}; available standalone for cosmetic preview only.`,
@@ -175,31 +175,31 @@ export const siteFaqs: SiteFaqItem[] = [
   },
   {
     id: 'external-loader',
-    topic: 'products',
+    topic: 'tools',
     icon: 'cpu',
     q: 'Is the loader injected into the Ubisoft folder?',
-    a: `Rainbow Six Siege Cheats runs external with cloud config sync—no files injected into the R6 Siege directory. BattlEye risk still applies. See ${productsHub}.`,
+    a: `Rainbow Six Siege Cheats runs external with cloud config sync—no files injected into the R6 Siege directory. BattlEye risk still applies. See ${toolsHub}.`,
   },
   {
-    id: 'blog-vs-cheats',
-    topic: 'blog',
+    id: 'forums-vs-cheats',
+    topic: 'forums',
     icon: 'alert',
-    q: 'Are blog cheat codes the same as ranked cheats?',
-    a: `No. Blog articles about custom game settings apply only in offline or custom games. Ranked R6S cheats are separate products—see ${lite}, ${pro} and ${elite}.`,
+    q: 'Are forum cheat codes the same as ranked cheats?',
+    a: `No. Forum threads about custom game settings apply only in offline or custom games. Ranked R6S cheats are separate products—see ${lite}, ${pro} and ${elite}.`,
   },
   {
-    id: 'blog-setup',
-    topic: 'blog',
+    id: 'forums-setup',
+    topic: 'forums',
     icon: 'settings',
-    q: 'Where do blog setup guides point for purchase?',
-    a: `Guides link to tier pages and ${productsHub}. Checkout runs through our secure partner—never paste loader files from random Discord DMs.`,
+    q: 'Where do forum setup threads point for purchase?',
+    a: `Threads link to tier pages and ${toolsHub}. Checkout runs through our secure partner—never paste loader files from random Discord DMs.`,
   },
   {
     id: 'compare-plans',
     topic: 'plans',
     icon: 'package',
     q: 'Where do I compare plans side by side?',
-    a: `Each cheat tier page includes a compare table. The ${faqPage} collects product, cheat and blog answers in one place.`,
+    a: `Each cheat tier page includes a compare table. The ${faqPage} collects product, cheat and forum answers in one place.`,
   },
   {
     id: 'who-lite',
@@ -230,14 +230,14 @@ export const siteFaqs: SiteFaqItem[] = [
     topic: 'safety',
     icon: 'refresh',
     q: 'What should I do after a BattlEye update?',
-    a: a('Check r6scheats.net status and Discord #status. Do not launch until the banner shows online. Load conservative presets after any patch.'),
+    a: a('Check r6scheats.net status. Do not launch until the banner shows online. Load conservative presets after any patch.'),
   },
   {
-    id: 'discord-help',
+    id: 'install-help',
     topic: 'setup',
     icon: 'headphones',
     q: 'How do I get install help?',
-    a: a('Open Discord after purchase with your order email, Windows version and Rainbow Six Siege client build. Staff walk through loader setup live.'),
+    a: a('Follow the portal setup guide after purchase with your order email, Windows version and Rainbow Six Siege client build ready.'),
   },
   {
     id: 'unranked-ranked',
@@ -274,13 +274,13 @@ export const siteFaqs: SiteFaqItem[] = [
     topic: 'all',
     icon: 'alert',
     q: 'Where is the full FAQ?',
-    a: `This site includes landing FAQs and per-page sections. See the ${faqPage} for all product, cheat and blog answers—or read ${blog} for deep guides.`,
+    a: `This site includes landing FAQs and per-page sections. See the ${faqPage} for all product, cheat and forum answers—or read ${forums} for deep threads.`,
   },
 ];
 
 export function getLandingFaqs(): SiteFaqItem[] {
   return siteFaqs.filter((f) =>
-    ['status', 'after-buy', 'ban-risk', 'platforms', 'license-move', 'products-page'].includes(f.id),
+    ['status', 'after-buy', 'ban-risk', 'platforms', 'license-move', 'tools-page'].includes(f.id),
   );
 }
 
@@ -312,41 +312,41 @@ export function getProductFaqs(slug: string, kind: 'tier' | 'utility'): SiteFaqI
   });
 }
 
-const blogTopicFaqs: Record<string, SiteFaqItem[]> = {
+const forumTopicFaqs: Record<string, SiteFaqItem[]> = {
   Guides: [
     {
-      id: 'blog-guide-start',
-      topic: 'blog',
+      id: 'forums-guide-start',
+      topic: 'forums',
       icon: 'alert',
       q: 'Should I use custom game settings in ranked?',
       a: a('No. Custom game settings only work in offline or custom games. Ranked requires separate R6S cheats from r6scheats.net tiers.'),
     },
     {
-      id: 'blog-guide-tier',
-      topic: 'blog',
+      id: 'forums-guide-tier',
+      topic: 'forums',
       icon: 'package',
       q: 'Which tier matches this guide?',
       a: `Awareness guides → ${lite}. Aimbot and recoil guides → ${pro}. Wallhack and drone topics → ${elite}.`,
     },
     {
-      id: 'blog-guide-status',
-      topic: 'blog',
+      id: 'forums-guide-status',
+      topic: 'forums',
       icon: 'refresh',
-      q: 'Is this guide still valid after a patch?',
-      a: a('Check the article date and the live status banner. Patch-day articles note when modules change—Discord #status has the latest build notes.'),
+      q: 'Is this thread still valid after a patch?',
+      a: a('Check the thread date and the live status banner. Patch-day threads note when modules change—Discord #status has the latest build notes.'),
     },
   ],
   Setup: [
     {
-      id: 'blog-setup-loader',
-      topic: 'blog',
+      id: 'forums-setup-loader',
+      topic: 'forums',
       icon: 'settings',
       q: 'Where do I download the loader?',
       a: a('Only from your operator portal after checkout—not from third-party links in comments or DMs.'),
     },
     {
-      id: 'blog-setup-lobby',
-      topic: 'blog',
+      id: 'forums-setup-lobby',
+      topic: 'forums',
       icon: 'target',
       q: 'Should I test in a custom game first?',
       a: a('Yes. Load conservative presets in a custom game before ranked. Tune aim smoothing and ESP distance caps over several sessions.'),
@@ -354,72 +354,72 @@ const blogTopicFaqs: Record<string, SiteFaqItem[]> = {
   ],
   Security: [
     {
-      id: 'blog-sec-battleye',
-      topic: 'blog',
+      id: 'forums-sec-battleye',
+      topic: 'forums',
       icon: 'shield',
-      q: 'Does this article guarantee undetected status?',
-      a: a('No article replaces the live status banner. Undetected is a point-in-time label—stop if status shows updating or detected.'),
+      q: 'Does this thread guarantee undetected status?',
+      a: a('No thread replaces the live status banner. Undetected is a point-in-time label—stop if status shows updating or detected.'),
     },
   ],
 };
 
-const defaultBlogFaqs: SiteFaqItem[] = [
+const defaultForumFaqs: SiteFaqItem[] = [
   {
-    id: 'blog-default-1',
-    topic: 'blog',
+    id: 'forums-default-1',
+    topic: 'forums',
     icon: 'alert',
-    q: 'Are blog guides official product documentation?',
-    a: `Articles explain workflows and link to ${lite}, ${pro}, ${elite} and ${productsHub}. Feature lists on product pages are authoritative for checkout.`,
+    q: 'Are forum threads official product documentation?',
+    a: `Threads explain workflows and link to ${lite}, ${pro}, ${elite} and ${toolsHub}. Feature lists on tool pages are authoritative for checkout.`,
   },
   {
-    id: 'blog-default-2',
-    topic: 'blog',
+    id: 'forums-default-2',
+    topic: 'forums',
     icon: 'headphones',
-    q: 'Need help applying this guide?',
-    a: a('Open Discord with your order email and the article slug. Staff reference the same portal presets mentioned in guides.'),
+    q: 'Need help applying this thread?',
+    a: a('Use your order email and the thread slug when reviewing the portal presets mentioned in forum posts.'),
   },
   {
-    id: 'blog-default-3',
-    topic: 'blog',
+    id: 'forums-default-3',
+    topic: 'forums',
     icon: 'refresh',
-    q: 'Will settings in this article work next patch?',
+    q: 'Will settings in this thread work next patch?',
     a: a('Re-check status after every Rainbow Six Siege update. Portal presets update with patch notes—reload configs instead of copying old sliders.'),
   },
 ];
 
-export function getBlogFaqs(tag: string, slug: string): SiteFaqItem[] {
-  const topicFaqs = blogTopicFaqs[tag] ?? [];
+export function getForumFaqs(tag: string, slug: string): SiteFaqItem[] {
+  const topicFaqs = forumTopicFaqs[tag] ?? [];
   const slugHints: SiteFaqItem[] = [];
 
   if (slug.includes('esp') || slug.includes('wallhack')) {
     slugHints.push({
-      id: 'blog-slug-esp',
+      id: 'forums-slug-esp',
       topic: 'esp',
       icon: 'eye',
-      q: 'Which tier covers ESP from this article?',
+      q: 'Which tier covers ESP from this thread?',
       a: `${lite} includes player ESP, gadget locator and drone alerts. ${pro} adds aimbot on the same overlay stack.`,
     });
   }
   if (slug.includes('aimbot') || slug.includes('recoil')) {
     slugHints.push({
-      id: 'blog-slug-aimbot',
+      id: 'forums-slug-aimbot',
       topic: 'scripts',
       icon: 'crosshair',
-      q: 'Which tier includes the aim modules in this article?',
+      q: 'Which tier includes the aim modules in this thread?',
       a: `${pro} and ${elite} ship aimbot and no recoil. ${lite} is ESP only.`,
     });
   }
   if (slug.includes('hwid') || slug.includes('ban') || slug.includes('battleye')) {
     slugHints.push({
-      id: 'blog-slug-hwid',
-      topic: 'products',
+      id: 'forums-slug-hwid',
+      topic: 'tools',
       icon: 'cpu',
-      q: 'Does this article replace HWID or UGC products?',
-      a: `Recovery guides complement ${hwid} and ${ugc}—read product pages for workflow scope and realistic outcomes.`,
+      q: 'Does this thread replace HWID or UGC tools?',
+      a: `Recovery threads complement ${hwid} and ${ugc}—read tool pages for workflow scope and realistic outcomes.`,
     });
   }
 
-  return [...slugHints, ...topicFaqs, ...defaultBlogFaqs].slice(0, 8);
+  return [...slugHints, ...topicFaqs, ...defaultForumFaqs].slice(0, 8);
 }
 
 export const compareRows = [

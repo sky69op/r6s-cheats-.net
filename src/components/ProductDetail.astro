@@ -2,23 +2,23 @@
 import type { ProductPage } from '../data/products';
 import type { BreadcrumbItem } from '../utils/schema';
 import { getProductFaqs, compareRows } from '../data/faq';
-import { getFeaturedBlogPosts } from '../data/blog';
+import { getFeaturedForumPosts } from '../data/forums';
 import Breadcrumbs from './Breadcrumbs.astro';
 import CompareTable from './CompareTable.astro';
 import FaqSection from './FaqSection.astro';
-import BlogCard from './BlogCard.astro';
+import ForumCard from './ForumCard.astro';
 import Icon from './icons/Icon.astro';
 import IconArrow from './IconArrow.astro';
 
 interface Props {
   product: ProductPage;
   breadcrumbs?: BreadcrumbItem[];
-  relatedBlogSlugs?: string[];
+  relatedForumSlugs?: string[];
 }
 
 const { product, breadcrumbs } = Astro.props;
 const faqs = getProductFaqs(product.slug, product.kind);
-const related = getFeaturedBlogPosts(3);
+const related = getFeaturedForumPosts(3);
 const bestFor =
   product.kind === 'tier'
     ? product.overview.paragraphs[0]
@@ -134,11 +134,11 @@ const bestFor =
 
     {
       related.length > 0 && (
-        <section class="catalog-related mt-14" aria-labelledby="related-guides-heading">
-          <h2 id="related-guides-heading" class="catalog-section-title">Related guides</h2>
-          <div class="card-grid card-grid-3 mt-6">
-            {related.map((post, i) => (
-              <BlogCard post={post} index={i} />
+        <section class="catalog-related mt-14" aria-labelledby="related-threads-heading">
+          <h2 id="related-threads-heading" class="catalog-section-title">Related threads</h2>
+          <div class="forum-list forum-list--compact mt-6">
+            {related.map((post) => (
+              <ForumCard post={post} compact />
             ))}
           </div>
         </section>

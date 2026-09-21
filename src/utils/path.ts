@@ -10,22 +10,23 @@ export function withTrailingSlash(path: string): string {
 
 export const ROUTES = {
   home: '/',
-  blog: '/blog/',
+  features: '/features/',
+  forums: '/forums/',
   cheats: '/cheats/',
-  products: '/products/r6s-cheats/',
+  tools: '/tools/r6s-cheats/',
   about: '/about/',
   contact: '/contact/',
   privacy: '/privacy/',
 } as const;
 
-export function blogPostPath(slug: string): string {
-  return `/blog/${slug}/`;
+export function forumPostPath(slug: string): string {
+  return `/forums/${slug}/`;
 }
 
 export function cheatPath(slug: string): string {
   return `/cheats/${slug}/`;
 }
 
-export function productPath(slug: string): string {
-  return `/products/r6s-cheats/${slug}/`;
+export function toolPath(slug: string): string {
+  return `/tools/r6s-cheats/${slug}/`;
 }

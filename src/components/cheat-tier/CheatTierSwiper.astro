@@ -1,0 +1,109 @@
+---
+import type { ProductSlide } from '../../data/products';
+import { HERO_IMAGE_SIZES, HERO_IMAGE_WIDTHS } from '../../utils/responsiveImage';
+import ResponsiveImage from '../ResponsiveImage.astro';
+
+interface Props {
+  slides: ProductSlide[];
+  swiperId: string;
+}
+
+const { slides, swiperId } = Astro.props;
+---
+
+<div
+  class="cheat-tier-swiper cheat-tier-swiper--hero"
+  data-cheat-tier-swiper
+  data-swiper-id={swiperId}
+  data-slide-count={slides.length}
+>
+  <div class="cheat-tier-swiper__frame">
+    <div class="swiper cheat-tier-swiper__viewport">
+      <div class="swiper-wrapper">
+        {
+          slides.map((slide, index) => (
+            <div class="swiper-slide">
+              <figure class="cheat-tier-swiper__figure">
+                <div class="cheat-tier-swiper__media">
+                  <ResponsiveImage
+                    src={slide.src}
+                    alt={slide.alt}
+                    width={960}
+                    height={540}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    fetchPriority={index === 0 ? 'high' : 'auto'}
+                    sizes={HERO_IMAGE_SIZES}
+                    widths={HERO_IMAGE_WIDTHS}
+                  />
+                  <figcaption class="cheat-tier-swiper__overlay">
+                    <strong>{slide.caption}</strong>
+                    <span>{slide.captionDesc}</span>
+                  </figcaption>
+                </div>
+              </figure>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+    <div class="cheat-tier-swiper__pagination cheat-tier-swiper__pagination--hero swiper-pagination" />
+  </div>
+</div>
+
+<script>
+  import Swiper from 'swiper';
+  import { Autoplay, Pagination } from 'swiper/modules';
+
+  const AUTOPLAY_DELAY = 2800;
+
+  function initCheatTierSwipers() {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    document.querySelectorAll<HTMLElement>('[data-cheat-tier-swiper]').forEach((root) => {
+      if (root.dataset.swiperInit === 'true') return;
+
+      const viewport = root.querySelector<HTMLElement>('.swiper');
+      const pagination = root.querySelector<HTMLElement>('.cheat-tier-swiper__pagination');
+      if (!viewport || !pagination) return;
+
+      const slideCount = Number.parseInt(root.dataset.slideCount ?? '0', 10) || 0;
+      const canLoop = slideCount > 1;
+
+      const swiper = new Swiper(viewport, {
+        modules: [Pagination, Autoplay],
+        pagination: { el: pagination, clickable: true },
+        grabCursor: true,
+        slidesPerView: 1,
+        spaceBetween: 0,
+        watchOverflow: true,
+        loop: canLoop,
+        speed: 320,
+        autoplay: canLoop && !reducedMotion
+          ? {
+              delay: AUTOPLAY_DELAY,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+              waitForTransition: false,
+            }
+          : false,
+      });
+
+      if (canLoop && !reducedMotion && swiper.autoplay) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            const visible = entries.some((entry) => entry.isIntersecting);
+            if (visible) swiper.autoplay.start();
+            else swiper.autoplay.stop();
+          },
+          { threshold: 0.35 },
+        );
+        observer.observe(root);
+      }
+
+      root.dataset.swiperInit = 'true';
+    });
+  }
+
+  initCheatTierSwipers();
+  document.addEventListener('astro:page-load', initCheatTierSwipers);
+</script>

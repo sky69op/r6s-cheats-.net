@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "node scripts/optimize-images.mjs && astro build && node scripts/finalize-sitemap.mjs",
+    "build": "node scripts/process-brand-images.mjs && node scripts/generate-light-favicon.mjs && node scripts/optimize-images.mjs && node scripts/write-go-redirects.mjs && astro build && node scripts/finalize-sitemap.mjs",
     "preview": "astro preview --host 0.0.0.0",
     "start": "node scripts/serve.mjs",
     "astro": "astro",
@@ -19,6 +19,7 @@
     "astro": "^7.1.1",
     "serve": "^14.2.4",
     "sharp": "^0.35.4",
+    "swiper": "^14.2.0",
     "tailwindcss": "^4.3.3"
   }
 }

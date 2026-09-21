@@ -4,39 +4,77 @@ import { featureIcons } from '../data/sectionIcons';
 import SectionHeader from './SectionHeader.astro';
 import Icon from './icons/Icon.astro';
 
+interface Props {
+  showHeader?: boolean;
+  showSeeAll?: boolean;
+  sectionId?: string;
+  class?: string;
+}
+
+const {
+  showHeader = true,
+  showSeeAll = true,
+  sectionId = 'features',
+  class: className,
+} = Astro.props;
+
 const s = t.features;
 ---
 
-<section id="features" class="section-shell section-band" aria-labelledby="features-title">
+<section
+  id={sectionId}
+  class:list={['section-shell section-band', className]}
+  aria-labelledby={`${sectionId}-title`}
+>
   <div class="container section-center">
-    <SectionHeader eyebrow={s.eyebrow} title={s.title} desc={s.subtitle} titleId="features-title" />
+    {
+      showHeader && (
+        <SectionHeader eyebrow={s.eyebrow} title={s.title} desc={s.subtitle} titleId={`${sectionId}-title`} />
+      )
+    }
 
-    <div class="card-grid card-grid-features mt-12 text-left" data-reveal-group>
-      {s.items.map((item, index) => (
-        <article class:list={['feature-block', { 'feature-block-wide': index === s.items.length - 1 }]} data-reveal style={`--reveal-delay: ${index * 60}ms`}>
-          <div class="feature-block-head">
-            <span class="icon-wrap icon-wrap-sm">
-              <Icon name={featureIcons[item.title] ?? 'crosshair'} size={18} />
-            </span>
-            <p class="feature-name">{item.title}</p>
-          </div>
-          <p class="feature-headline">{item.subtitle}</p>
-          <p class="feature-desc">{item.desc}</p>
-          {item.bullets && (
-            <ul class="check-list mt-4">
-              {item.bullets.map((b) => (
+    <div class:list={['card-grid card-grid-features text-left', showHeader ? 'mt-12' : 'mt-0']} data-reveal-group>
+      {s.items.map((item, index) => {
+        const checks = item.points ?? item.bullets ?? item.tags.slice(0, 4);
+        const centerLast = index === s.items.length - 1 && s.items.length % 2 === 1;
+
+        return (
+          <article
+            class:list={['feature-block', { 'feature-block--center': centerLast }]}
+            data-reveal
+            style={`--reveal-delay: ${index * 60}ms`}
+          >
+            <div class="feature-block-head">
+              <span class="icon-wrap icon-wrap-sm feature-block-icon">
+                <Icon name={featureIcons[item.title] ?? 'crosshair'} size={16} />
+              </span>
+              <p class="feature-name">{item.title}</p>
+            </div>
+            <div class="feature-block-divider" aria-hidden="true"></div>
+            <p class="feature-headline">{item.subtitle}</p>
+            <p class="feature-desc">{item.desc}</p>
+            <ul class="feature-check-grid">
+              {checks.map((text) => (
                 <li>
-                  <Icon name="check" size={16} />
-                  <span>{b}</span>
+                  <Icon name="check" size={14} />
+                  <span>{text}</span>
                 </li>
               ))}
             </ul>
-          )}
-          <div class="tag-list">
-            {item.tags.slice(0, 4).map((tag) => <span class="tag">{tag}</span>)}
-          </div>
-        </article>
-      ))}
+          </article>
+        );
+      })}
     </div>
+
+    {
+      showSeeAll && (
+        <div class="features-see-all mt-8" data-reveal>
+          <a href={s.seeAllHref} class="features-see-all-link">
+            <span>{s.seeAll}</span>
+            <span class="features-see-all-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      )
+    }
   </div>
 </section>

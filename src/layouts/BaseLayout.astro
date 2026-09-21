@@ -13,6 +13,7 @@ import {
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import JsonLd from '../components/JsonLd.astro';
+import { CHECKOUT_REDIRECT_MAP } from '../config/affiliate';
 
 interface Props {
   title?: string;
@@ -46,16 +47,48 @@ const robotsContent = noindex
 ---
 
 <!doctype html>
-<html lang="en" data-theme="r6s" data-color-mode="dark">
+<html lang="en" data-theme="r6s">
   <head>
     <meta charset="UTF-8" />
+    <script is:inline define:vars={{ checkoutRedirectMap: CHECKOUT_REDIRECT_MAP }}>
+      document.addEventListener(
+        'click',
+        function (event) {
+          var target = event.target;
+          if (!target || !target.closest) return;
+          var link = target.closest('a[href^="/go/"]');
+          if (!link || event.defaultPrevented || event.button !== 0) return;
+          if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+          if (link.target && link.target !== '_self') return;
+
+          var path = link.pathname || '';
+          if (path.charAt(path.length - 1) === '/') path = path.slice(0, -1);
+          var slug = path.match(/^\/go\/([^/]+)$/)?.[1];
+          var destination = slug && checkoutRedirectMap[slug];
+          if (!destination) return;
+
+          event.preventDefault();
+          location.replace(destination);
+        },
+        true,
+      );
+    </script>
     <script is:inline>
       (function () {
         var storageKey = 'r6scheats-color-mode';
-        var mode = localStorage.getItem(storageKey);
-        if (mode !== 'light' && mode !== 'dark') mode = 'dark';
+        var userKey = 'r6scheats-color-mode-user';
+        var stored = localStorage.getItem(storageKey);
+        var userSet = localStorage.getItem(userKey) === '1';
+        var mode;
+        if (userSet && (stored === 'light' || stored === 'dark')) {
+          mode = stored;
+        } else {
+          mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
         document.documentElement.setAttribute('data-color-mode', mode);
         document.documentElement.classList.add('fonts-pending');
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.content = mode === 'light' ? '#f8f8fb' : '#7F3DEE';
       })();
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -68,11 +101,21 @@ const robotsContent = noindex
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
     <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <script is:inline>
+      (function () {
+        if (document.documentElement.getAttribute('data-color-mode') !== 'light') return;
+        var icon32 = document.querySelector('link[rel="icon"][sizes="32x32"]');
+        var icon16 = document.querySelector('link[rel="icon"][sizes="16x16"]');
+        var shortcut = document.querySelector('link[rel="shortcut icon"]');
+        if (icon32) icon32.href = '/favicon-32-light.png';
+        if (icon16) icon16.href = '/favicon-16-light.png';
+        if (shortcut) shortcut.href = '/favicon-light.ico';
+      })();
+    </script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -110,17 +153,14 @@ const robotsContent = noindex
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Manrope:wght@400;500;600&display=optional"
-      rel="stylesheet"
-      media="print"
-      onload="this.media='all'"
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Manrope:wght@400;500;600&display=swap"
     />
-    <noscript>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Manrope:wght@400;500;600&display=optional"
-        rel="stylesheet"
-      />
-    </noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Manrope:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
 
     {jsonLd && <JsonLd data={jsonLd} />}
     <slot name="head" />

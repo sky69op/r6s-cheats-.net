@@ -12,6 +12,8 @@ interface Props {
   showFilters?: boolean;
   filterTopics?: FaqTopic[];
   centered?: boolean;
+  showHeader?: boolean;
+  layout?: 'center' | 'left';
   class?: string;
 }
 
@@ -24,6 +26,8 @@ const {
   showFilters = false,
   filterTopics,
   centered = true,
+  showHeader = true,
+  layout = 'center',
   class: className,
 } = Astro.props;
 
@@ -33,27 +37,31 @@ const topicLabels: Record<FaqTopic, string> = {
   esp: 'Map hack / ESP',
   scripts: 'Scripts',
   safety: 'Safety',
-  products: 'Products',
-  blog: 'Blog',
+  tools: 'Tools',
+  forums: 'Forums',
   setup: 'Setup',
 };
 
-const filters = filterTopics ?? (['all', 'plans', 'esp', 'scripts', 'safety', 'products'] as FaqTopic[]);
+const filters = filterTopics ?? (['all', 'plans', 'esp', 'scripts', 'safety', 'tools'] as FaqTopic[]);
 ---
 
 <section
-  class:list={['section-shell faq-section', className]}
+  class:list={['section-shell faq-section', layout === 'left' && 'faq-section--left', className]}
   aria-labelledby={titleId}
   data-faq-section={showFilters ? '' : undefined}
 >
-  <div class="container section-center">
-    <SectionHeader
-      eyebrow={eyebrow}
-      title={title}
-      desc={subtitle}
-      titleId={titleId}
-      centered={centered}
-    />
+  <div class:list={['container', layout === 'center' ? 'section-center' : 'faq-section__container']}>
+    {
+      showHeader && (
+        <SectionHeader
+          eyebrow={eyebrow}
+          title={title}
+          desc={subtitle}
+          titleId={titleId}
+          centered={centered}
+        />
+      )
+    }
 
     {
       showFilters && (

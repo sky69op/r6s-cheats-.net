@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { forumPosts } from '../../data/forums';
+import { t } from '../../i18n';
+import { pageTitle } from '../../config/seo';
+import { breadcrumbSchema, collectionPageSchema } from '../../utils/schema';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import ForumCard from '../../components/ForumCard.astro';
+import Icon from '../../components/icons/Icon.astro';
+
+const breadcrumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Forums', path: '/forums/' },
+];
+---
+
+<BaseLayout
+  title={pageTitle(t.forums.title)}
+  description={t.forums.subtitle}
+  jsonLd={[
+    collectionPageSchema({
+      name: t.forums.title,
+      description: t.forums.subtitle,
+      url: '/forums/',
+    }),
+    breadcrumbSchema(breadcrumbs),
+  ]}
+>
+  <section class="section-shell">
+    <div class="container section-center">
+      <div class="max-w-3xl text-left">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
+      <SectionHeader eyebrow={t.forums.eyebrow} title={t.forums.title} desc={t.forums.subtitle} />
+
+      <div class="forum-list max-w-3xl" aria-label="All forum threads">
+        {forumPosts.map((post) => (
+          <ForumCard post={post} />
+        ))}
+      </div>
+
+      <div class="mt-10 max-w-3xl text-left">
+        <a href="/" class="btn btn-outline">
+          <Icon name="chevronLeft" size={16} />
+          Back to home
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

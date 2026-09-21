@@ -1,8 +1,6 @@
 ---
 import { t } from '../i18n';
-import { heroSlides } from '../data/products';
-import { heroStatIcons, heroStatusPills } from '../data/sectionIcons';
-import ImageSlider from './ImageSlider.astro';
+import { heroStatusPills } from '../data/sectionIcons';
 import Icon from './icons/Icon.astro';
 import IconArrow from './IconArrow.astro';
 
@@ -39,50 +37,47 @@ const h = t.hero;
             {h.ctaPrimary}
             <IconArrow />
           </a>
-          <a
-            href={t.site.discord}
-            class="btn btn-discord hero-btn"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={t.ui.discordAria}
-          >
-            <Icon name="discord" size={18} />
-            {h.ctaDiscord}
-          </a>
         </div>
       </div>
 
-      <div class="hero-visual">
-        <ImageSlider images={heroSlides} id="hero-slider" variant="hero" desktopOnly />
-        <div class="hero-status-marquee" aria-label="Feature status">
-          <div class="hero-status-marquee-track">
-            {[0, 1].map((copy) => (
-              <div class="hero-status-marquee-group" aria-hidden={copy === 1 ? 'true' : undefined}>
-                {heroStatusPills.map((pill) => (
-                  <span class="hero-status-pill">
-                    <Icon name={pill.icon} size={14} />
-                    {pill.label}
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-operator-stack">
+          <img
+            src="/images/hero/hero-operator-dark.png"
+            alt=""
+            class="hero-character hero-character--dark"
+            width="802"
+            height="1024"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+          />
+          <img
+            src="/images/hero/hero-operator-light.png"
+            alt=""
+            class="hero-character hero-character--light"
+            width="803"
+            height="1024"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
       </div>
     </div>
 
-    <div class="hero-stats">
-      {h.metrics.map((m, i) => (
-        <div class="hero-stat">
-          <span class="hero-stat-icon-wrap" aria-hidden="true">
-            <Icon name={heroStatIcons[i] ?? 'check'} size={18} />
-          </span>
-          <div class="hero-stat-body">
-            <span class="hero-stat-value">{m.strong}</span>
-            <span class="hero-stat-label">{m.label}</span>
+    <div class="hero-status-marquee" aria-label="Feature status">
+      <div class="hero-status-marquee-track">
+        {[0, 1].map((copy) => (
+          <div class="hero-status-marquee-group" aria-hidden={copy === 1 ? 'true' : undefined}>
+            {heroStatusPills.map((pill) => (
+              <span class="hero-status-pill">
+                <Icon name={pill.icon} size={14} />
+                {pill.label}
+              </span>
+            ))}
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   </div>
 </section>

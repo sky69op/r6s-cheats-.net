@@ -3,7 +3,6 @@ export interface SiteConfig {
   domain: string;
   title: string;
   description: string;
-  discord: string;
 }
 
 export interface NavLink {
@@ -17,6 +16,7 @@ export interface FeatureItem {
   subtitle: string;
   desc: string;
   tags: string[];
+  points?: string[];
   bullets?: string[];
 }
 
@@ -43,11 +43,10 @@ export interface ProductCard {
   href: string;
 }
 
-export interface BlogPost {
+export interface ForumPost {
   tag: string;
   title: string;
   slug: string;
-  image: string;
   desc: string;
   date: string;
   readTime: string;
@@ -72,13 +71,6 @@ export interface ToolkitItem {
   desc: string;
 }
 
-export interface WorkflowItem {
-  num: string;
-  phase: string;
-  title: string;
-  desc: string;
-}
-
 export interface WhyItem {
   title: string;
   desc: string;
@@ -94,15 +86,17 @@ export interface Translations {
     titleLine2: string;
     subtitle: string;
     ctaPrimary: string;
-    ctaDiscord: string;
     modesLabel: string;
     modes: string[];
-    metrics: { label: string; strong: string }[];
   };
   features: {
+    pageTitle: string;
+    pageDescription: string;
     eyebrow: string;
     title: string;
     subtitle: string;
+    seeAll: string;
+    seeAllHref: string;
     items: FeatureItem[];
   };
   whyUs: {
@@ -130,7 +124,7 @@ export interface Translations {
     explore: string;
     items: TierCard[];
   };
-  products: {
+  tools: {
     eyebrow: string;
     title: string;
     subtitle: string;
@@ -139,13 +133,12 @@ export interface Translations {
     explore: string;
     items: ProductCard[];
   };
-  blog: {
+  forums: {
     eyebrow: string;
     title: string;
     subtitle: string;
     viewAll: string;
     read: string;
-    items: BlogPost[];
   };
   toolkit: {
     eyebrow: string;
@@ -153,24 +146,10 @@ export interface Translations {
     subtitle: string;
     items: ToolkitItem[];
   };
-  workflow: {
-    eyebrow: string;
-    title: string;
-    subtitle: string;
-    items: WorkflowItem[];
-  };
-  fieldNotes: {
-    eyebrow: string;
-    title: string;
-    items: { num: string; title: string; desc: string }[];
-  };
   contact: {
     eyebrow: string;
     title: string;
     subtitle: string;
-    discord: string;
-    websiteSupport: string;
-    email: string;
     asideTitle: string;
     asideItems: { num: string; title: string; desc: string }[];
   };
@@ -184,16 +163,13 @@ export interface Translations {
     tagline: string;
     explore: string;
     exploreLinks: NavLink[];
-    support: string;
-    legal: string;
-    socialTitle: string;
-    socialLinks: NavLink[];
-    externalTitle: string;
-    externalLinks: NavLink[];
+    helpLegal: string;
+    helpLegalLinks: NavLink[];
+    bottomLinks: NavLink[];
+    rightsReserved: string;
     privacy: string;
     about: string;
     contact: string;
-    disclaimer: string;
   };
   legalPages: {
     about: {
@@ -217,7 +193,6 @@ export interface Translations {
     browseCheatsMobile: string;
     homeAria: string;
     checkoutAria: string;
-    discordAria: string;
     menuOpen: string;
     menuClose: string;
     themeLight: string;

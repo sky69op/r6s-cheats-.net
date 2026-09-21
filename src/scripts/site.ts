@@ -1,8 +1,3 @@
-interface SliderRoot extends HTMLElement {
-  _sliderPause?: () => void;
-  _sliderResume?: () => void;
-}
-
 function initFonts() {
   const root = document.documentElement;
 
@@ -82,159 +77,62 @@ function initMobileMenu() {
   });
 }
 
-function initImageSliders() {
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function applyThemeIcons(mode: 'dark' | 'light') {
+  const favicons =
+    mode === 'light'
+      ? {
+          s32: '/favicon-32-light.png',
+          s16: '/favicon-16-light.png',
+          shortcut: '/favicon-light.ico',
+        }
+      : {
+          s32: '/favicon-32.png',
+          s16: '/favicon-16.png',
+          shortcut: '/favicon.ico',
+        };
 
-  const onVisibilityChange = () => {
-    document.querySelectorAll<SliderRoot>('[data-slider]').forEach((root) => {
-      const resume = root._sliderResume;
-      const pause = root._sliderPause;
-      if (document.hidden) pause?.();
-      else resume?.();
-    });
-  };
+  document.querySelectorAll<HTMLLinkElement>('link[rel="icon"][sizes="32x32"]').forEach((link) => {
+    link.href = favicons.s32;
+  });
+  document.querySelectorAll<HTMLLinkElement>('link[rel="icon"][sizes="16x16"]').forEach((link) => {
+    link.href = favicons.s16;
+  });
+  document.querySelectorAll<HTMLLinkElement>('link[rel="shortcut icon"]').forEach((link) => {
+    link.href = favicons.shortcut;
+  });
 
-  document.removeEventListener('visibilitychange', onVisibilityChange);
-  document.addEventListener('visibilitychange', onVisibilityChange);
-
-  document.querySelectorAll<SliderRoot>('[data-slider]').forEach((root) => {
-    if (root.hasAttribute('data-desktop-only') && window.matchMedia('(max-width: 1023px)').matches) {
-      return;
-    }
-
-    const slides = Array.from(root.querySelectorAll<HTMLElement>('[data-slide]'));
-    const segments = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-slider-dot]'));
-    const fills = segments.map(
-      (seg) => seg.querySelector<HTMLElement>('[data-slider-segment-fill]')!,
-    );
-    const prev = root.querySelector<HTMLButtonElement>('[data-slider-prev]');
-    const next = root.querySelector<HTMLButtonElement>('[data-slider-next]');
-    if (slides.length <= 1) return;
-
-    const autoplayEnabled = root.hasAttribute('data-autoplay');
-    const intervalMs = Math.max(
-      2000,
-      Number.parseInt(root.dataset.autoplayInterval ?? '5000', 10) || 5000,
-    );
-    root.style.setProperty('--slider-interval', `${intervalMs}ms`);
-
-    let index = 0;
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    let inView = false;
-    let paused = false;
-
-    const setProgressState = (running: boolean) => {
-      fills.forEach((fill, i) => {
-        if (!fill) return;
-        fill.style.animationPlayState =
-          running && i === index && autoplayEnabled && !reducedMotion && inView && !document.hidden
-            ? 'running'
-            : 'paused';
-      });
-    };
-
-    const restartActiveFill = () => {
-      const fill = fills[index];
-      if (!fill) return;
-      fill.style.animation = 'none';
-      requestAnimationFrame(() => {
-        fill.style.removeProperty('animation');
-        setProgressState(!paused);
-      });
-    };
-
-    const updateSegments = () => {
-      segments.forEach((seg, i) => {
-        seg.setAttribute('aria-selected', String(i === index));
-      });
-      restartActiveFill();
-    };
-
-    const show = (nextIndex: number) => {
-      index = (nextIndex + slides.length) % slides.length;
-      slides.forEach((slide, i) => slide.classList.toggle('is-active', i === index));
-      updateSegments();
-    };
-
-    const clearTimer = () => {
-      if (timer) clearTimeout(timer);
-      timer = undefined;
-    };
-
-    const scheduleNext = () => {
-      clearTimer();
-      if (!autoplayEnabled || reducedMotion || !inView || document.hidden || paused) return;
-
-      timer = setTimeout(() => {
-        show(index + 1);
-        scheduleNext();
-      }, intervalMs);
-    };
-
-    const pause = () => {
-      paused = true;
-      clearTimer();
-      setProgressState(false);
-    };
-
-    const resume = () => {
-      if (!paused && timer) return;
-      paused = false;
-      setProgressState(true);
-      scheduleNext();
-    };
-
-    root._sliderPause = pause;
-    root._sliderResume = resume;
-
-    const goTo = (nextIndex: number) => {
-      show(nextIndex);
-      if (autoplayEnabled) scheduleNext();
-    };
-
-    prev?.addEventListener('click', () => goTo(index - 1));
-    next?.addEventListener('click', () => goTo(index + 1));
-    segments.forEach((seg, i) => seg.addEventListener('click', () => goTo(i)));
-
-    root.addEventListener('mouseenter', pause, { passive: true });
-    root.addEventListener('mouseleave', resume, { passive: true });
-    root.addEventListener('focusin', pause);
-    root.addEventListener('focusout', (event) => {
-      if (root.contains(event.relatedTarget as Node)) return;
-      resume();
-    });
-
-    const viewObserver = new IntersectionObserver(
-      (entries) => {
-        inView = entries.some((entry) => entry.isIntersecting);
-        if (inView) resume();
-        else pause();
-      },
-      { threshold: 0.2 },
-    );
-    viewObserver.observe(root);
-
-    requestAnimationFrame(() => {
-      show(0);
-      if (inView && autoplayEnabled) scheduleNext();
-    });
+  document.querySelectorAll<HTMLElement>('.site-footer__brand-logo-wrap').forEach((wrap) => {
+    const darkLogo = wrap.querySelector<HTMLElement>('.theme-logo--dark');
+    const lightLogo = wrap.querySelector<HTMLElement>('.theme-logo--light');
+    if (!darkLogo || !lightLogo) return;
+    const showLight = mode === 'light';
+    darkLogo.style.display = showLight ? 'none' : 'block';
+    lightLogo.style.display = showLight ? 'block' : 'none';
   });
 }
 
 function initThemeToggle() {
   const storageKey = 'r6scheats-color-mode';
+  const userKey = 'r6scheats-color-mode-user';
   const root = document.documentElement;
   const toggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
   const metaTheme = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+  const systemQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
   const themeMetaColors = {
     dark: '#7F3DEE',
-    light: '#f5f7fa',
+    light: '#f8f8fb',
   } as const;
 
-  const applyMode = (mode: 'dark' | 'light') => {
+  const hasUserPreference = () => localStorage.getItem(userKey) === '1';
+
+  const applyMode = (mode: 'dark' | 'light', persist = false) => {
     root.setAttribute('data-color-mode', mode);
-    localStorage.setItem(storageKey, mode);
+    if (persist) {
+      localStorage.setItem(storageKey, mode);
+      localStorage.setItem(userKey, '1');
+    }
+    applyThemeIcons(mode);
     if (metaTheme) metaTheme.content = themeMetaColors[mode];
     if (toggle) {
       const label =
@@ -251,8 +149,32 @@ function initThemeToggle() {
 
   toggle?.addEventListener('click', () => {
     const next = root.getAttribute('data-color-mode') === 'light' ? 'dark' : 'light';
-    applyMode(next);
+    applyMode(next, true);
   });
+
+  systemQuery.addEventListener('change', (event) => {
+    if (hasUserPreference()) return;
+    applyMode(event.matches ? 'dark' : 'light');
+  });
+}
+
+function initHeroCharacterMotion() {
+  const stack = document.querySelector<HTMLElement>('.hero-operator-stack');
+  if (!stack) return;
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const noHover = window.matchMedia('(hover: none)').matches;
+  if (reduced || noHover) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visible = entries.some((entry) => entry.isIntersecting);
+      stack.classList.toggle('hero-operator-stack--idle', !visible);
+    },
+    { rootMargin: '64px 0px', threshold: 0 },
+  );
+
+  observer.observe(stack);
 }
 
 function initHeroBackground() {
@@ -337,13 +259,11 @@ function initNavHighlight() {
 
     if (href.startsWith('/#')) {
       const linkHash = href.slice(1);
-      isActive =
-        (path === '/' || path === '') &&
-        (hash === linkHash || (!hash && linkHash === '#features'));
+      isActive = (path === '/' || path === '') && hash === linkHash;
     } else {
       const linkPath = href.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/';
       if (linkPath === '/') {
-        isActive = path === '/';
+        isActive = (path === '/' || path === '') && !hash;
       } else {
         isActive = path === linkPath || path.startsWith(`${linkPath}/`);
       }
@@ -387,8 +307,8 @@ if (document.readyState === 'loading') {
     initReveal();
     initMobileMenu();
     initThemeToggle();
-    initImageSliders();
     initFaqFilters();
+    initHeroCharacterMotion();
     initHeroBackground();
     initNavHighlight();
   });
@@ -397,8 +317,8 @@ if (document.readyState === 'loading') {
   initReveal();
   initMobileMenu();
   initThemeToggle();
-  initImageSliders();
   initFaqFilters();
+  initHeroCharacterMotion();
   initHeroBackground();
   initNavHighlight();
 }

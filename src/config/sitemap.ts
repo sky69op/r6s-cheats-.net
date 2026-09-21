@@ -1,11 +1,11 @@
 import type { SitemapItem } from '@astrojs/sitemap';
-import { blogPosts } from '../data/blog';
-import { parseBlogDate } from '../utils/schema';
+import { forumPosts } from '../data/forums';
+import { parseForumDate } from '../utils/schema';
 
 const buildDate = new Date().toISOString();
 
-const blogLastmod = new Map(
-  blogPosts.map((post) => [`/blog/${post.slug}/`, parseBlogDate(post.date)] as const),
+const forumLastmod = new Map(
+  forumPosts.map((post) => [`/forums/${post.slug}/`, parseForumDate(post.date)] as const),
 );
 
 function pathnameFromUrl(url: string): string {
@@ -28,20 +28,20 @@ export function sitemapSerialize(item: SitemapItem): SitemapItem | undefined {
     return item;
   }
 
-  if (path === '/blog/') {
+  if (path === '/forums/') {
     item.priority = 0.9;
     item.changefreq = 'weekly';
     return item;
   }
 
-  if (path.startsWith('/blog/')) {
+  if (path.startsWith('/forums/')) {
     item.priority = 0.7;
     item.changefreq = 'monthly';
-    item.lastmod = blogLastmod.get(path) ?? buildDate;
+    item.lastmod = forumLastmod.get(path) ?? buildDate;
     return item;
   }
 
-  if (path.startsWith('/products/') || path.startsWith('/cheats/')) {
+  if (path.startsWith('/tools/') || path.startsWith('/cheats/')) {
     item.priority = 0.8;
     item.changefreq = 'weekly';
     return item;

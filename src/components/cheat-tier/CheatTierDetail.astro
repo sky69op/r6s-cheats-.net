@@ -1,0 +1,179 @@
+---
+import type { ProductPage } from '../../data/products';
+import type { BreadcrumbItem } from '../../utils/schema';
+import type { IconName } from '../icons/types';
+import { getProductFaqs } from '../../data/faq';
+import Breadcrumbs from '../Breadcrumbs.astro';
+import FaqSection from '../FaqSection.astro';
+import Icon from '../icons/Icon.astro';
+import IconArrow from '../IconArrow.astro';
+import CheatTierSwiper from './CheatTierSwiper.astro';
+import './cheat-tier.css';
+
+interface Props {
+  product: ProductPage;
+  breadcrumbs: BreadcrumbItem[];
+}
+
+interface CapabilityCard {
+  title: string;
+  desc: string;
+}
+
+const { product, breadcrumbs } = Astro.props;
+
+const faqs = getProductFaqs(product.slug, product.kind);
+
+const capabilityIcons: IconName[] = ['eye', 'radar', 'cpu', 'shield', 'crosshair', 'zap'];
+
+function extractCapabilities(blocks: { type: 'h2' | 'p'; text: string }[]): CapabilityCard[] {
+  const caps: CapabilityCard[] = [];
+  for (let i = 0; i < blocks.length; i += 1) {
+    const block = blocks[i];
+    const next = blocks[i + 1];
+    if (block.type === 'h2' && next?.type === 'p') {
+      caps.push({ title: block.text, desc: next.text });
+      i += 1;
+    }
+  }
+  return caps;
+}
+
+const capabilityBlocks = extractCapabilities([...(product.about ?? []), ...product.body]);
+const overviewLede = product.overview.paragraphs.join(' ');
+const bestFitLede =
+  product.about?.find((block) => block.type === 'p')?.text ?? product.overview.paragraphs[0];
+const bestFitItems = product.features;
+const buyLabel = `Get ${product.name}`;
+---
+
+<article class="section-shell cheat-tier-page">
+  <div class="container mx-auto max-w-6xl">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <div class="cheat-tier-page__hero-grid mt-6">
+      <section class="cheat-tier-page__main" aria-labelledby={`overview-${product.slug}`}>
+        <header class="cheat-tier-col-head">
+          <div class="cheat-tier-section-head__title-wrap">
+            <span class="cheat-tier-section-head__accent" aria-hidden="true" />
+            <h2 id={`overview-${product.slug}`} class="cheat-tier-section-head__title">Overview</h2>
+          </div>
+          <div class="cheat-tier-col-head__copy">
+            <p class="cheat-tier-section-head__lede">{overviewLede}</p>
+          </div>
+        </header>
+
+        {
+          product.images.length > 0 && (
+            <CheatTierSwiper slides={product.images} swiperId={`cheat-tier-${product.slug}`} />
+          )
+        }
+      </section>
+
+      <aside class="cheat-tier-page__aside" aria-labelledby={`acquisition-${product.slug}`}>
+        <header class="cheat-tier-col-head">
+          <div class="cheat-tier-section-head__title-wrap">
+            <span class="cheat-tier-section-head__accent" aria-hidden="true" />
+            <h2 id={`acquisition-${product.slug}`} class="cheat-tier-section-head__title">Acquisition</h2>
+          </div>
+          <div class="cheat-tier-col-head__copy">
+            <p class="cheat-tier-section-head__lede">{product.acquisition.title}</p>
+          </div>
+        </header>
+
+        <a href={product.buyUrl} class="btn btn-primary btn-buy cheat-tier-aside__buy">
+          <Icon name="zap" size={16} />
+          {buyLabel}
+          <IconArrow />
+        </a>
+
+        <ol class="cheat-tier-aside__steps">
+          {
+            product.acquisition.steps.map((step) => (
+              <li class="cheat-tier-aside-step">
+                <span class="cheat-tier-aside-step__num" aria-hidden="true">
+                  {step.num}
+                </span>
+                <div class="cheat-tier-aside-step__body">
+                  <span class="cheat-tier-aside-step__label">Step {step.num}</span>
+                  <h3>{step.title}</h3>
+                  <p>{step.desc}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </aside>
+    </div>
+
+    {
+      capabilityBlocks.length > 0 && (
+        <section class="cheat-tier-section mt-10" aria-labelledby={`capabilities-${product.slug}`}>
+          <header class="cheat-tier-section-head">
+            <div class="cheat-tier-section-head__title-wrap">
+              <span class="cheat-tier-section-head__accent" aria-hidden="true" />
+              <h2 id={`capabilities-${product.slug}`} class="cheat-tier-section-head__title">
+                Key capabilities
+              </h2>
+            </div>
+            <p class="cheat-tier-section-head__lede">What you get with {product.title}</p>
+          </header>
+
+          <div class="cheat-tier-grid cheat-tier-grid--capabilities">
+            {
+              capabilityBlocks.map((cap, index) => (
+                <article class="cheat-tier-cap-card">
+                  <div class="cheat-tier-cap-card__head">
+                    <span class="cheat-tier-cap-card__icon" aria-hidden="true">
+                      <Icon name={capabilityIcons[index % capabilityIcons.length]} size={18} />
+                    </span>
+                    <h3>{cap.title}</h3>
+                  </div>
+                  <p>{cap.desc}</p>
+                </article>
+              ))
+            }
+          </div>
+        </section>
+      )
+    }
+
+    {
+      bestFitItems.length > 0 && (
+        <section class="cheat-tier-section mt-10" aria-labelledby={`bestfit-${product.slug}`}>
+          <header class="cheat-tier-section-head">
+            <div class="cheat-tier-section-head__title-wrap">
+              <span class="cheat-tier-section-head__accent" aria-hidden="true" />
+              <h2 id={`bestfit-${product.slug}`} class="cheat-tier-section-head__title">Best fit</h2>
+            </div>
+            <p class="cheat-tier-section-head__lede">{bestFitLede}</p>
+          </header>
+
+          <ul class="cheat-tier-grid cheat-tier-grid--bestfor">
+            {
+              bestFitItems.map((item) => (
+                <li class="cheat-tier-bestfor-card">
+                  <span class="cheat-tier-bestfor-card__dot" aria-hidden="true" />
+                  <span>{item}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      )
+    }
+  </div>
+
+  <FaqSection
+    items={faqs}
+    eyebrow="FAQ"
+    title={`${product.title} FAQ`}
+    subtitle={`Questions about ${product.title} — features, setup and current status.`}
+    titleId={`cheat-tier-faq-${product.slug}`}
+    showFilters
+    filterTopics={['all', 'plans', 'esp', 'scripts', 'safety']}
+    layout="left"
+    centered={false}
+    class="cheat-tier-faq section-band mt-14"
+  />
+</article>

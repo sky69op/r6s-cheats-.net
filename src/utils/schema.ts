@@ -37,8 +37,8 @@ export function organizationSchema() {
     '@type': 'Organization',
     name: 'Rainbow Six Siege Cheats',
     url: `${SITE_ORIGIN}/`,
-    logo: `${SITE_ORIGIN}/logo.svg`,
-    sameAs: ['https://discord.gg/WHZf7WpWgc'],
+    logo: `${SITE_ORIGIN}/logo.png`,
+    sameAs: [],
   };
 }
 
@@ -121,17 +121,17 @@ export function articleSchema(input: {
   name: string;
   description: string;
   url: string;
-  image: string;
+  image?: string;
   datePublished: string;
   dateModified?: string;
 }) {
   return {
     '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
+    '@type': 'DiscussionForumPosting',
     headline: input.name,
     description: input.description,
     url: canonicalUrl(input.url),
-    image: absoluteAssetUrl(input.image),
+    ...(input.image ? { image: absoluteAssetUrl(input.image) } : {}),
     datePublished: input.datePublished,
     dateModified: input.dateModified ?? input.datePublished,
     inLanguage: 'en-US',
@@ -144,7 +144,7 @@ export function articleSchema(input: {
       name: 'Rainbow Six Siege Cheats',
       logo: {
         '@type': 'ImageObject',
-        url: `${SITE_ORIGIN}/logo.svg`,
+        url: `${SITE_ORIGIN}/logo.png`,
       },
     },
     mainEntityOfPage: {
@@ -154,7 +154,7 @@ export function articleSchema(input: {
   };
 }
 
-export function parseBlogDate(date: string): string {
+export function parseForumDate(date: string): string {
   const parsed = Date.parse(date);
   if (Number.isNaN(parsed)) return new Date().toISOString().slice(0, 10);
   return new Date(parsed).toISOString().slice(0, 10);

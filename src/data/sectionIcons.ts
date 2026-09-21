@@ -3,6 +3,7 @@ import type { IconName } from '../components/icons/types';
 export const featureIcons: Record<string, IconName> = {
   Aimbot: 'crosshair',
   'ESP / Wallhack': 'eye',
+  'Drone & Gadget ESP': 'radar',
   'Radar & UAV': 'radar',
   'No Recoil': 'target',
   'Utility Suite': 'layers',
@@ -13,17 +14,17 @@ export const whyUsIcons: IconName[] = ['shield', 'users', 'monitor', 'headphones
 export const setupStepIcons: IconName[] = ['check', 'package', 'zap', 'settings', 'crosshair'];
 
 export const toolkitIcons: Record<string, IconName> = {
-  Combat: 'crosshair',
+  Aimbot: 'crosshair',
   Vision: 'eye',
+  Intel: 'radar',
+  Operators: 'target',
+  Recoil: 'zap',
+  Profiles: 'settings',
+  Combat: 'crosshair',
   Radar: 'radar',
   Weapons: 'target',
   Movement: 'zap',
-  Profiles: 'settings',
 };
-
-export const workflowIcons: IconName[] = ['alert', 'package', 'settings', 'check'];
-
-export const fieldNoteIcons: IconName[] = ['calendar', 'shield', 'headphones'];
 
 export const heroStatusPills: { icon: IconName; label: string }[] = [
   { icon: 'eye', label: 'ESP Active' },
@@ -72,6 +73,6 @@ export const compatibilityIcons: IconName[] = [
   'monitor',
   'refresh',
   'wifi',
-  'discord',
+  'headphones',
   'shield',
 ];

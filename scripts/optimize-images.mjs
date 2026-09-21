@@ -3,11 +3,8 @@ import path from 'node:path';
 import sharp from 'sharp';
 
 const root = process.cwd();
-const widths = [320, 400, 512, 640, 960];
-const dirs = [
-  'public/images/gameplay',
-  'public/images/blog',
-];
+const widths = [512, 640, 960];
+const dirs = ['public/images/gameplay'];
 
 async function optimizeDir(relativeDir) {
   const dir = path.join(root, relativeDir);

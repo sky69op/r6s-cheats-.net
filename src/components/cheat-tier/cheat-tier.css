@@ -1,0 +1,516 @@
+@import 'swiper/css';
+@import 'swiper/css/pagination';
+
+.cheat-tier-page {
+  --cheat-tier-max: 72rem;
+  display: grid;
+  gap: clamp(1.75rem, 4vw, 2.75rem);
+  width: 100%;
+  padding-block: 0.5rem 1.5rem;
+  text-align: left;
+}
+
+.cheat-tier-page .container {
+  max-width: var(--cheat-tier-max);
+}
+
+.cheat-tier-banner {
+  display: grid;
+  gap: 0.75rem;
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.cheat-tier-banner__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.625rem;
+}
+
+.cheat-tier-banner__eyebrow {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.cheat-tier-banner__title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4.5vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  color: var(--text);
+}
+
+.cheat-tier-banner__subtitle {
+  margin: 0;
+  max-width: 42rem;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--amber);
+}
+
+.cheat-tier-page__hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.85fr);
+  align-items: start;
+  gap: clamp(1.5rem, 3.5vw, 2.75rem);
+  width: 100%;
+}
+
+.cheat-tier-page__main,
+.cheat-tier-page__aside {
+  display: grid;
+  gap: clamp(0.85rem, 2vw, 1.15rem);
+  width: 100%;
+  min-width: 0;
+}
+
+.cheat-tier-page__aside {
+  position: sticky;
+  top: calc(4.25rem + 1rem);
+  align-content: start;
+}
+
+.cheat-tier-col-head {
+  display: grid;
+  gap: 0.35rem;
+  width: 100%;
+  text-align: left;
+}
+
+.cheat-tier-col-head__copy {
+  display: grid;
+  gap: 0.35rem;
+  width: 100%;
+  max-width: 38rem;
+}
+
+.cheat-tier-section-head {
+  display: grid;
+  gap: 0.35rem;
+  width: 100%;
+  margin-bottom: clamp(0.85rem, 2vw, 1.25rem);
+  text-align: left;
+}
+
+.cheat-tier-section-head__title-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.cheat-tier-section-head__accent {
+  width: 3px;
+  height: 1.35rem;
+  border-radius: 999px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.cheat-tier-section-head__title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(1.375rem, 3vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  color: var(--text);
+}
+
+.cheat-tier-section-head__lede {
+  margin: 0;
+  max-width: 42rem;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.cheat-tier-aside__buy {
+  justify-content: center;
+  width: 100%;
+  min-height: 2.625rem;
+}
+
+.cheat-tier-aside__steps {
+  display: grid;
+  gap: 0.65rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cheat-tier-aside-step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 0.85rem;
+  padding: 0.95rem 1rem;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition:
+    border-color var(--motion-base) var(--motion-ease),
+    transform var(--motion-base) var(--motion-ease);
+}
+
+.cheat-tier-aside-step:hover,
+.cheat-tier-aside-step:focus-within {
+  border-color: rgba(127, 61, 238, 0.35);
+  transform: var(--lift-hover);
+}
+
+.cheat-tier-aside-step__num {
+  min-width: 2rem;
+  font-family: var(--font-heading);
+  font-size: 1.65rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.cheat-tier-aside-step__body {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.cheat-tier-aside-step__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-hover);
+}
+
+.cheat-tier-aside-step__body h3 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.cheat-tier-aside-step__body p {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.cheat-tier-section {
+  display: grid;
+  gap: 0.25rem;
+  width: 100%;
+}
+
+.cheat-tier-grid {
+  display: grid;
+  gap: 0.85rem;
+  width: 100%;
+}
+
+.cheat-tier-grid--capabilities,
+.cheat-tier-grid--bestfor {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cheat-tier-grid--bestfor {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cheat-tier-cap-card {
+  display: grid;
+  gap: 0.65rem;
+  align-content: start;
+  min-height: 100%;
+  padding: 1.15rem 1.2rem;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition:
+    border-color var(--motion-base) var(--motion-ease),
+    transform var(--motion-base) var(--motion-ease);
+}
+
+.cheat-tier-cap-card:hover,
+.cheat-tier-cap-card:focus-within {
+  border-color: rgba(127, 61, 238, 0.35);
+  transform: var(--lift-hover);
+}
+
+.cheat-tier-cap-card__head {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.cheat-tier-cap-card__icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  color: var(--accent-hover);
+  background: var(--accent-muted);
+  border: 1px solid rgba(127, 61, 238, 0.35);
+  border-radius: 0.55rem;
+}
+
+.cheat-tier-cap-card h3 {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.cheat-tier-cap-card p {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.cheat-tier-bestfor-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  min-height: 4.25rem;
+  padding: 1rem 1.05rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition:
+    border-color var(--motion-base) var(--motion-ease),
+    transform var(--motion-base) var(--motion-ease);
+}
+
+.cheat-tier-bestfor-card:hover,
+.cheat-tier-bestfor-card:focus-within {
+  border-color: rgba(127, 61, 238, 0.35);
+  transform: var(--lift-hover);
+}
+
+.cheat-tier-bestfor-card > span:last-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.cheat-tier-bestfor-card__dot {
+  flex-shrink: 0;
+  align-self: flex-start;
+  width: 0.45rem;
+  height: 0.45rem;
+  margin-top: 0.35rem;
+  background: var(--accent);
+  border-radius: 0.15rem;
+  box-shadow: 0 0 0 3px rgba(127, 61, 238, 0.22);
+}
+
+.cheat-tier-swiper {
+  display: grid;
+  gap: 0.85rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.cheat-tier-swiper__frame {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  touch-action: pan-y pinch-zoom;
+}
+
+.cheat-tier-swiper__viewport {
+  width: 100%;
+  overflow: hidden;
+  touch-action: pan-y pinch-zoom;
+}
+
+.cheat-tier-swiper .swiper-slide {
+  height: auto;
+  user-select: none;
+}
+
+.cheat-tier-swiper__figure {
+  display: grid;
+  gap: 0.75rem;
+  height: 100%;
+  margin: 0;
+}
+
+.cheat-tier-swiper__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--surface) 92%, var(--bg-carbon) 8%);
+  border: 1px solid var(--border);
+  border-radius: 1.1rem;
+}
+
+.cheat-tier-swiper__media picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cheat-tier-swiper__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cheat-tier-swiper__overlay {
+  position: absolute;
+  inset: 0.85rem 0.85rem auto;
+  display: grid;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+  text-align: start;
+}
+
+.cheat-tier-swiper__overlay strong {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.cheat-tier-swiper__overlay span {
+  max-width: 34rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.cheat-tier-swiper__pagination {
+  position: relative !important;
+  display: inline-flex !important;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem;
+  width: auto !important;
+  min-height: 1.5rem;
+  margin: 0.65rem auto 0;
+  padding: 0;
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
+}
+
+.cheat-tier-swiper__pagination--hero {
+  position: absolute !important;
+  bottom: 0.85rem;
+  left: 50% !important;
+  z-index: 2;
+  margin: 0;
+  padding: 0.4rem 0.7rem;
+  background: color-mix(in srgb, var(--bg) 52%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+  transform: translateX(-50%) !important;
+  pointer-events: auto;
+}
+
+.cheat-tier-swiper .swiper-pagination-horizontal.swiper-pagination-bullets {
+  display: inline-flex !important;
+  justify-content: center;
+  align-items: center;
+  width: auto !important;
+}
+
+.cheat-tier-swiper .swiper-pagination-bullet {
+  display: block;
+  flex-shrink: 0;
+  width: 0.45rem;
+  height: 0.45rem;
+  margin: 0 !important;
+  opacity: 1;
+  background: var(--border);
+  transition:
+    transform 0.2s,
+    background 0.2s;
+}
+
+.cheat-tier-swiper .swiper-pagination-bullet-active {
+  background: var(--accent);
+  transform: scale(1.2);
+}
+
+.cheat-tier-page .cheat-tier-faq {
+  padding-top: 0;
+}
+
+.cheat-tier-page .cheat-tier-faq .container {
+  padding-inline: 0;
+  max-width: 100%;
+}
+
+@media (max-width: 960px) {
+  .cheat-tier-page__hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cheat-tier-page__aside {
+    position: static;
+  }
+
+  .cheat-tier-grid--capabilities,
+  .cheat-tier-grid--bestfor {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .cheat-tier-banner {
+    padding: 1rem 1.1rem;
+  }
+
+  .cheat-tier-banner__title {
+    font-size: clamp(1.75rem, 8vw, 2.25rem);
+  }
+
+  .cheat-tier-aside-step {
+    padding: 0.85rem 0.9rem;
+  }
+
+  .cheat-tier-cap-card,
+  .cheat-tier-bestfor-card {
+    padding: 0.95rem 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cheat-tier-aside-step:hover,
+  .cheat-tier-aside-step:focus-within,
+  .cheat-tier-cap-card:hover,
+  .cheat-tier-cap-card:focus-within,
+  .cheat-tier-bestfor-card:hover,
+  .cheat-tier-bestfor-card:focus-within {
+    transform: none;
+  }
+}
