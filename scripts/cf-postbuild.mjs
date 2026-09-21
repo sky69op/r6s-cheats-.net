@@ -1,5 +1,12 @@
 import { spawnSync } from 'node:child_process';
 
+// Cloudflare Pages Git CI publishes dist/ automatically after the build step.
+// Manual wrangler pages deploy here fails with API auth errors and is unnecessary.
+if (process.env.CF_PAGES === '1') {
+  console.log('cf-postbuild: skip Pages deploy (Cloudflare Pages Git CI publishes dist/ automatically)');
+  process.exit(0);
+}
+
 // Cloudflare Workers Builds runs under /opt/buildhome with CI=true.
 const onCloudflare =
   process.env.CI === 'true' ||

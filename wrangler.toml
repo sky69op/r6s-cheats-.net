@@ -2,11 +2,11 @@
 #
 # Dashboard (Workers & Pages → Builds):
 #   Build command     = npm run build
-#   Build output dir  = dist          (also set below for wrangler pages deploy)
-#   Deploy command    = npm run deploy
+#   Build output dir  = dist
+#   Deploy command    = (leave empty for Pages Git — dist/ is published automatically)
 #
 # Do NOT use `npx wrangler deploy` — this is a Pages project.
-# Build also runs pages deploy on CI when CLOUDFLARE=1 (see scripts/cf-postbuild.mjs).
+# Use `npm run deploy` only for manual wrangler pages deploy from your machine.
 #
 # Build environment variables:
 #   PUBLIC_GSC_VERIFICATION = (Google Search Console HTML tag token)
