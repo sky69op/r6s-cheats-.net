@@ -5,6 +5,7 @@
   "engines": {
     "node": ">=22.12.0"
   },
+  "packageManager": "npm@10.9.2",
   "scripts": {
     "postinstall": "astro sync",
     "dev": "node scripts/generate-locale-pages.mjs && astro dev",
