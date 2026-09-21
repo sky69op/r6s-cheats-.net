@@ -9,6 +9,7 @@
     "postinstall": "astro sync",
     "dev": "node scripts/generate-locale-pages.mjs && astro dev",
     "build": "node scripts/prune-unused-assets.mjs && node scripts/process-brand-images.mjs && node scripts/generate-light-favicon.mjs && node scripts/optimize-images.mjs && node scripts/write-go-redirects.mjs && node scripts/validate-redirects.mjs && node scripts/generate-locale-pages.mjs && astro build && node scripts/prune-dist-indexing.mjs && node scripts/prune-unused-assets.mjs && node scripts/finalize-sitemap.mjs && node scripts/validate-seo.mjs && node scripts/validate-deploy.mjs",
+    "postbuild": "node scripts/cf-postbuild.mjs",
     "deploy": "node scripts/deploy.mjs",
     "preview": "astro preview --host 0.0.0.0",
     "start": "node scripts/serve.mjs",

@@ -34,12 +34,10 @@ function withHtmlCharset(response, requestUrl) {
   });
 }
 
-export default {
-  async fetch(request, env) {
-    const redirect = canonicalRedirect(request);
-    if (redirect) return redirect;
+export async function onRequest(context) {
+  const redirect = canonicalRedirect(context.request);
+  if (redirect) return redirect;
 
-    const response = await env.ASSETS.fetch(request);
-    return withHtmlCharset(response, request.url);
-  },
-};
+  const response = await context.next();
+  return withHtmlCharset(response, context.request.url);
+}

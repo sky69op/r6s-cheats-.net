@@ -1,18 +1,17 @@
-# Cloudflare Workers static deploy for r6scheats.net
+# Cloudflare Pages — r6scheats.net (Git integration)
 #
-# Dashboard (Workers Builds):
+# Dashboard (Workers & Pages → Builds):
 #   Build command     = npm run build
-#   Build output dir  = dist
-#   Deploy command    = npx wrangler deploy
+#   Build output dir  = dist          (also set below for wrangler pages deploy)
+#   Deploy command    = npm run deploy
 #
-# Build environment variables (Settings → Environment variables):
-#   PUBLIC_GSC_VERIFICATION = (token from Google Search Console HTML tag method)
+# Do NOT use `npx wrangler deploy` — this is a Pages project.
+# Build also runs pages deploy on CI when CLOUDFLARE=1 (see scripts/cf-postbuild.mjs).
+#
+# Build environment variables:
+#   PUBLIC_GSC_VERIFICATION = (Google Search Console HTML tag token)
 #   PUBLIC_GA_MEASUREMENT_ID = (optional)
-#   PUBLIC_DISCORD_URL = (optional — adds Discord to Organization.sameAs schema)
+#   PUBLIC_DISCORD_URL = (optional)
 name = "r6s-cheats--net"
-main = "worker/index.mjs"
 compatibility_date = "2024-09-01"
-
-[assets]
-directory = "./dist"
-binding = "ASSETS"
+pages_build_output_dir = "./dist"

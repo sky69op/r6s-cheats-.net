@@ -30,8 +30,8 @@ if (!fs.existsSync(distDir)) {
   process.exit(1);
 }
 
-if (!fs.existsSync(path.join(root, 'worker', 'index.mjs'))) {
-  errors.push('missing worker/index.mjs — required for wrangler deploy');
+if (!fs.existsSync(path.join(root, 'functions', '_middleware.js'))) {
+  errors.push('missing functions/_middleware.js — required for Pages redirects and charset headers');
 }
 
 for (const rel of required) {
