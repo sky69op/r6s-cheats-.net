@@ -1,15 +1,18 @@
-# Cloudflare Pages — static deploy for r6scheats.net
+# Cloudflare Workers static deploy for r6scheats.net
 #
-# Dashboard (Workers Builds / Pages):
+# Dashboard (Workers Builds):
 #   Build command     = npm run build
 #   Build output dir  = dist
-#   Deploy command    = npx wrangler pages deploy dist
-#   functions/_middleware.js handles www→apex, http→https, and HTML charset headers.
+#   Deploy command    = npx wrangler deploy
 #
 # Build environment variables (Settings → Environment variables):
 #   PUBLIC_GSC_VERIFICATION = (token from Google Search Console HTML tag method)
 #   PUBLIC_GA_MEASUREMENT_ID = (optional)
 #   PUBLIC_DISCORD_URL = (optional — adds Discord to Organization.sameAs schema)
 name = "r6s-cheats--net"
+main = "worker/index.mjs"
 compatibility_date = "2024-09-01"
-pages_build_output_dir = "./dist"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"

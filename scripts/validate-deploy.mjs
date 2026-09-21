@@ -30,6 +30,10 @@ if (!fs.existsSync(distDir)) {
   process.exit(1);
 }
 
+if (!fs.existsSync(path.join(root, 'worker', 'index.mjs'))) {
+  errors.push('missing worker/index.mjs — required for wrangler deploy');
+}
+
 for (const rel of required) {
   const full = path.join(distDir, rel);
   if (!fs.existsSync(full)) {
