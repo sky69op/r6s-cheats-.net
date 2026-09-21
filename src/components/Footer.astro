@@ -2,9 +2,16 @@
 import { getTranslations, defaultLocale } from '../i18n';
 import { localeLabels, locales } from '../i18n/config';
 import { localizedPath } from '../utils/path';
+import SocialShare from './SocialShare.astro';
+
+interface Props {
+  shareUrl: string;
+  shareTitle: string;
+}
 
 const locale = Astro.currentLocale ?? defaultLocale;
 const t = getTranslations(locale);
+const { shareUrl, shareTitle } = Astro.props;
 ---
 
 <footer class="site-footer">
@@ -38,6 +45,20 @@ const t = getTranslations(locale);
         </a>
       </div>
       <p class="site-footer__tagline">{t.footer.tagline}</p>
+      <SocialShare
+        pageUrl={shareUrl}
+        pageTitle={shareTitle}
+        heading={t.footer.share.heading}
+        platformLabels={{
+          facebook: t.footer.share.facebook,
+          x: t.footer.share.x,
+          linkedin: t.footer.share.linkedin,
+          reddit: t.footer.share.reddit,
+          whatsapp: t.footer.share.whatsapp,
+          telegram: t.footer.share.telegram,
+          email: t.footer.share.email,
+        }}
+      />
     </div>
 
     <nav class="site-footer__col" aria-label={t.footer.explore}>

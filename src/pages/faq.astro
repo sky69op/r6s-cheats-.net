@@ -4,7 +4,7 @@ import { getAllFaqs } from '../data/faq';
 import { getTranslations, defaultLocale } from '../i18n';
 import { pageTitle } from '../config/seo';
 import { localizedPath } from '../utils/path';
-import { breadcrumbSchema, faqPageSchema, webPageSchema } from '../utils/schema';
+import { breadcrumbSchema, faqPageSchema } from '../utils/schema';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import FaqSection from '../components/FaqSection.astro';
 
@@ -23,12 +23,6 @@ const faqs = getAllFaqs(locale);
   title={pageTitle(t.faq.pageTitle)}
   description={t.faq.pageDescription}
   jsonLd={[
-    webPageSchema({
-      name: t.faq.pageTitle,
-      description: t.faq.pageDescription,
-      url: localizedPath(locale, '/faq/'),
-      locale,
-    }),
     breadcrumbSchema(breadcrumbs),
     faqPageSchema(faqs.map((f, i) => ({ num: String(i + 1).padStart(2, '0'), q: f.q, a: f.a.replace(/<[^>]+>/g, '') }))),
   ]}

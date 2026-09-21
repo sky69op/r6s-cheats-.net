@@ -16,6 +16,8 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import JsonLd from '../components/JsonLd.astro';
 import { CHECKOUT_REDIRECT_MAP } from '../config/affiliate';
+import { socialProfileUrls } from '../config/social';
+import { webPageSchema } from '../utils/schema';
 
 interface Props {
   title?: string;
@@ -53,6 +55,17 @@ const robotsContent = noindex
 const alternateLocales = locales.filter((code) => code !== locale);
 const pageBasePath = basePathFromUrl(Astro.url.pathname);
 const xDefaultHref = canonicalUrl(localizedPath(defaultLocale, pageBasePath));
+const socialProfiles = socialProfileUrls();
+const structuredData = [
+  webPageSchema({
+    name: title,
+    description: metaDesc,
+    url: Astro.url.pathname,
+    locale,
+    primaryImage: ogImage,
+  }),
+  ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []),
+];
 ---
 
 <!doctype html>
@@ -191,7 +204,10 @@ const xDefaultHref = canonicalUrl(localizedPath(defaultLocale, pageBasePath));
       />
     </noscript>
 
-    {jsonLd && <JsonLd data={jsonLd} />}
+    {socialProfiles.map((profileUrl) => (
+      <link rel="me" href={profileUrl} />
+    ))}
+    <JsonLd data={structuredData} />
     <slot name="head" />
   </head>
   <body class="min-h-screen bg-background text-foreground antialiased">
@@ -201,7 +217,7 @@ const xDefaultHref = canonicalUrl(localizedPath(defaultLocale, pageBasePath));
     <main id="main-content">
       <slot />
     </main>
-    <Footer />
+    <Footer shareUrl={canonical} shareTitle={title} />
     <script>
       import '../scripts/site.ts';
     </script>

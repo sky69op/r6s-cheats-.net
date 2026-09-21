@@ -5,7 +5,7 @@ import { pageTitle } from '../config/seo';
 import { localizedPath } from '../utils/path';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import IconArrow from '../components/IconArrow.astro';
-import { breadcrumbSchema, webPageSchema } from '../utils/schema';
+import { breadcrumbSchema } from '../utils/schema';
 
 const locale = Astro.currentLocale ?? defaultLocale;
 const t = getTranslations(locale);
@@ -16,12 +16,6 @@ const content = t.legalPages.contact;
   title={pageTitle(content.title)}
   description={content.description}
   jsonLd={[
-    webPageSchema({
-      name: content.title,
-      description: content.description,
-      url: localizedPath(locale, '/contact/'),
-      locale,
-    }),
     breadcrumbSchema([
       { name: t.ui.breadcrumbs.home, path: localizedPath(locale, '/') },
       { name: t.footer.contact, path: localizedPath(locale, '/contact/') },

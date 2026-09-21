@@ -107,6 +107,23 @@ function validateExternalLinks(html, pagePath) {
   }
 }
 
+function validateSocialShare(html, pagePath) {
+  if (pagePath !== '/') return;
+
+  const required = [
+    'facebook.com/sharer',
+    'twitter.com/intent/tweet',
+    'linkedin.com/sharing/share-offsite',
+    'reddit.com/submit',
+  ];
+
+  for (const marker of required) {
+    if (!html.includes(marker)) {
+      errors.push(`${pagePath}: missing social share link (${marker})`);
+    }
+  }
+}
+
 function walkHtml(dir, files = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
@@ -201,6 +218,7 @@ for (const file of files) {
   validateAnchors(html, pagePath);
   validateDuplicateAnchors(html, pagePath);
   validateExternalLinks(html, pagePath);
+  validateSocialShare(html, pagePath);
 
   if (htmlLang !== expectedHtmlLang) {
     errors.push(`${pagePath}: html lang "${htmlLang}" expected "${expectedHtmlLang}"`);

@@ -214,6 +214,16 @@ export interface Translations {
     helpLegalLinks: NavLink[];
     bottomLinks: NavLink[];
     externalLinks: ExternalLink[];
+    share: {
+      heading: string;
+      facebook: string;
+      x: string;
+      linkedin: string;
+      reddit: string;
+      whatsapp: string;
+      telegram: string;
+      email: string;
+    };
     rightsReserved: string;
     privacy: string;
     about: string;
