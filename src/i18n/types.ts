@@ -14,6 +14,12 @@ export interface NavLink {
   ariaLabel?: string;
 }
 
+export interface ExternalLink {
+  href: string;
+  label: string;
+  ariaLabel: string;
+}
+
 export type FeatureId = 'aimbot' | 'esp' | 'drone_esp' | 'no_recoil' | 'utility_suite';
 export type ToolkitId = 'aimbot' | 'vision' | 'intel' | 'operators' | 'recoil' | 'profiles';
 export type ProductCategoryKey = 'system_utility' | 'account_recovery' | 'cosmetic';
@@ -107,6 +113,7 @@ export interface Translations {
   hero: {
     status: string;
     eyebrow: string;
+    eyebrowHref: string;
     titleLine1: string;
     titleLine2: string;
     subtitle: string;
@@ -206,6 +213,7 @@ export interface Translations {
     helpLegal: string;
     helpLegalLinks: NavLink[];
     bottomLinks: NavLink[];
+    externalLinks: ExternalLink[];
     rightsReserved: string;
     privacy: string;
     about: string;
@@ -236,6 +244,10 @@ export interface Translations {
     checkoutAria: string;
     menuOpen: string;
     menuClose: string;
+    mobileMenuPrefix: string;
+    footerHomeAria: string;
+    footerLanguagePrefix: string;
+    footerBrandPrefix: string;
     themeLight: string;
     themeDark: string;
     get: string;

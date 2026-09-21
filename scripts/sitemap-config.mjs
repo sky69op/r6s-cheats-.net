@@ -6,12 +6,12 @@ export const LOCALES = ['en', 'ru', 'de', 'es', 'fr', 'pt'];
 export const DEFAULT_LOCALE = 'en';
 
 export const HREFLANG = {
-  en: 'en-US',
-  ru: 'ru-RU',
-  de: 'de-DE',
-  es: 'es-ES',
-  fr: 'fr-FR',
-  pt: 'pt-PT',
+  en: 'en',
+  ru: 'ru',
+  de: 'de',
+  es: 'es',
+  fr: 'fr',
+  pt: 'pt',
 };
 
 const root = process.cwd();

@@ -26,7 +26,9 @@ const h = t.hero;
   <div class="container hero-inner">
     <div class="hero-layout">
       <div class="hero-content">
-        <p class="hero-eyebrow">{h.eyebrow}</p>
+        <p class="hero-eyebrow">
+          <a href={h.eyebrowHref} rel="noopener noreferrer" target="_blank">{h.eyebrow}</a>
+        </p>
 
         <h1 id="hero-title" class="hero-title">
           <span class="hero-title-line">{h.titleLine1}</span>
@@ -59,7 +61,7 @@ const h = t.hero;
           />
           <ResponsiveImage
             src="/images/hero/hero-operator-light.png"
-            alt=""
+            alt={h.operatorAlt}
             ariaHidden={true}
             class="hero-character hero-character--light"
             width={803}

@@ -1,11 +1,11 @@
 import type { FaqItem } from '../i18n/types';
 import { getTranslations } from '../i18n';
-import { hrefLang, resolveLocale, type MaybeLocale, defaultLocale } from '../i18n/config';
+import { htmlLang, resolveLocale, type MaybeLocale, defaultLocale } from '../i18n/config';
 import { organizationSameAs } from '../config/social';
 import { SITE_ORIGIN, absoluteAssetUrl, canonicalUrl } from '../config/seo';
 
 function schemaLanguage(locale: MaybeLocale = defaultLocale) {
-  return hrefLang[resolveLocale(locale)];
+  return htmlLang[resolveLocale(locale)];
 }
 
 export interface BreadcrumbItem {

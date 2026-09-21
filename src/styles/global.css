@@ -1380,6 +1380,16 @@ html:not(.fonts-ready) .hero-bg-blob {
   color: var(--accent);
 }
 
+.hero-eyebrow a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.hero-eyebrow a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
 .hero-eyebrow::before {
   content: '';
   display: inline-block;

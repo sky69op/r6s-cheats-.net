@@ -18,3 +18,5 @@ main = "./worker/index.mjs"
 [assets]
 directory = "./dist"
 binding = "ASSETS"
+# Run worker before static assets so HTML responses get charset=UTF-8 in Content-Type.
+run_worker_first = true

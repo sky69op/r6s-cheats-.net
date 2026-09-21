@@ -20,6 +20,7 @@ export const en: Translations = {
   hero: {
     status: 'Rainbow Six Siege — patch build online',
     eyebrow: 'Rainbow Six Siege',
+    eyebrowHref: 'https://www.ubisoft.com/en-us/game/rainbow-six/siege',
     titleLine1: 'R6s',
     titleLine2: 'Cheats',
     subtitle:
@@ -355,6 +356,18 @@ export const en: Translations = {
       { href: '/contact/', label: 'Contact', ariaLabel: 'Contact' },
       { href: '/sitemap.xml', label: 'XML sitemap', ariaLabel: 'XML sitemap' },
     ],
+    externalLinks: [
+      {
+        href: 'https://www.ubisoft.com/en-us/game/rainbow-six/siege',
+        label: 'Ubisoft — Rainbow Six Siege',
+        ariaLabel: 'Official Rainbow Six Siege website by Ubisoft',
+      },
+      {
+        href: 'https://store.steampowered.com/app/359550/Tom_Clancys_Rainbow_Six_Siege/',
+        label: 'Rainbow Six Siege on Steam',
+        ariaLabel: 'Rainbow Six Siege store page on Steam',
+      },
+    ],
     rightsReserved: 'All rights reserved.',
     privacy: 'Privacy Policy',
     about: 'About',
@@ -434,6 +447,10 @@ export const en: Translations = {
     checkoutAria: 'Start checkout',
     menuOpen: 'Open menu',
     menuClose: 'Close menu',
+    mobileMenuPrefix: 'Mobile menu: ',
+    footerHomeAria: 'R6s Cheats home (footer)',
+    footerLanguagePrefix: 'Language: ',
+    footerBrandPrefix: 'Footer: ',
     themeLight: 'Switch to light mode',
     themeDark: 'Switch to dark mode',
     get: 'Get',

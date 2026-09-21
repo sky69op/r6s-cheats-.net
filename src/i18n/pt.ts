@@ -20,6 +20,7 @@ export const pt: Translations = {
   hero: {
     status: 'Rainbow Six Siege — build da patch online',
     eyebrow: 'Rainbow Six Siege',
+    eyebrowHref: 'https://www.ubisoft.com/en-us/game/rainbow-six/siege',
     titleLine1: 'R6s',
     titleLine2: 'Cheats',
     subtitle:
@@ -355,6 +356,18 @@ export const pt: Translations = {
       { href: '/contact/', label: 'Contato', ariaLabel: 'Contato' },
       { href: '/sitemap.xml', label: 'Sitemap XML', ariaLabel: 'Sitemap XML' },
     ],
+    externalLinks: [
+      {
+        href: 'https://www.ubisoft.com/en-us/game/rainbow-six/siege',
+        label: 'Ubisoft — Rainbow Six Siege',
+        ariaLabel: 'Site oficial Rainbow Six Siege (Ubisoft)',
+      },
+      {
+        href: 'https://store.steampowered.com/app/359550/Tom_Clancys_Rainbow_Six_Siege/',
+        label: 'Rainbow Six Siege na Steam',
+        ariaLabel: 'Página Rainbow Six Siege na Steam',
+      },
+    ],
     rightsReserved: 'Todos os direitos reservados.',
     privacy: 'Política de Privacidade',
     about: 'Sobre',
@@ -434,6 +447,10 @@ export const pt: Translations = {
     checkoutAria: 'Iniciar checkout',
     menuOpen: 'Abrir menu',
     menuClose: 'Fechar menu',
+    mobileMenuPrefix: 'Menu móvel: ',
+    footerHomeAria: 'R6s Cheats início (rodapé)',
+    footerLanguagePrefix: 'Idioma: ',
+    footerBrandPrefix: 'Rodapé: ',
     themeLight: 'Mudar para modo claro',
     themeDark: 'Mudar para modo escuro',
     get: 'Obter',

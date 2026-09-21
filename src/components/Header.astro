@@ -21,7 +21,7 @@ const purchaseUrl = checkoutPath('r6s');
 
 <header class="site-header">
   <div class="container site-header__bar">
-    <a href={localizedPath(locale, '/')} class="site-logo-link inline-flex min-w-0 items-center gap-2">
+    <a href={localizedPath(locale, '/')} class="site-logo-link inline-flex min-w-0 items-center gap-2" aria-label={t.ui.homeAria}>
       <span class="site-logo-link__img-wrap shrink-0" aria-hidden="true">
         <img
           src="/logo-36.webp"
@@ -36,7 +36,7 @@ const purchaseUrl = checkoutPath('r6s');
         <img
           src="/logo-light-36.webp"
           srcset="/logo-light-36.webp 1x, /logo-light-72.webp 2x"
-          alt=""
+          alt={t.ui.logoAlt}
           aria-hidden="true"
           width="36"
           height="36"
@@ -97,8 +97,15 @@ const purchaseUrl = checkoutPath('r6s');
 
     <nav id="mobile-menu" class="mobile-nav" aria-label="Mobile" data-mobile-nav hidden>
       {t.nav.map((link) => (
-        <a href={localizedPath(locale, link.href)} class="nav-link inline-flex items-center gap-2" data-mobile-link data-nav-link>
+        <a
+          href={localizedPath(locale, link.href)}
+          class="nav-link inline-flex items-center gap-2"
+          data-mobile-link
+          data-nav-link
+          aria-label={`${link.label} (${t.ui.menuOpen})`}
+        >
           <Icon name={navIcons[link.id ?? 'home']} size={16} />
+          <span class="sr-only">{t.ui.mobileMenuPrefix}</span>
           {link.label}
         </a>
       ))}

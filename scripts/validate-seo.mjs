@@ -18,12 +18,12 @@ const htmlLangByLocale = {
 };
 
 const schemaLangByLocale = {
-  en: 'en-US',
-  ru: 'ru-RU',
-  de: 'de-DE',
-  es: 'es-ES',
-  fr: 'fr-FR',
-  pt: 'pt-PT',
+  en: 'en',
+  ru: 'ru',
+  de: 'de',
+  es: 'es',
+  fr: 'fr',
+  pt: 'pt',
 };
 
 const SITE_ORIGIN = 'https://r6scheats.net';
@@ -49,15 +49,14 @@ function validateImages(html, pagePath) {
   let match;
   while ((match = imgRe.exec(html))) {
     const tag = match[0];
-    // Astro may emit boolean `alt` for alt="" (equivalent to empty alt in HTML5).
     if (!/\balt\b/i.test(tag)) {
       errors.push(`${pagePath}: img missing alt attribute`);
       continue;
     }
-    const hasNonEmptyAlt = /\balt\s*=\s*"[^"]+"/.test(tag);
-    const decorative = /\baria-hidden\s*=\s*"true"/.test(tag);
-    if (!hasNonEmptyAlt && !decorative) {
-      errors.push(`${pagePath}: img with empty alt (non-decorative)`);
+    const altValue = tag.match(/\balt\s*=\s*"([^"]*)"/i)?.[1];
+    const hasEmptyAlt = altValue === '' || (/\balt(?!=)/.test(tag) && altValue === undefined);
+    if (hasEmptyAlt) {
+      errors.push(`${pagePath}: img with empty alt attribute`);
     }
   }
 }
@@ -78,6 +77,33 @@ function validateAnchors(html, pagePath) {
     if (!hasAriaLabel && !hasImgAlt && !anchorHasText(content)) {
       errors.push(`${pagePath}: link without anchor text`);
     }
+  }
+}
+
+function validateDuplicateAnchors(html, pagePath) {
+  if (pagePath !== '/') return;
+
+  const anchorRe = /<a\b[^>]*>([\s\S]*?)<\/a>/gi;
+  const counts = new Map();
+  let match;
+  while ((match = anchorRe.exec(html))) {
+    const text = match[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    if (!text) continue;
+    counts.set(text, (counts.get(text) ?? 0) + 1);
+  }
+
+  for (const [text, count] of counts) {
+    if (count > 1) {
+      warnings.push(`${pagePath}: duplicate anchor text (${count}x): "${text}"`);
+    }
+  }
+}
+
+function validateExternalLinks(html, pagePath) {
+  if (pagePath !== '/') return;
+  const hasExternal = /<a\b[^>]*href="https?:\/\/(?!r6scheats\.net)/i.test(html);
+  if (!hasExternal) {
+    errors.push(`${pagePath}: homepage missing external links`);
   }
 }
 
@@ -173,6 +199,8 @@ for (const file of files) {
 
   validateImages(html, pagePath);
   validateAnchors(html, pagePath);
+  validateDuplicateAnchors(html, pagePath);
+  validateExternalLinks(html, pagePath);
 
   if (htmlLang !== expectedHtmlLang) {
     errors.push(`${pagePath}: html lang "${htmlLang}" expected "${expectedHtmlLang}"`);

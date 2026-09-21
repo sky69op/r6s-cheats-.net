@@ -36,9 +36,9 @@ const lite = link('R6S Lite', cheatPath('lite', faqLocale));
 const pro = link('R6S Pro', cheatPath('pro', faqLocale));
 const elite = link('R6S Elite', cheatPath('elite', faqLocale));
 const toolsHub = link('outils R6S', localizedPath(faqLocale, ROUTES.tools));
-const hwid = link('HWID Spoofer', toolPath('hwid-spoofer', faqLocale));
-const ugc = link('UGC', toolPath('ugc', faqLocale));
-const unlockAll = link('Unlock All', toolPath('unlock-all', faqLocale));
+const hwid = link('page HWID Spoofer', toolPath('hwid-spoofer', faqLocale));
+const ugc = link('outil UGC', toolPath('ugc', faqLocale));
+const unlockAll = link('page Unlock All', toolPath('unlock-all', faqLocale));
 const faqPage = link('FAQ complet', localizedPath(faqLocale, '/faq/'));
 const forums = link('fils du forum', localizedPath(faqLocale, ROUTES.forums));
 

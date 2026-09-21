@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { getTranslations, htmlLang, ogLocales, hrefLang, locales, defaultLocale, resolveLocale } from '../i18n';
+import { getTranslations, htmlLang, ogLocales, locales, defaultLocale, resolveLocale } from '../i18n';
 import {
   canonicalUrl,
   DEFAULT_OG_IMAGE,
@@ -112,7 +112,7 @@ const xDefaultHref = canonicalUrl(localizedPath(defaultLocale, pageBasePath));
       locales.map((code) => (
         <link
           rel="alternate"
-          hreflang={hrefLang[code]}
+          hreflang={htmlLang[code]}
           href={canonicalUrl(localizedPath(code, pageBasePath))}
         />
       ))

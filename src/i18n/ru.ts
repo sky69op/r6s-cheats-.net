@@ -20,6 +20,7 @@ export const ru: Translations = {
   hero: {
     status: 'Rainbow Six Siege — сборка под патч онлайн',
     eyebrow: 'Rainbow Six Siege',
+    eyebrowHref: 'https://www.ubisoft.com/en-us/game/rainbow-six/siege',
     titleLine1: 'R6s',
     titleLine2: 'Cheats',
     subtitle:
@@ -355,6 +356,18 @@ export const ru: Translations = {
       { href: '/contact/', label: 'Контакты', ariaLabel: 'Контакты' },
       { href: '/sitemap.xml', label: 'XML-карта сайта', ariaLabel: 'XML-карта сайта' },
     ],
+    externalLinks: [
+      {
+        href: 'https://www.ubisoft.com/en-us/game/rainbow-six/siege',
+        label: 'Ubisoft — Rainbow Six Siege',
+        ariaLabel: 'Официальный сайт Rainbow Six Siege (Ubisoft)',
+      },
+      {
+        href: 'https://store.steampowered.com/app/359550/Tom_Clancys_Rainbow_Six_Siege/',
+        label: 'Rainbow Six Siege в Steam',
+        ariaLabel: 'Страница Rainbow Six Siege в Steam',
+      },
+    ],
     rightsReserved: 'Все права защищены.',
     privacy: 'Политика конфиденциальности',
     about: 'О нас',
@@ -434,6 +447,10 @@ export const ru: Translations = {
     checkoutAria: 'Начать оплату',
     menuOpen: 'Открыть меню',
     menuClose: 'Закрыть меню',
+    mobileMenuPrefix: 'Мобильное меню: ',
+    footerHomeAria: 'R6s Cheats — главная (подвал)',
+    footerLanguagePrefix: 'Язык: ',
+    footerBrandPrefix: 'Подвал: ',
     themeLight: 'Переключить на светлую тему',
     themeDark: 'Переключить на тёмную тему',
     get: 'Получить',
