@@ -20,26 +20,52 @@ for (const pathname of buildExpectedPaths().keys()) {
 }
 staticLines.push(...[...trailingSlashRules].sort());
 
-for (const [slug, destination] of Object.entries(GO_PATH_REDIRECTS)) {
-  staticLines.push(`/go/${slug}  ${destination}  302`);
-  staticLines.push(`/go/${slug}/  ${destination}  302`);
+for (const slug of Object.keys(GO_PATH_REDIRECTS)) {
+  staticLines.push(`/go/${slug}  /go/${slug}/  301`);
 }
 
 /**
- * Cloudflare Pages: static rules must come before any wildcard/placeholder rule.
- * After the first `*` or `:name`, remaining rules count toward the 100 dynamic-rule cap.
+ * Cloudflare Workers static assets: _redirects destinations must be relative URLs.
+ * External checkout targets live in public/go/<slug>/index.html (generated below).
+ * www/http → apex is handled in Cloudflare custom-domain settings (not _redirects).
  */
-const dynamicLines = [
-  '/blog/*  /forums/:splat/  301',
-  'https://www.r6scheats.net/*  https://r6scheats.net/:splat  301',
-  'http://r6scheats.net/*  https://r6scheats.net/:splat  301',
-  'http://www.r6scheats.net/*  https://r6scheats.net/:splat  301',
-];
+const dynamicLines = ['/blog/*  /forums/:splat/  301'];
 
 const lines = [...staticLines, ...dynamicLines];
 
 const outPath = path.resolve('public/_redirects');
 fs.writeFileSync(outPath, `${lines.join('\n')}\n`, 'utf8');
+
+function escapeHtmlAttr(value) {
+  return value.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+}
+
+function writeGoRedirectPages() {
+  for (const [slug, destination] of Object.entries(GO_PATH_REDIRECTS)) {
+    const dir = path.resolve('public/go', slug);
+    fs.mkdirSync(dir, { recursive: true });
+    const safeHref = escapeHtmlAttr(destination);
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex,nofollow">
+  <meta http-equiv="refresh" content="0;url=${safeHref}">
+  <title>Redirecting…</title>
+  <script>location.replace(${JSON.stringify(destination)})</script>
+</head>
+<body>
+  <p><a href="${safeHref}">Continue to checkout</a></p>
+</body>
+</html>
+`;
+    fs.writeFileSync(path.join(dir, 'index.html'), html, 'utf8');
+  }
+}
+
+writeGoRedirectPages();
+
 console.log(
-  `Wrote ${outPath} (${lines.length} rules: ${PATH_REDIRECTS.size} path + ${trailingSlashRules.size} trailing-slash + ${dynamicLines.length} dynamic + ${Object.keys(GO_PATH_REDIRECTS).length * 2} checkout)`,
+  `Wrote ${outPath} (${lines.length} rules: ${PATH_REDIRECTS.size} path + ${trailingSlashRules.size} trailing-slash + ${dynamicLines.length} dynamic + ${Object.keys(GO_PATH_REDIRECTS).length} checkout)`,
 );
+console.log(`Wrote ${Object.keys(GO_PATH_REDIRECTS).length} checkout redirect pages under public/go/`);

@@ -130,7 +130,16 @@ for (const [key, count] of titleByLocale) {
 
 const goDir = path.join(distDir, 'go');
 if (fs.existsSync(goDir)) {
-  errors.push('dist/go/ must not exist (checkout URLs are redirect-only)');
+  for (const file of fs.readdirSync(goDir, { recursive: true })) {
+    if (typeof file !== 'string' || !file.endsWith('index.html')) continue;
+    const html = fs.readFileSync(path.join(goDir, file), 'utf8');
+    if (!html.includes('noindex')) {
+      errors.push(`dist/go/${file} must include noindex (checkout redirect only)`);
+    }
+    if (html.includes('rel="canonical"')) {
+      errors.push(`dist/go/${file} must not include a canonical tag`);
+    }
+  }
 }
 
 const notFound = path.join(distDir, '404.html');

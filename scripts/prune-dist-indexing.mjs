@@ -2,13 +2,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const dist = path.resolve('dist');
-const goDir = path.join(dist, 'go');
-
-if (fs.existsSync(goDir)) {
-  fs.rmSync(goDir, { recursive: true, force: true });
-  console.log('Removed dist/go/ (checkout redirects only — no indexable HTML).');
-}
-
 const notFound = path.join(dist, '404.html');
 if (fs.existsSync(notFound)) {
   const html = fs.readFileSync(notFound, 'utf8');

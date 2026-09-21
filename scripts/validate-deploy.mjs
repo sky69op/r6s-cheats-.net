@@ -16,9 +16,11 @@ const required = [
   'cheats/elite/index.html',
   'tools/r6s-cheats/hwid-spoofer/index.html',
   'forums/index.html',
+  'go/rainbow-six-siege/index.html',
+  'go/ugc/index.html',
+  'go/hwid-spoofer/index.html',
+  'go/skin-changer/index.html',
 ];
-
-const forbidden = ['go'];
 
 const errors = [];
 const warnings = [];
@@ -32,13 +34,6 @@ for (const rel of required) {
   const full = path.join(distDir, rel);
   if (!fs.existsSync(full)) {
     errors.push(`missing required output: dist/${rel}`);
-  }
-}
-
-for (const rel of forbidden) {
-  const full = path.join(distDir, rel);
-  if (fs.existsSync(full)) {
-    errors.push(`dist/${rel}/ must not exist (redirect-only checkout URLs)`);
   }
 }
 
