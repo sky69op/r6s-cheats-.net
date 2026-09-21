@@ -59,6 +59,7 @@ export const es: Translations = {
     seeAllHref: '/features/',
     items: [
       {
+        id: 'aimbot',
         title: 'Aimbot',
         subtitle: 'Rastrea. Bloquea. Gana.',
         desc: 'Aimbot suave con límites de FOV, selección de huesos y suavizado humanizado para operadores como Ash, Jäger y Vigil. El ajuste de retardo mantiene los flicks naturales en ranked.',
@@ -66,6 +67,7 @@ export const es: Translations = {
         points: ['Asistencia de puntería de operadores', 'Límites de FOV', 'Selección de huesos', 'Suavizado humanizado'],
       },
       {
+        id: 'esp',
         title: 'ESP / Wallhack',
         subtitle: 'Ve a los roamers antes de que flanqueen.',
         desc: 'ESP de jugadores, localizador de gadgets, alertas de drones y seguimiento de posición enemiga a través de paredes—incluso fuera del campo de visión estándar.',
@@ -73,6 +75,7 @@ export const es: Translations = {
         points: ['Overlay de intel de jugadores', 'Wallhack de jugadores', 'Localizador de gadgets', 'Alertas de drones'],
       },
       {
+        id: 'drone_esp',
         title: 'ESP de drones y gadgets',
         subtitle: 'Intel sin desperdiciar drones.',
         desc: 'Marcadores de posición de drones, alertas de trampas e indicaciones de gadgets. No vuelvas a perder una Claymore, trampa de Kapkan o defensor roamer.',
@@ -80,6 +83,7 @@ export const es: Translations = {
         points: ['ESP de gadgets', 'Marcadores de drones', 'Alertas de trampas', 'Conciencia del mapa'],
       },
       {
+        id: 'no_recoil',
         title: 'Sin retroceso',
         subtitle: 'Dispara como un pro.',
         desc: 'Control de retroceso específico por arma con perfiles por fusil, reducción de dispersión y ajuste de retardo. Perfecto para entry fraggers y anchors con patrones de spray ajustados.',
@@ -87,6 +91,7 @@ export const es: Translations = {
         points: ['Control de retroceso', 'Perfiles de armas', 'Reducción de dispersión', 'Control de spray'],
       },
       {
+        id: 'utility_suite',
         title: 'Suite de utilidades',
         subtitle: 'Herramientas extra para momentos decisivos.',
         desc: 'Unlock All, triggerbot, speed hack y overlays a prueba de stream—todo más allá del ESP y aimbot básicos.',

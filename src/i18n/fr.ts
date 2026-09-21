@@ -59,6 +59,7 @@ export const fr: Translations = {
     seeAllHref: '/features/',
     items: [
       {
+        id: 'aimbot',
         title: 'Aimbot',
         subtitle: 'Suivre. Verrouiller. Gagner.',
         desc: 'Aimbot fluide avec limites de FOV, sélection d\'os et lissage humanisé pour des opérateurs comme Ash, Jäger et Vigil. Le réglage du délai garde des flicks naturels en ranked.',
@@ -66,6 +67,7 @@ export const fr: Translations = {
         points: ['Assistance visée opérateurs', 'Limites de FOV', 'Sélection d\'os', 'Lissage humanisé'],
       },
       {
+        id: 'esp',
         title: 'ESP / Wallhack',
         subtitle: 'Voir les roamers avant qu\'ils flanquent.',
         desc: 'ESP joueurs, localisateur de gadgets, alertes drone et suivi des positions ennemies à travers les murs — même hors ligne de mire standard.',
@@ -73,6 +75,7 @@ export const fr: Translations = {
         points: ['Overlay renseignement joueurs', 'Wallhack joueurs', 'Localisateur de gadgets', 'Alertes drone'],
       },
       {
+        id: 'drone_esp',
         title: 'ESP Drone et Gadgets',
         subtitle: 'Renseignement sans gaspiller de drones.',
         desc: 'Marqueurs de position des drones, alertes pièges et indices gadgets. Ne manquez plus jamais une Claymore, un piège Kapkan ou un défenseur en roam.',
@@ -80,6 +83,7 @@ export const fr: Translations = {
         points: ['ESP Gadgets', 'Marqueurs drone', 'Alertes pièges', 'Conscience de la carte'],
       },
       {
+        id: 'no_recoil',
         title: 'Sans recul',
         subtitle: 'Spray comme un pro.',
         desc: 'Contrôle du recul par arme avec profils par fusil, réduction de dispersion et réglage du délai. Idéal pour les entry fraggers et les anchors avec des patterns de spray serrés.',
@@ -87,6 +91,7 @@ export const fr: Translations = {
         points: ['Contrôle du recul', 'Profils d\'armes', 'Réduction de dispersion', 'Contrôle du spray'],
       },
       {
+        id: 'utility_suite',
         title: 'Suite utilitaire',
         subtitle: 'Outils supplémentaires pour les moments clutch.',
         desc: 'Unlock All, triggerbot, speed hack et overlays stream-proof — tout au-delà de l\'ESP et de l\'aimbot bruts.',

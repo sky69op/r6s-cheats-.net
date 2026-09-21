@@ -59,6 +59,7 @@ export const de: Translations = {
     seeAllHref: '/features/',
     items: [
       {
+        id: 'aimbot',
         title: 'Aimbot',
         subtitle: 'Verfolgen. Fixieren. Gewinnen.',
         desc: 'Sanfter Aimbot mit FOV-Limits, Knochenauswahl und humanisierter Glättung für Operatoren wie Ash, Jäger und Vigil. Verzögerungsabstimmung hält Flicks in Ranked natürlich.',
@@ -66,6 +67,7 @@ export const de: Translations = {
         points: ['Operator-Aim-Assist', 'FOV-Limits', 'Knochenauswahl', 'Humanisierte Glättung'],
       },
       {
+        id: 'esp',
         title: 'ESP / Wallhack',
         subtitle: 'Roamer sehen, bevor sie flanken.',
         desc: 'Spieler-ESP, Gadget-Locator, Drohnen-Warnungen und Feindpositionsverfolgung durch Wände—auch außerhalb der normalen Sichtlinie.',
@@ -73,6 +75,7 @@ export const de: Translations = {
         points: ['Spieler-Overlay-Intel', 'Spieler-Wallhack', 'Gadget-Locator', 'Drohnen-Warnungen'],
       },
       {
+        id: 'drone_esp',
         title: 'Drohnen- & Gadget-ESP',
         subtitle: 'Intel ohne Drohnen zu verschwenden.',
         desc: 'Drohnenpositionsmarkierungen, Fallen-Warnungen und Gadget-Hinweise. Verpasse nie wieder eine Claymore, eine Kapkan-Falle oder einen Roaming-Verteidiger.',
@@ -80,6 +83,7 @@ export const de: Translations = {
         points: ['Gadget-ESP', 'Drohnen-Markierungen', 'Fallen-Warnungen', 'Kartenbewusstsein'],
       },
       {
+        id: 'no_recoil',
         title: 'No Recoil',
         subtitle: 'Sprühen wie ein Profi.',
         desc: 'Waffenspezifische Rückstoßkontrolle mit Profilen pro Waffe, Streuungsreduzierung und Verzögerungseinstellung. Perfekt für Entry-Fragger und Anker mit engen Spray-Mustern.',
@@ -87,6 +91,7 @@ export const de: Translations = {
         points: ['Rückstoßkontrolle', 'Waffenprofile', 'Streuungsreduzierung', 'Spray-Kontrolle'],
       },
       {
+        id: 'utility_suite',
         title: 'Utility-Suite',
         subtitle: 'Extra-Tools für Clutch-Momente.',
         desc: 'Unlock All, Triggerbot, Speed Hack und stream-sichere Overlays—alles über reines ESP und Aimbot hinaus.',

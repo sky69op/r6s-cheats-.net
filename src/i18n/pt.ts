@@ -59,6 +59,7 @@ export const pt: Translations = {
     seeAllHref: '/features/',
     items: [
       {
+        id: 'aimbot',
         title: 'Aimbot',
         subtitle: 'Rastreie. Trave. Vença.',
         desc: 'Aimbot suave com limites de FOV, seleção de ossos e suavização humanizada para operadores como Ash, Jäger e Vigil. Ajuste de delay mantém os flicks naturais no ranked.',
@@ -66,6 +67,7 @@ export const pt: Translations = {
         points: ['Assistência de mira de operadores', 'Limites de FOV', 'Seleção de Ossos', 'Suavização Humanizada'],
       },
       {
+        id: 'esp',
         title: 'ESP / Wallhack',
         subtitle: 'Veja roamers antes do flanqueamento.',
         desc: 'ESP de jogadores, localizador de gadgets, alertas de drone e rastreamento de posição inimiga através das paredes — mesmo fora da linha de visão padrão.',
@@ -73,6 +75,7 @@ export const pt: Translations = {
         points: ['Overlay de intel de jogadores', 'Wallhack de Jogadores', 'Localizador de Gadgets', 'Alertas de Drone'],
       },
       {
+        id: 'drone_esp',
         title: 'ESP de Drone e Gadgets',
         subtitle: 'Inteligência sem desperdiçar drones.',
         desc: 'Marcadores de posição de drone, alertas de armadilhas e dicas de gadgets. Nunca mais perca uma Claymore, armadilha Kapkan ou defensor roamando.',
@@ -80,6 +83,7 @@ export const pt: Translations = {
         points: ['ESP de Gadgets', 'Marcadores de Drone', 'Alertas de Armadilhas', 'Consciência de Mapa'],
       },
       {
+        id: 'no_recoil',
         title: 'Sem Recuo',
         subtitle: 'Atire como um pro.',
         desc: 'Controle de recuo específico por arma com perfis por arma, redução de dispersão e configuração de delay. Perfeito para entry fraggers e anchors com padrões de spray apertados.',
@@ -87,6 +91,7 @@ export const pt: Translations = {
         points: ['Controle de Recuo', 'Perfis de Armas', 'Redução de Dispersão', 'Controle de Spray'],
       },
       {
+        id: 'utility_suite',
         title: 'Suite Utilitária',
         subtitle: 'Ferramentas extras para momentos decisivos.',
         desc: 'Unlock All, triggerbot, speed hack e overlays à prova de stream — tudo além do ESP e aimbot básicos.',
