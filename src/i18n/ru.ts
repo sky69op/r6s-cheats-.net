@@ -21,8 +21,8 @@ export const ru: Translations = {
     status: 'Rainbow Six Siege — сборка под патч онлайн',
     eyebrow: 'Rainbow Six Siege',
     eyebrowHref: 'https://www.ubisoft.com/en-us/game/rainbow-six/siege',
-    titleLine1: 'R6s',
-    titleLine2: 'Cheats',
+    titleLine1: 'Rainbow Six Siege',
+    titleLine2: 'Читы',
     subtitle:
       'Напрямую от команды сборки — не реселлер. Один loader с тарифами аимбот, ESP и воллхак плюс живой баннер статуса после каждого патча BattlEye для ranked на PC.',
     operatorAlt: 'Иллюстрация оператора Rainbow Six Siege для R6S читов, аимбота и воллхака',

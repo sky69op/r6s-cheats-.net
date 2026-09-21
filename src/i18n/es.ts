@@ -21,7 +21,7 @@ export const es: Translations = {
     status: 'Rainbow Six Siege — build del parche en línea',
     eyebrow: 'Rainbow Six Siege',
     eyebrowHref: 'https://www.ubisoft.com/en-us/game/rainbow-six/siege',
-    titleLine1: 'R6s',
+    titleLine1: 'Rainbow Six Siege',
     titleLine2: 'Cheats',
     subtitle:
       'Directo del equipo de build—sin revendedores. Un loader con niveles de aimbot, ESP y wallhack más banner de estado en vivo tras cada parche BattlEye para ranked en PC.',

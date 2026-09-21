@@ -21,7 +21,7 @@ export const fr: Translations = {
     status: 'Rainbow Six Siege — build patch en ligne',
     eyebrow: 'Rainbow Six Siege',
     eyebrowHref: 'https://www.ubisoft.com/en-us/game/rainbow-six/siege',
-    titleLine1: 'R6s',
+    titleLine1: 'Rainbow Six Siege',
     titleLine2: 'Cheats',
     subtitle:
       'Directement de l\'équipe build—pas de revendeur. Un loader avec formules aimbot, ESP et wallhack plus bannière de statut live à chaque patch BattlEye pour le ranked sur PC.',
