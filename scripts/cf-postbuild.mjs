@@ -1,28 +1,15 @@
-import { spawnSync } from 'node:child_process';
-
-// Cloudflare Pages Git CI publishes dist/ automatically after the build step.
-// Manual wrangler pages deploy here fails with API auth errors and is unnecessary.
-if (process.env.CF_PAGES === '1') {
-  console.log('cf-postbuild: skip Pages deploy (Cloudflare Pages Git CI publishes dist/ automatically)');
-  process.exit(0);
-}
-
-// Cloudflare Workers Builds runs under /opt/buildhome with CI=true.
-const onCloudflare =
+// Cloudflare Workers Builds runs deploy as a separate step (default: npx wrangler deploy).
+// Never run a second wrangler deploy from postbuild — it causes duplicate deploys and auth errors.
+const onCloudflareCi =
+  process.env.WORKERS_CI === '1' ||
+  process.env.CF_PAGES === '1' ||
   process.env.CI === 'true' ||
   process.env.CLOUDFLARE === '1' ||
   process.cwd().startsWith('/opt/buildhome');
 
-if (!onCloudflare) {
-  console.log('cf-postbuild: skip Pages deploy (local build)');
+if (onCloudflareCi) {
+  console.log('cf-postbuild: skip (Cloudflare CI deploys via the dashboard deploy command)');
   process.exit(0);
 }
 
-console.log('cf-postbuild: deploying to Cloudflare Pages after build…');
-
-const result = spawnSync('node', ['scripts/pages-deploy.mjs'], {
-  stdio: 'inherit',
-  shell: process.platform === 'win32',
-});
-
-process.exit(result.status ?? 1);
+console.log('cf-postbuild: skip Pages deploy (local build)');

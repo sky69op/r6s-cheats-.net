@@ -1,20 +1,20 @@
 /**
- * Cloudflare Builds deploy command — use instead of `npx wrangler deploy`.
- * Dashboard (Workers Builds only): Deploy command = node scripts/cf-deploy-step.mjs
+ * Optional explicit deploy command for Workers Builds.
+ * Default dashboard setting (npx wrangler deploy) is preferred — leave deploy command empty
+ * to use the default, or set: npx wrangler deploy
  *
- * For Cloudflare Pages Git integration, leave Deploy command empty — Pages
- * publishes dist/ automatically after npm run build.
+ * For Cloudflare Pages Git (not Workers Builds), leave deploy command empty entirely.
  */
 import { spawnSync } from 'node:child_process';
 
-if (process.env.CF_PAGES === '1') {
-  console.log('cf-deploy-step: skip (Cloudflare Pages Git CI publishes dist/ automatically)');
+if (process.env.WORKERS_CI === '1' || process.env.CF_PAGES === '1') {
+  console.log('cf-deploy-step: skip (Cloudflare CI handles deploy separately)');
   process.exit(0);
 }
 
-console.log('cf-deploy-step: publishing to Cloudflare Pages…');
+console.log('cf-deploy-step: publishing to Cloudflare…');
 
-const result = spawnSync('node', ['scripts/pages-deploy.mjs'], {
+const result = spawnSync('npx', ['wrangler', 'deploy'], {
   stdio: 'inherit',
   shell: process.platform === 'win32',
 });

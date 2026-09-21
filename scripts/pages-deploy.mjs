@@ -10,11 +10,9 @@ if (!fs.existsSync(distDir)) {
   process.exit(1);
 }
 
-const args = ['wrangler', 'pages', 'deploy', 'dist', '--project-name=r6s-cheats--net', '--commit-dirty=true'];
+console.log('pages-deploy: deploying dist/ via wrangler deploy…');
 
-console.log('pages-deploy: publishing dist/ to Cloudflare Pages…');
-
-const result = spawnSync('npx', args, {
+const result = spawnSync('npx', ['wrangler', 'deploy'], {
   cwd: root,
   stdio: 'inherit',
   shell: process.platform === 'win32',

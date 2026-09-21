@@ -1,12 +1,11 @@
-# Cloudflare Pages — r6scheats.net (Git integration)
+# Cloudflare Workers — r6scheats.net (Git / Workers Builds)
 #
-# Dashboard (Workers & Pages → Builds):
-#   Build command     = npm run build
-#   Build output dir  = dist
-#   Deploy command    = (leave empty for Pages Git — dist/ is published automatically)
+# Dashboard (Workers & Pages → Settings → Build):
+#   Build command  = npm run build
+#   Deploy command = npx wrangler deploy   (default — do not use wrangler pages deploy)
 #
-# Do NOT use `npx wrangler deploy` — this is a Pages project.
-# Use `npm run deploy` only for manual wrangler pages deploy from your machine.
+# Workers Builds injects WORKERS_CI=1 and uses a Workers API token (not Pages API).
+# Do not set pages_build_output_dir here — that routes deploy through Pages API and fails auth.
 #
 # Build environment variables:
 #   PUBLIC_GSC_VERIFICATION = (Google Search Console HTML tag token)
@@ -14,4 +13,8 @@
 #   PUBLIC_DISCORD_URL = (optional)
 name = "r6s-cheats--net"
 compatibility_date = "2024-09-01"
-pages_build_output_dir = "./dist"
+main = "./worker/index.mjs"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
